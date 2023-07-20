@@ -1,0 +1,339 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+    <title>FACTURA DE VENTA #{{ factura.pk }}</title>
+
+    <style>
+        @page {
+            size: A4 portrait;
+            @frame {
+            }
+            @frame logo_frame {     /* Static Frame */
+                border-radius: 15px;
+                -pdf-frame-content: company_logo;
+                /*-pdf-frame-border: 1;*/
+                left: 1cm;
+                width: 9.4cm;
+                top: 1cm;
+                height: 3.5cm;
+            }
+            @frame contribyente_frame {     /* Static Frame */
+                -pdf-frame-content: contribuyenteinfo_frame;
+                border: 1px solid black;
+                border-radius: 10px;
+                padding: 10px 10px;
+                left: 1cm;
+                width: 9.4cm;
+                top: 5.0cm;
+                height: 4.5cm;
+            }
+            @frame sriinfo_frame {        /* Static Frame */
+                -pdf-frame-content: sriinfo_content;
+                -pdf-frame-border: 1;
+                padding: 10px 10px;
+                right: 1cm;
+                width: 9.4cm;
+                top: 1cm;
+                height: 8.5cm;
+            }
+            @frame customer_frame {
+                -pdf-frame-content: customer_content;
+                -pdf-frame-border: 1;
+                padding: 10px 10px;
+                right: 1cm;
+                left: 1cm;
+                top: 9.8cm;
+                height: 1.9cm;
+            }
+            @frame content_frame {
+                /*-pdf-frame-content: content_frame;*/
+                /*-pdf-frame-border: 1;*/
+                right: 1cm;
+                left: 1cm;
+                top: 12cm;
+                height: 7.5cm;
+            }
+
+            @frame {
+                -pdf-frame-content: infoadricional_frame;
+                -pdf-frame-border: 1;
+                padding: 10px 10px;
+                left: 1cm;
+                width: 12cm;
+                top: 20cm;
+                height: 3.5cm;
+            }
+            @frame {
+                -pdf-frame-content: infopago_frame;
+                /*-pdf-frame-border: 1;*/
+                /*padding: 10px 10px;*/
+                left: 1cm;
+                width: 12cm;
+                top: 23.8cm;
+                height: 3cm;
+            }
+            @frame {
+                -pdf-frame-content: infobalance_frame;
+                /*-pdf-frame-border: 1;*/
+                right: 1cm;
+                width: 6.8cm;
+                top: 20cm;
+                height: 5.4cm;
+            }
+            @frame footer_frame {           /* Another static Frame */
+                -pdf-frame-content: footer_content;
+                left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+            }
+        }
+        #mytable th, td {
+          border: 0.5px solid black;
+          border-collapse: collapse;
+          padding: 2px;
+          text-align: left;
+        }
+
+        /*.border {
+            border-top-width: 1px;
+            border-bottom-width: 1px;
+            border-left-width: 1px;
+            border-right-width: 1px;
+
+            border-top-style: solid;
+            border-bottom-style: solid;
+            border-left-style: solid;
+            border-right-style: solid;
+        }*/
+
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+
+    </style>
+
+    <body>
+        <!-- logotipo -->
+        <div id="company_logo">
+          <img src="media/logo/no-logo.png" class="center"/>
+        </div>
+
+        <!-- Content for Static Frame 'footer_frame' -->
+        <div id="footer_content">(c) - Página <pdf:pagenumber>
+          de <pdf:pagecount>
+        </div>
+
+        <!-- contribuyente -->
+        <div id="contribuyenteinfo_frame">
+          <!--<table style="height:25px;border: 1px solid #bbb;">-->
+          <table style="height:25px;">
+              <tbody>
+                  <tr>
+                    <th colspan="3" style="text-align: left; font-size: 10pt;">{{ factura.empresa.razon_social }}</th>
+                  </tr>
+                  <tr>
+                    <th colspan="3" style="text-align: left; font-weight: normal;">{{ factura.empresa.nombre_comercial }}</th>
+                  </tr>
+                  <tr>
+                    <th style="text-align: left;">DIRECCIÓN MATRIZ:</th>
+                    <th colspan="2" style="text-align: left; font-weight: normal;">&nbsp;&nbsp;{{ factura.empresa.direccion_matriz|slice:"0:35" }}</th>
+                  </tr>
+                  <tr>
+                    <th style="text-align: left;">DIR. SUCURSAL:</th>
+                    <th colspan="2" style="text-align: left; font-weight: normal;">&nbsp;&nbsp;{{ factura.secuencia.direccion_establecimiento|slice:"0:35" }}</th>
+                  </tr>
+                  <tr>
+                    <th colspan="2" style="text-align: left;">CONTRIBUYENTE ESPECIAL Nro.:</th>
+                    <th style="text-align: left; font-weight: normal;">
+                      {% if factura.empresa.codigo_contribuyente_especial %}
+                      SI
+                      {% else %}
+                          NO
+                      {% endif %}
+                    </th>
+                  </tr>
+                  <tr>
+                    <th colspan="2" style="text-align: left;">OBLIGADO A LLEVAR CONTABILIDAD:</th>
+                    <th style="text-align: left; font-weight: normal;">
+                      {% if factura.empresa.obligado_llevar_contabilidad %}
+                        SI
+                      {% else %}
+                        NO
+                      {% endif %}
+                    </th>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+
+        <!-- sri info -->
+        <div id="sriinfo_content">
+          <!--<table style="height:25px;border: 1px solid #bbb;">-->
+          <table style="height:25px;">
+            <tbody>
+              <tr>
+                <th style="width:25%; text-align: left; font-size: 10pt;">R.U.C.:</th>
+                <th style="width:75%; text-align: left; font-weight: normal;">{{ factura.empresa.ruc }}</th>
+              </tr>
+              <tr>
+                <th colspan="2" style="text-align: left; font-size: 12pt;">FACTURA</th>
+              </tr>
+              <tr>
+                <th style="width:25%; text-align: left; font-size: 10pt;">No.</th>
+                <th style="width:75%; text-align: left; font-weight: normal; color: red;">{{ factura.secuencia.punto_establecimiento }}-{{ factura.secuencia.punto_emision }}-{{ factura.numero_secuencia|stringformat:"09d" }}</th>
+              </tr>
+              <tr>
+                <th colspan="2" style="text-align: left; font-size: 10pt;">NÚMERO DE AUTORIZACIÓN:</th>
+              </tr>
+              <tr>
+                <th colspan="2" style="text-align: left; font-weight: normal;">{{ factura.numero_autorizacion }}</th>
+              </tr>
+              <tr>
+                <th colspan="2" style="text-align: left; font-size: 10pt;">FECHA Y HORA DE AUTORIZACIÓN:</th>
+              </tr>
+              <tr>
+                <th colspan="2" style="text-align: left; font-weight: normal;">{{ factura.fecha_autorizacion }}</th>
+              </tr>
+              <tr>
+                <th style="text-align: left; font-size: 10pt;">AMBIENTE:</th>
+                <th style="text-align: left; font-weight: normal;">{{ factura.empresa.tipo_ambiente }}</th>
+              </tr>
+              <tr>
+                <th style="text-align: left; font-size: 10pt;">EMISIÓN:</th>
+                <th style="text-align: left; font-weight: normal;">NORMAL</th>
+              </tr>
+              <tr>
+                <th colspan="2" style="text-align: left; font-size: 10pt;">CLAVE DE ACCESO:</th>
+              </tr>
+              <tr>
+              </tr>
+              <tr>
+                <th colspan="2" height="100">
+                  <pdf:barcode value="{{ factura.clave_acceso }}" type="code128" humanreadable="1" align="middle" />
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- información del cliente -->
+        <div id="customer_content">
+          <!--<table style="height:25px;border: 1px solid #bbb;">-->
+          <table style="height:25px;">
+            <tbody>
+              <tr>
+                <th style="text-align: left; font-size: 8pt;">RAZÓN SOCIAL:</th>
+                <th colspan="5" style="text-align: left; font-weight: normal;">{{ factura.cliente.nombre }}</th>
+              </tr>
+              <tr>
+                <th style="text-align: left; font-size: 8pt;">RUC / CC:</th>
+                <th style="text-align: left; font-weight: normal;">{{ factura.cliente.identificacion }}</th>
+                <th style="text-align: left; font-size: 8pt;">FECHA EMISIÓN:</th>
+                <th style="text-align: left; font-weight: normal;">{{ factura.fecha_emision|date:'d-m-Y H:i' }}</th>
+                <th style="text-align: left; font-size: 8pt;">GUÍA DE REMISIÓN:</th>
+                <th style="text-align: left; font-weight: normal;">{{ factura.guia_remision }}</th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- información adicional -->
+        <div id="infoadricional_frame">
+          <p style="font-size: 10pt; font-weight: bold;">INFORMACIÓN ADICIONAL</p>
+          <p><strong>DIRECCIÓN:</strong> {{ factura.cliente.direccion }}</p>
+          <p><strong>TELÉFONO:</strong> {{ factura.cliente.telefono }} / {{ factura.cliente.celular }}</p>
+          <p><strong>EMAIL:</strong> {{ factura.cliente.email }}</p>
+        </div>
+
+        <!-- información de pago -->
+        <div id="infopago_frame">
+          <table id="mytable">
+            <thead>
+              <tr>
+                <th style="width:2cm; text-align: left; font-size: 8pt;">COD</th>
+                <th style="width:10cm; text-align: left; font-size: 8pt;">FORMA DE PAGO</th>
+                <th style="width:2.5cm; text-align: left; font-size: 8pt;">VALOR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>SIN UTILIZAR EL SISTEMA FINANCIERO</td>
+                <td style="text-align: right;">{{ factura.valor_total|floatformat:2 }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="infobalance_frame">
+          <table style="height:25px;border: 1px solid #bbb;">
+            <tbody>
+              <tr>
+                <td style="width:8cm; text-align: left; font-size: 8pt; font-weight: bold;">SUBTOTAL IVA</td>
+                <td style="width:3.5cm; text-align: right;">{{ factura.valor_subtotal_12|floatformat:2 }}</td>
+              </tr>
+              <tr>
+                <td style="width:8cm; text-align: left; font-size: 8pt; font-weight: bold;">SUBTOTAL 0%</td>
+                <td style="width:3.5cm; text-align: right;">{{ factura.valor_subtotal_0|floatformat:2 }}</td>
+              </tr>
+              <tr>
+                <td style="width:8cm; text-align: left; font-size: 8pt; font-weight: bold;">SUBTOTAL NO OBJETO IVA</td>
+                <td style="width:3.5cm; text-align: right;">{{ 0|floatformat:2 }}</td>
+              </tr>
+              <tr>
+                <td style="width:8cm; text-align: left; font-size: 8pt; font-weight: bold;">SUBTOTAL SIN IMPUESTOS</td>
+                <td style="width:3.5cm; text-align: right;">{{ factura.valor_subtotal_sin_impuesto|floatformat:2 }}</td>
+              </tr>
+              <tr>
+                <td style="width:8cm; text-align: left; font-size: 8pt; font-weight: bold;">DESCUENTO</td>
+                <td style="width:3.5cm; text-align: right;">{{ factura.valor_descuento|floatformat:2 }}</td>
+              </tr>
+              <tr>
+                <td style="width:8cm; text-align: left; font-size: 8pt; font-weight: bold;">ICE</td>
+                <td style="width:3.5cm; text-align: right;">{{ 0|floatformat:2 }}</td>
+              </tr>
+              <tr>
+                <td style="width:8cm; text-align: left; font-size: 8pt; font-weight: bold;">IVA</td>
+                <td style="width:3.5cm; text-align: right;">{{ factura.valor_iva|floatformat:2 }}</td>
+              </tr>
+              <tr>
+                <td style="width:8cm; text-align: left; font-size: 8pt; font-weight: bold;">TOTAL</td>
+                <td style="width:3.5cm; text-align: right;">{{ factura.valor_total|floatformat:2 }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- HTML Content -->
+        <table id="mytable">
+          <thead>
+            <tr>
+              <th style="width:2cm; text-align: center; font-size: 8pt;">No.</th>
+              <th style="width:4cm; text-align: left; font-size: 8pt;">CÓDIGO</th>
+              <th style="width:50cm; text-align: left; font-size: 8pt;">DESCRIPCIÓN</th>
+              <th style="width:3cm; text-align: left; font-size: 8pt;">CANTIDAD</th>
+              <th style="width:3cm; text-align: left; font-size: 8pt;">V/UNITARIO</th>
+              <th style="width:3cm; text-align: left; font-size: 8pt;">TOTAL</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in items %}
+            <tr>
+              <td style="text-align: center;">{{ forloop.counter }}</td>
+              {% if item.tipo == 'P' %}
+              <td>{{ item.producto.codigo_principal }}</td>
+              <td>{{ item.producto.nombre|slice:"0:30" }}</td>
+              {% else %}
+              <td>{{ item.servicio.pk }}</td>
+              <td>{{ item.servicio.nombre|slice:"0:30" }}</td>
+              {% endif %}
+              <td style="text-align: right;">{{ item.cantidad|floatformat:2 }}</td>
+              <td style="text-align: right;">$ {{ item.precio_costo|floatformat:2 }}</td>
+              <td style="text-align: right;">$ {{ item.valor_total|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    </body>
+</html>

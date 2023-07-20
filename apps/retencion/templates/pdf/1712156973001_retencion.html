@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!--<meta charset="utf-8">-->
+    <title>RETENCIÓN #{{ retencion.pk }}</title>
+
+    <style>
+        body {
+            /*font-weight: 200;*/
+            font-size: 10pt;
+            font-family: "Times New Roman", Times, serif;
+        }
+        @page {
+            /*size: A4 portrait;*/
+            background-image: url({{ plantilla_url }});
+            size: 210mm 148.5mm;
+            @frame header_frame {           /* Static Frame */
+                -pdf-frame-content: header_content;
+                /*-pdf-frame-border: 1;*/
+                /*left: 90pt; width: 512pt; top: 120pt; height: 48pt;*/
+
+                left: 35pt;
+                right: 32pt;
+                top: 108pt;
+                height: 60pt;
+            }
+            @frame content_frame {          /* Content Frame */
+                left: 35pt; width: 528pt; top: 198pt; height: 142pt;
+                /*-pdf-frame-border: 1;*/
+            }
+            @frame footer_frame {           /* Another static Frame */
+                -pdf-frame-content: footer_content;
+                /*-pdf-frame-border: 1;*/
+                left: 35pt; width: 528pt; top: 345pt; height: 60pt;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Content for Static Frame 'header_frame' -->
+    <div id="header_content">
+        <!--<table style="height:20px;border: 1px solid #bbb;">-->
+        <table style="height:20px;">
+            <tbody>
+                <tr>
+                    <td colspan="2" style="margin-left: 1.8cm;">{{ retencion.proveedor.nombre }}</td>
+                    <td>{{ retencion.fecha_emision | date:"d/m/Y" }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="margin-left: 1.8cm">{{ retencion.proveedor.identificacion }}</td>
+                    <td>{{ tipo_comprobante_venta }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="margin-left: 1.8cm;">{{ retencion.proveedor.direccion|slice:"0:50" }}</td>
+                    <td>{{ retencion.compra.numero_comprobante }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Content for Static Frame 'footer_frame' -->
+    <div id="footer_content">
+        <!--<table style="height:26px;border: 1px solid #bbb;">-->
+        <table style="height:26px;">
+            <tbody>
+                <tr>
+                    <td style="text-align: right; vertical-align: middle;">{{ retencion.valor_total|floatformat:2 }} {{ '&nbsp;&nbsp;&nbsp;' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- HTML Content -->
+    <!--<table style="height:23.5px;border: 0.5px solid #bbb;">-->
+    <table style="height:23.5px;">
+        <tbody>
+            {% for item in impuestos %}
+            <tr>
+                <td style="width: 2.5cm; text-align: right; vertical-align: middle">{{ retencion.periodo|stringformat:"02d" }}/{{retencion.anio}} {{ '&nbsp;&nbsp;' }}</td>
+                <td style="width: 12cm; vertical-align: middle;">{{ item.valor_base_imponible|floatformat:2 }}</td>
+                <td style="width: 6cm; text-align: right; vertical-align: middle;">{% if item.tipo_impuesto == 1 %} RENTA {% else %} IVA {% endif %}</td>
+                <td style="width: 6cm; text-align: right; vertical-align: middle;">{{ item.sri_tipo_impuesto.porcentaje|floatformat:2 }}</td>
+                <td style="width: 5cm; text-align: right; vertical-align: middle;">{{ item.valor_total|floatformat:2 }} {{ '&nbsp;&nbsp;&nbsp;' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

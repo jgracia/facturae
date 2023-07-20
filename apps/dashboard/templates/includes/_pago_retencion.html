@@ -1,0 +1,78 @@
+<form id="retencionForm" method="post" class="form-horizontal" style="display: none;" autocomplete="off">
+  {% csrf_token %}
+
+  <input type="hidden" name="dlgretencion_numero_comprobante" id="dlgretencion_numero_comprobante" value="" />
+  <input type="hidden" name="dlgretencion_tipo_documento_codigo" id="dlgretencion_tipo_documento_codigo" value="" />
+
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label for="dlgretencion_id_tipo_impuesto">Tipo Imp.</label>
+      <select class="form-control" name="dlgretencion_id_tipo_impuesto" id="dlgretencion_id_tipo_impuesto">
+          <option selected  value="">---------</option>
+          <option value=1>RENTA</option>
+          <option value=2>I.V.A</option>
+      </select>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="dlgretencion_id_impuesto">Impuesto:</label>
+      <select class="form-control" name="dlgretencion_id_impuesto" id="dlgretencion_id_impuesto">
+          <option selected  value="">---------</option>
+      </select>
+    </div>
+    <div class="form-group col-md-3">
+      <label for="dlgretencion_fecha_comp_modifica">Fecha (Comp. Modifica)</label>
+      <input type="date" name="dlgretencion_fecha_comp_modifica" id="dlgretencion_fecha_comp_modifica" class="form-control">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label for="dlgretencion_base_imponible">Base Imponible</label>
+      <input type="text" name="dlgretencion_base_imponible" id="dlgretencion_base_imponible" class="form-control">
+    </div>
+    <div class="form-group col-md-3">
+      <label for="dlgretencion_porcentaje_retencion">Porcentaje Retención</label>
+      <input type="text" id="dlgretencion_porcentaje_retencion" name="dlgretencion_porcentaje_retencion" value="0" class="form-control" readonly>
+    </div>
+    <div class="form-group col-md-3">
+      <label for="dlgretencion_valor_retenido">Valor Retenido $</label>
+      <input type="text" id="dlgretencion_valor_retenido" name="dlgretencion_valor_retenido" value="0" class="form-control" readonly>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <div class="float-right">
+        <a id="addRetencion" href="#" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Agregar</a>
+      </div>
+      <section id="no-more-tables">
+        <table id="tbl_retencion" class="table table-bordered table-condensed cf">
+          <thead class="cf">
+            <tr>
+              <th>Cod. Reten.</th>
+              <th>Tipo Imp.</th>
+              <th>Descripción</th>
+              <th class="numeric">Base Imponible</th>
+              <th class="numeric">Porcentaje</th>
+              <th class="numeric">Total</th>
+              <th>Documento</th>
+              <th>Fecha</th>
+              <th>Tipo Doc.</th>
+              <th class="text-center">Acción</th>
+            </tr>
+          </thead>
+          <tbody id = "tbody_card_data">
+
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <button type="submit" id="btnRetencion" class="btn btn-primary btn-sm" disabled>Confirmar</button>
+      <button type="reset" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+    </div>
+  </div>
+</form>

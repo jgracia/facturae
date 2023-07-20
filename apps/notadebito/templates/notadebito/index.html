@@ -1,0 +1,233 @@
+{% extends "base/base_site.html" %}
+
+{% block title %} Notas Débito {% endblock title %}
+
+{% block stylesheets %}
+
+    {{ block.super }}
+
+    <!-- librerías para daterangepicker -->
+    <link rel="stylesheet" type="text/css" href="/static/vendors/daterangepicker/css/daterangepicker.css">
+
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Notas Débito</h3>
+                </div>
+
+                <div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <!--<div class="btn-toolbar">-->
+                        <div class="btn-group pull-right">
+                            <button onclick="location.href='{% url 'retencion:ingresar_retencion' %}';" class="btn btn-sm btn-default" type="button"  data-placement="top" data-toggle="tooltip" data-original-title="Crear"><i class="fa fa-plus"></i></button>
+                            <button id="ExportReporttoExcel" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Exportar"><i class="fa fa-file-excel-o" style="color:green"></i></button>
+                            <button id="ReporttoPrinter" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Imprimir"><i class="fa fa-print"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Lista de Notas Débito <small>Filtro por fechas</small></h2>
+                            <div class="filter">
+                                <div class="pull-right">
+                                    <div class="input-group" data-toggle="tooltip" title="Filtrar Fechas">
+                                        <div id="daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%">
+                                            <i class="fa fa-calendar"></i>&nbsp;
+                                            <span></span> <i class="fa fa-caret-down"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            <!--<table id="datatable" class="table table-striped table-bordered">-->
+                            <!--<table id="datatable-responsive" class="table table-striped table-bordered">-->
+                            <div class="table-responsive datatable-keytable">
+                                <table id="tabla" class="table table-striped table-bordered table-hover dt-responsive nowrap" cellspacing="0" width="100%">
+                                    <thead class="cf">
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Cliente</th>
+                                            <th>Comprobante</th>
+                                            <th class="text-center">Estado</th>
+                                            <th class="text-right">Total</th>
+                                            <th class="noExport text-center">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <!--<tbody>
+                                    </tbody>-->
+                                    <tfoot>
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Cliente</th>
+                                            <th>Comprobante</th>
+                                            <th class="text-center">Estado</th>
+                                            <th class="text-right">Total</th>
+                                            <th class="noExport text-center">Acciones</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block javascripts %}
+
+    {{ block.super }}
+
+    <!-- librerías protección csrftoken -->
+    <script src="/static/frontend/js/proteccion_csrf.js"></script>
+
+    <!-- librerías para daterangepicker -->
+    <script type="text/javascript" src="/static/vendors/daterangepicker/js/moment.min.js"></script>
+    <script type="text/javascript" src="/static/vendors/daterangepicker/js/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/static/vendors/daterangepicker/js/daterangepicker.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            moment.locale('es');
+
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+
+            function cb(start, end) {
+                $('#daterange span').html(start.format('DD/MMM/YYYY') + ' - ' + end.format('DD/MMM/YYYY'));
+
+                // actualizar tabla
+                cargarNotasDebito(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+            }
+            $('#daterange').daterangepicker({
+                startDate: start,
+                endDate: end,
+                ranges: {
+                    'Hoy': [moment(), moment()],
+                    'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'La semana pasada': [moment().subtract(6, 'days'), moment()],
+                    'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
+                    'Este mes': [moment().startOf('month'), moment().endOf('month')],
+                    'El mes pasado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                locale: {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "From",
+                    "toLabel": "To",
+                    "customRangeLabel": "Rango personalizado...",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    monthNames: [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    firstDay: 1
+                },
+
+            }, cb);
+
+            cb(start, end);
+        });
+
+        function cargarNotasDebito(startDate, endDate) {
+            // reinicinializar
+            var csrftoken = getCookie('csrftoken');
+            $('#tabla').dataTable().fnDestroy();
+
+            var table = $('#tabla').dataTable( {
+                //responsive: true,
+                buttons: [
+                    { extend: 'excel', className: 'btn btn-default', exportOptions: { columns: ':not(:last-child)', }, },
+                    //{ extend: 'pdf', download: 'open', },
+                    { extend: 'print', autoPrint: true, exportOptions: { columns: ':not(:last-child)', }, }
+                ],
+                colReorder: {
+                    allowReorder: true
+                },
+                processing: true,
+                ajax: {
+                    headers: { 'X-CSRFToken': csrftoken },
+                    processing: true,
+                    url: "{% url 'notadebito:ajax_listado_notasdebito' %}",
+                    method: 'POST',
+                    data: { startDate: startDate, endDate: endDate },
+                    dataSrc: ""
+                },
+                columns: [
+                    { "data": "fecha_emision", render: function(data){
+                        return moment(data).format('DD-MMM-YYYY HH:MM');
+                    } },
+                    { "data": "nombre" },
+                    { "data":  "numero_comprobante", },
+                    { "data": "estado", className: "text-center",
+                        "render": function (data, type, row, meta) {
+                            if (data == 'REGISTRADA') {
+                                return "<span class='label label-success'>" + data + "</span>"
+                            } else {
+                                return "<span class='label label-default'>" + data + "</span>"
+                            }
+                        }
+                    },
+                    { "data": "valor_total", className: "text-right", render: $.fn.dataTable.render.number( ',', '.', 2, '$' ) },
+                    { "data": "comprobante_retencion_id", className: 'text-center', orderable: false,
+                        "render": function (data, type, row, meta) {
+                            return "<nobr>"+
+                                      "<a class='btn btn-info btn-xs' href=../notadebito/render/pdf/" + data + " target='_blank'>"+
+                                          "<span class='glyphicon glyphicon-search'></span> Ver"+
+                                      "</a> "+
+                                      "<a class='btn btn-primary btn-xs' href=../notadebio/modificar_notadebito/" + data + ">"+
+                                          "<span class='glyphicon glyphicon-pencil'></span> Editar"+
+                                      "</a> "+
+                                      "<a class='btn btn-danger btn-xs' href=../notadebito/eliminar_notadebito/" + data + ">"+
+                                          "<span class='glyphicon glyphicon-remove'></span> Anular"+
+                                      "</a>"+
+                                    "</nobr>"
+                        }
+                    }
+                ],
+                //select: true,
+                language: {
+                    url: "/static/localizacion/es_ES.json"
+                },
+            } );
+
+            $("#ExportReporttoExcel").on("click", function() { var table = $('#tabla').DataTable(); table.button( '.buttons-excel' ).trigger(); });
+            //$("#ExportReporttoPdf").on("click", function() { var table = $('#tabla').DataTable(); table.button( '.buttons-pdf' ).trigger(); });
+            $("#ReporttoPrinter").on("click", function() { var table = $('#tabla').DataTable(); table.button( '.buttons-print' ).trigger(); });
+        }
+    </script>
+{% endblock javascripts %}

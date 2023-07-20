@@ -1,0 +1,760 @@
+<link rel="stylesheet" href="/static/frontend/css/table_style.css">
+<link rel="stylesheet" href="/static/frontend/css/estilo_dialogo_pagos.css">
+
+<style>
+  .modal-header {
+    background-color: #337AB7;
+    padding:16px 16px;
+    color:#FFF;
+    border-bottom:2px dashed #337AB7;
+  }
+</style>
+
+<div class="modal-dialog">
+	<div class="modal-content">
+    <form action="{% url 'compra:abonar_credito' id_pagocredito %}" method="post" id='theform'>
+      {% csrf_token %}
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">x</button>
+        <h4>Método de Pago</h4>
+        <h4>MONTO A PAGAR: {{ saldo|floatformat:2 }}</h4>
+      </div>
+
+      <div class="modal-body">
+
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#cash"><i class="glyphicon glyphicon-usd"></i> EFECTIVO</a></li>
+          <li><a data-toggle="tab" href="#transf_bank"><i class="glyphicon glyphicon-transfer"></i> TRANSFERENCIA</a></li>
+          <li><a data-toggle="tab" href="#bank_check"><i class="glyphicon glyphicon-pushpin"></i> CHEQUE</a></li>
+          <li><a data-toggle="tab" href="#debit_card"><i class="glyphicon glyphicon-credit-card"></i> TARJETA</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div id="cash" class="tab-pane fade in active">
+            <h3>EFECTIVO</h3>
+
+            <div class="row">
+              <div class="col-xs-6 col-xs-offset-3">
+                <label for="amount_received">Monto Recibido</label>
+                <input type="text" min="0" style="font-size:28pt; font-weight: bold; color:red; text-align: right;" class="form-control" id="amount_received" name="amount_received" data-fv-greaterthan-inclusive="false" data-fv-greaterthan-message="Valor debe ser mayor a cero"/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6 col-xs-offset-3">
+                <label class="blinking">Cambio o Vuelto</label>
+                <label class="col-xs-4 col-xs-offset-4 control-label"
+                style="text-align: center; font-size: 30pt;" id="lblexchange_money"> $0.00 </label>
+              </div>
+            </div>
+          </div>
+
+          <div id="transf_bank" class="tab-pane fade">
+
+            <div class="container">
+              <div class="row">
+                <br>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="table-title">
+                    <div class="row">
+                      <div class="col-sm-8"><h4>Transferencia <b>Detalle</b></h4></div>
+                      <div class="col-sm-4">
+                        <button type="button" class="btn btn-xs btn-info pull-right" id="addAction"><i class="fa fa-plus"></i> Añadir Nuevo</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12 voffset2">
+                  <div class="panel panel-default" id="transferPanel">
+                    <div class="panel-body">
+                      <form role="form">
+                        <fieldset>
+                          <input type="hidden" id="tranf_id" />
+                          <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                            <label for="transf_cta_origen" class="control-label" style="display: block;">Cta. Origen</label>
+                            <input type="text" name="transf_cta_origen" id="transf_cta_origen" class="form-control numero_regex">
+                          </div>
+
+                          <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                            <label for="tranf_cta_destino" class="control-label" style="display: block;">Cta. Destino</label>
+                            <input type="text" id="tranf_cta_destino" name="tranf_cta_destino" class="form-control numero_regex">
+                          </div>
+
+                          <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                            <label for="tranf_nro_comp" class="control-label" style="display: block;">Nro. Comprob.</label>
+                            <input type="text" id="tranf_nro_comp" name="tranf_nro_comp" class="form-control numero_regex">
+                          </div>
+
+                          <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                            <label for="tranf_monto" class="control-label" style="display: block;">Monto</label>
+                            <input type="text" id="tranf_monto" name="tranf_monto" class="form-control pal_regex">
+                          </div>
+
+                          <div class="col-xs-12 col-md-4 col-md-offset-8">
+                            <div>
+                              <div class="btn-group pull-right">
+                                <button type="button" id="editAddPanel-cancel" class="btn btn-default btn-warning btn-xs">Cancelar</button>
+                                <button type="button" id="editAddPanel-send" class="btn btn-default btn-primary btn-xs">Guardar</button>
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row voffset2">
+                <div class="col-xs-12">
+                  <table id="tbl_transfer" class="table table-bordered table-hover table-striped table-condensed cf">
+                    <thead>
+                      <tr>
+                        <th style="display:none;">ID</th>
+                        <th data-title="Cta. Origen">Cta. Origen</th>
+                        <th data-title="Cta. Destino">Cta. Destino</th>
+                        <th data-title="Nro. Comp.">Nro. Comp.</th>
+                        <th data-title="Monto" class="text-right">Monto</th>
+                        <th data-title="Acciones" class="text-center"></th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbl_TransferBody">
+                      <tr>
+                        <td colspan="5" style = "text-align: center;">
+                          <font color="red">¡ Ningún registro encontrado !</font>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="bank_check" class="tab-pane fade">
+            <div class="row">
+              <br>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-title">
+                  <div class="row">
+                    <div class="col-sm-8"><h4>Cheque <b>Detalle</b></h4></div>
+                    <div class="col-sm-4">
+                      <button type="button" class="btn btn-xs btn-info pull-right" id="addCheque"><i class="fa fa-plus"></i> Añadir Nuevo</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12 voffset2">
+                <div class="panel panel-default" id="chequePanel">
+                  <div class="panel-body">
+                    <form role="form">
+                      <fieldset>
+                        <input type="hidden" id="cheque_id" />
+                        <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                          <label for="cheque_id_select" class="control-label" style="display: block;">Banco</label>
+                          <select id="cheque_id_select" autofocus="true" class="form-control">
+                            <option selected  value="0">---------</option>
+                            {% for banco in bancos %}
+    													<option value={{ banco.entidad_id }}>{{ banco.nombre }}</option>
+    												{% endfor %}
+                            <!--<option value="books">Books</option>
+                            <option value="html">HTML</option>
+                            <option value="css">CSS</option>
+                            <option value="php">PHP</option>
+                            <option value="js">JavaScript</option>-->
+                          </select>
+                        </div>
+
+                        <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                          <label for="cheque_cta_numero" class="control-label" style="display: block;">Cta. Número</label>
+                          <input type="text" id="cheque_cta_numero" name="cheque_cta_numero" class="form-control numero_regex">
+                        </div>
+
+                        <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                          <label for="cheque_chq_numero" class="control-label" style="display: block;">Chq. Número</label>
+                          <input type="text" id="cheque_chq_numero" name="cheque_chq_numero" class="form-control numero_regex">
+                        </div>
+
+                        <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                          <label for="cheque_datepicker">Fecha de Emisión</label>
+      										<input type="date" name="cheque_datepicker" id="cheque_datepicker" class="form-control">
+                        </div>
+
+                        <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                          <label for="cheque_monto" class="control-label" style="display: block;">Monto</label>
+                          <input type="text" id="cheque_monto" name="cheque_monto" class="form-control pal_regex">
+                        </div>
+
+                        <div class="col-xs-12 col-md-4 col-md-offset-8">
+                          <div>
+                            <div class="btn-group pull-right">
+                              <button type="button" id="editAddChequePanel-cancel" class="btn btn-default btn-warning btn-xs">Cancelar</button>
+                              <button type="button" id="editAddChequePanel-send" class="btn btn-default btn-primary btn-xs">Guardar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row voffset2">
+              <div class="col-xs-12">
+                <table id="tbl_cheque" class="table table-bordered table-hover table-striped table-condensed cf">
+                  <thead>
+                    <tr>
+                      <th style="display:none;">ID</th>
+                      <th data-title="Banco">Banco</th>
+                      <th data-title="Cta. Número">Cta. Número</th>
+                      <th data-title="Chq. Número">Chq. Número</th>
+                      <th data-title="Fecha">Fecha</th>
+                      <th data-title="Monto" class="text-right">Monto</th>
+                      <th data-title="Acciones" class="text-center"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbl_ChequeBody">
+                    <tr>
+                      <td colspan="6" style = "text-align: center;">
+                        <font color="red">¡ Ningún registro encontrado !</font>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div id="debit_card" class="tab-pane fade">
+            <div class="row">
+              <br>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-title">
+                  <div class="row">
+                    <div class="col-sm-8"><h4>Tarjeta <b>Detalle</b></h4></div>
+                    <div class="col-sm-4">
+                      <button type="button" class="btn btn-xs btn-info pull-right" id="addTarjeta"><i class="fa fa-plus"></i> Añadir Nuevo</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12 voffset2">
+                <div class="panel panel-default" id="tarjetaPanel">
+                  <div class="panel-body">
+                    <form role="form">
+                      <fieldset>
+                        <input type="hidden" id="tarjeta_id" />
+                        <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                          <label for="tarjeta_id_select" class="control-label" style="display: block;">Tarjeta</label>
+                          <select id="tarjeta_id_select" autofocus="true" class="form-control">
+                            <option selected  value="0">---------</option>
+                            {% for tarjeta in tarjetas %}
+    													<option value={{ tarjeta.tarjeta_id }}>{{ tarjeta.nombre }}</option>
+    												{% endfor %}
+                          </select>
+                        </div>
+
+                        <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                          <label for="tarjeta_nro" class="control-label" style="display: block;">Tarjeta. Número</label>
+                          <input type="text" id="tarjeta_nro" name="tarjeta_nro" class="form-control numero_regex">
+                        </div>
+
+                        <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                          <label for="tarjeta_vaucher_nro" class="control-label" style="display: block;">Vaucher Número</label>
+                          <input type="text" id="tarjeta_vaucher_nro" name="tarjeta_vaucher_nro" class="form-control numero_regex">
+                        </div>
+
+                        <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                          <label for="tarjeta_monto" class="control-label" style="display: block;">Monto</label>
+                          <input type="text" id="tarjeta_monto" name="tarjeta_monto" class="form-control pal_regex">
+                        </div>
+
+                        <div class="col-xs-12 col-md-4 col-md-offset-8">
+                          <div>
+                            <div class="btn-group pull-right">
+                              <button type="button" id="editAddTarjetaPanel-cancel" class="btn btn-default btn-warning btn-xs">Cancelar</button>
+                              <button type="button" id="editAddTarjetaPanel-send" class="btn btn-default btn-primary btn-xs">Guardar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row voffset2">
+              <div class="col-xs-12">
+                <table id="tbl_tarjeta" class="table table-bordered table-hover table-striped table-condensed cf">
+                  <thead>
+                    <tr>
+                      <th style="display:none;">ID</th>
+                      <th data-title="Tarjeta">Tarjeta</th>
+                      <th data-title="Tarjeta Nro.">Tarjeta. Nro.</th>
+                      <th data-title="Vaucher Nro.">Vaucher Nro.</th>
+                      <th data-title="Monto" class="text-right">Monto</th>
+                      <th data-title="Acciones" class="text-center"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbl_TarjetaBody">
+                    <tr>
+                      <td colspan="5" style = "text-align: center;">
+                        <font color="red">¡ Ningún registro encontrado !</font>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="col-lg-12 text-right">
+          <input class='btn btn-primary' type="submit" value="Confirmar" id='btnsubmit' />
+          <a class="btn btn-default" onclick="return cerrar_modal()">Cancelar</a>
+        </div>
+      </div>
+    </form>
+	</div>
+</div>
+
+<script type="text/javascript">
+  var today = moment().format('YYYY-MM-DD');
+  $('#cheque_datepicker').val(today);
+
+	/*$('#theform').submit(function(){
+    alert("aqui...")
+		$("input[type='submit']", this)
+		  .val("Por favor espere...")
+		  .attr('disabled', 'disabled');
+		return true;
+	});*/
+
+  $('.numero_regex').inputmask('Regex', {
+    regex: "^([0-9]{1,10}:[0-5][0-9])$"
+  });
+
+  //$(".total_regex").inputmask("9999.99");
+  $('.pal_regex').inputmask('Regex', {
+    regex: "[+-]?[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)?"
+  });
+
+  $(document).ready(function() {
+    $("#theform button").click(function (ev) {
+      ev.preventDefault()
+      alert("hola")
+      if ($(this).attr("value") == "Confirmar") {
+        alert("First Button is pressed - Form will submit")
+        $("#myform").submit();
+      }
+      if ($(this).attr("value") == "button2") {
+        alert("Second button is pressed - Form did not submit")
+      }
+    });
+
+    //var table = $("#transferTable");
+    $("#transferPanel").hide();
+    $("#chequePanel").hide();
+    $("#tarjetaPanel").hide();
+
+    $("#addAction").click(function(event) {
+      $("#transferPanel").show(750);
+      var panelData = {
+        indice: '',
+        column_id: '',
+        column_cta_origen: '',
+        column_cta_destino: '',
+        column_nro_comp: '',
+        column_monto: ''
+      };
+      setTransferForm(panelData);
+    });
+
+    $("#addCheque").click(function(event) {
+      $("#chequePanel").show(750);
+      var today = moment().format('YYYY-MM-DD');
+      var panelData = {
+        column_id: '',
+        column_banco: '---------',
+        column_cta_nro: '',
+        column_chq_nro: '',
+        column_fecha: today,
+        column_monto: ''
+      };
+      setTransferChequeForm(panelData);
+    });
+
+    $("#addTarjeta").click(function(event) {
+      $("#tarjetaPanel").show(750);
+      var panelData = {
+        column_id: '',
+        column_tarjeta: '---------',
+        column_tarjeta_nro: '',
+        column_vaucher_nro: '',
+        column_monto: ''
+      };
+      setTransferTarjetaForm(panelData);
+    });
+
+    $("#editAddPanel-cancel").click(function(event) {
+      $("#transferPanel").hide(750);
+    });
+
+    $("#editAddChequePanel-cancel").click(function(event) {
+      $("#chequePanel").hide(750);
+    });
+
+    $("#editAddTarjetaPanel-cancel").click(function(event) {
+      $("#tarjetaPanel").hide(750);
+    });
+
+    $("#editAddPanel-send").on('click', function(event) {
+      var cta_origen = $("#transf_cta_origen").val();
+      var cta_destino = $("#tranf_cta_destino").val();
+      var nro_comp = $("#tranf_nro_comp").val();
+      var transf_monto = $("#tranf_monto").val();
+
+      var transf_id = '';
+      tranf_id = $("#tranf_id").val();
+
+      if (tranf_id != '') {
+        // Get the cells
+        var $button = $('button[data-id="' + tranf_id + '"]'),
+            $tr     = $button.closest('tr'),
+            $cells  = $tr.find('td');
+        // Update the cell data
+        $cells
+          .eq(1).html(cta_origen).end();
+        $cells
+          .eq(2).html(cta_destino).end();
+        $cells
+          .eq(3).html(nro_comp).end();
+        $cells
+          .eq(4).html(transf_monto).end();
+      } else {
+        //VERIFICA SI EXISTE LA TABLA TEMPORAL GRID
+				if(!isExist('tbl_transfer', cta_origen, cta_destino, nro_comp)) {
+          //table.bootstrapTable('append', row);
+          var nFilas = $("#tbl_transfer tbody tr").length;
+          if (nFilas == 1) {
+            //verifica fila: ¡ No se ha encontrado ningún registro !
+  					var childrenId = $("#tbl_transfer tr td")[0].innerHTML;
+  					if (!$.isNumeric(childrenId))
+  					{
+  						// Quitar Fila: ¡ No se ha encontrado ningún registro !
+  						document.querySelectorAll("#tbl_transfer tbody tr").forEach(function(e){e.remove();});
+  					}
+          }
+          tranf_id = $.now();
+          var markup =  "<tr><td style='display:none;'>" + tranf_id + "</td>"
+  										+ "<td data-title='Cta. Origen'>" + cta_origen + "</td>"
+                      + "<td data-title='Cta. Destino'>" + cta_destino + "</td>"
+                      + "<td data-title='Nro. Comp.'>" + nro_comp + "</td>"
+  										+ "<td data-title='Monto' class='text-right'>" + transf_monto + "</td>"
+  										+ "<td data-title='Acciones' class='text-center'>"
+  												+ "<button type='button' data-id=" + tranf_id + " class='btn btn-default glyphicon glyphicon-edit editButton' data-toggle='tooltip' data-original-title='Editar' data-delay='{ show: 500, hide: 300}'></button> "
+  												+ "<button type='button' data-id=" + tranf_id + " class='btn btn-default glyphicon glyphicon-trash deleteButton' data-toggle='tooltip' data-original-title='Quitar' data-delay='{ show: 500, hide: 300}'></button>"
+  										+ "</td>"
+  										+ "</tr>";
+  				$("#tbl_transfer tbody").append(markup);
+          $('[data-toggle="tooltip"]').tooltip();
+        } else {
+          swal("Oops...", "Usted ya ha registrado esta transacción.", "error");
+        }
+      }
+      $("#transferPanel").hide(750);
+    });
+    // fin guardar transferencia
+
+
+    $("#editAddChequePanel-send").on('click', function(event) {
+      //var banco = $("#cheque_id_select").val();
+      var banco = $("#cheque_id_select option:selected").text();
+      var cta_nro = $("#cheque_cta_numero").val();
+      var chq_nro = $("#cheque_chq_numero").val();
+      var fecha = $("#cheque_datepicker").val();
+      var monto = $("#cheque_monto").val();
+
+      var cheque_id = '';
+      cheque_id = $("#cheque_id").val();
+
+      if (cheque_id != '') {
+        // Get the cells
+        var $button = $('button[data-id="' + cheque_id + '"]'),
+            $tr     = $button.closest('tr'),
+            $cells  = $tr.find('td');
+        // Update the cell data
+        $cells
+          .eq(1).html(banco).end();
+        $cells
+          .eq(2).html(cta_nro).end();
+        $cells
+          .eq(3).html(chq_nro).end();
+        $cells
+          .eq(4).html(fecha).end();
+        $cells
+          .eq(5).html(monto).end();
+      } else {
+
+        //VERIFICA SI EXISTE LA TABLA TEMPORAL GRID
+				if(!isExist('tbl_cheque', banco, cta_nro, chq_nro)) {
+          var nFilas = $("#tbl_cheque tbody tr").length;
+          if (nFilas == 1) {
+            //verifica fila: ¡ No se ha encontrado ningún registro !
+  					var childrenId = $("#tbl_cheque tr td")[0].innerHTML;
+  					if (!$.isNumeric(childrenId))
+  					{
+  						// Quitar Fila: ¡ No se ha encontrado ningún registro !
+  						document.querySelectorAll("#tbl_cheque tbody tr").forEach(function(e){e.remove();});
+  					}
+          }
+          cheque_id = $.now();
+          var markup =  "<tr><td style='display:none;'>" + cheque_id + "</td>"
+  										+ "<td data-title='Banco'>" + banco + "</td>"
+                      + "<td data-title='Cta. Nro.'>" + cta_nro + "</td>"
+                      + "<td data-title='Chq. Nro.'>" + chq_nro + "</td>"
+                      + "<td data-title='Fecha'>" + fecha + "</td>"
+  										+ "<td data-title='Monto' class='text-right'>" + monto + "</td>"
+                      + "<td data-title='Acciones' class='text-center'>"
+  												+ "<button type='button' data-id=" + cheque_id + " class='btn btn-default glyphicon glyphicon-edit editButton' data-toggle='tooltip' data-original-title='Editar' data-delay='{ show: 500, hide: 300}'></button> "
+  												+ "<button type='button' data-id=" + cheque_id + " class='btn btn-default glyphicon glyphicon-trash deleteButton' data-toggle='tooltip' data-original-title='Quitar' data-delay='{ show: 500, hide: 300}'></button>"
+  										+ "</td>"
+  										+ "</tr>";
+  				$("#tbl_cheque tbody").append(markup);
+          $('[data-toggle="tooltip"]').tooltip();
+        } else {
+          swal("Oops...", "Usted ya ha registrado este cheque.", "error");
+        }
+      }
+      $("#chequePanel").hide(750);
+    });
+    // fin guardar cheque
+
+    $("#editAddTarjetaPanel-send").on('click', function(event) {
+      var tarjeta = $("#tarjeta_id_select option:selected").text();
+      var tarjeta_nro = $("#tarjeta_nro").val();
+      var tarjeta_vaucher_nro = $("#tarjeta_vaucher_nro").val();
+      var monto = $("#tarjeta_monto").val();
+
+      var tarjeta_id = '';
+      tarjeta_id = $("#tarjeta_id").val();
+
+      if (tarjeta_id != '') {
+        // Get the cells
+        var $button = $('button[data-id="' + tarjeta_id + '"]'),
+            $tr     = $button.closest('tr'),
+            $cells  = $tr.find('td');
+        // Update the cell data
+        $cells
+          .eq(1).html(tarjeta).end();
+        $cells
+          .eq(2).html(tarjeta_nro).end();
+        $cells
+          .eq(3).html(tarjeta_vaucher_nro).end();
+        $cells
+          .eq(4).html(monto).end();
+      } else {
+
+        //VERIFICA SI EXISTE LA TABLA TEMPORAL GRID
+				if(!isExist('tbl_tarjeta', tarjeta, tarjeta_nro, tarjeta_vaucher_nro)) {
+          var nFilas = $("#tbl_tarjeta tbody tr").length;
+          if (nFilas == 1) {
+            //verifica fila: ¡ No se ha encontrado ningún registro !
+  					var childrenId = $("#tbl_tarjeta tr td")[0].innerHTML;
+  					if (!$.isNumeric(childrenId))
+  					{
+  						// Quitar Fila: ¡ No se ha encontrado ningún registro !
+  						document.querySelectorAll("#tbl_tarjeta tbody tr").forEach(function(e){e.remove();});
+  					}
+          }
+          tarjeta_id = $.now();
+          var markup =  "<tr><td style='display:none;'>" + tarjeta_id + "</td>"
+  										+ "<td data-title='Tarjeta'>" + tarjeta + "</td>"
+                      + "<td data-title='Tarjeta Nro.'>" + tarjeta_nro + "</td>"
+                      + "<td data-title='Vaucher Nro.'>" + tarjeta_vaucher_nro + "</td>"
+  										+ "<td data-title='Monto' class='text-right'>" + monto + "</td>"
+                      + "<td data-title='Acciones' class='text-center'>"
+  												+ "<button type='button' data-id=" + tarjeta_id + " class='btn btn-default glyphicon glyphicon-edit editButton' data-toggle='tooltip' data-original-title='Editar' data-delay='{ show: 500, hide: 300}'></button> "
+  												+ "<button type='button' data-id=" + tarjeta_id + " class='btn btn-default glyphicon glyphicon-trash deleteButton' data-toggle='tooltip' data-original-title='Quitar' data-delay='{ show: 500, hide: 300}'></button>"
+  										+ "</td>"
+  										+ "</tr>";
+  				$("#tbl_tarjeta tbody").append(markup);
+          $('[data-toggle="tooltip"]').tooltip();
+        } else {
+          swal("Oops...", "Usted ya ha registrado este cheque.", "error");
+        }
+      }
+      $("#tarjetaPanel").hide(750);
+    });
+    // fin guardar tarjeta
+  });
+
+
+
+  function isExist(tabla, col1, col2, col3){
+    // console.log($('tr[id*=output_newrow]').length)
+    testme=false;
+    $('#' + tabla + 'tr').each(function(){
+      //console.log($('td:nth(1)',$(this)).text());
+      //console.log(strd);
+      var field1 = $('td:nth(1)',$(this)).text();
+      var field2 = $('td:nth(2)',$(this)).text();
+      var field3 = $('td:nth(3)',$(this)).text();
+
+      if(field1===col1 && field2===col2 && field3===col3) {
+        testme=true;
+      }
+    });
+    return testme;
+  }
+
+  // botones tabla, acción editar
+  $("#tbl_transfer").on('click','.editButton',function(){
+    // Get the record's ID via attribute
+    var id = $(this).attr('data-id');
+    var column_cta_origen = $(this).closest('tr').find('td:eq(1)').text();
+    var column_cta_destino = $(this).closest('tr').find('td:eq(2)').text();
+    var column_nro_comp = $(this).closest('tr').find('td:eq(3)').text();
+    var column_monto = $(this).closest('tr').find('td:eq(4)').text();
+
+    $("#transferPanel").show(750);
+    var panelData = {
+          column_id: id,
+          column_cta_origen: column_cta_origen,
+          column_cta_destino: column_cta_destino,
+          column_nro_comp: column_nro_comp,
+          column_monto: column_monto
+      };
+
+    setTransferForm(panelData);
+    $('html, body').animate({
+      scrollTop: $("#transferPanel").offset().top
+    }, 500);
+  });
+
+  // botones tabla, acción editar
+  $("#tbl_cheque").on('click','.editButton',function(){
+    // Get the record's ID via attribute
+    var id = $(this).attr('data-id');
+    var column_banco = $(this).closest('tr').find('td:eq(1)').text();
+    var column_cta_nro = $(this).closest('tr').find('td:eq(2)').text();
+    var column_chq_nro = $(this).closest('tr').find('td:eq(3)').text();
+    var column_fecha = $(this).closest('tr').find('td:eq(4)').text();
+    var column_monto = $(this).closest('tr').find('td:eq(5)').text();
+
+    $("#chequePanel").show(750);
+    var panelData = {
+          column_id: id,
+          column_banco: column_banco,
+          column_cta_nro: column_cta_nro,
+          column_chq_nro: column_chq_nro,
+          column_fecha: column_fecha,
+          column_monto: column_monto
+      };
+
+    setTransferChequeForm(panelData);
+    $('html, body').animate({
+      scrollTop: $("#chequePanel").offset().top
+    }, 500);
+  });
+
+  // botones tabla, acción editar
+  $("#tbl_tarjeta").on('click','.editButton',function(){
+    // Get the record's ID via attribute
+    var id = $(this).attr('data-id');
+    var column_tarjeta = $(this).closest('tr').find('td:eq(1)').text();
+    var column_tarjeta_nro = $(this).closest('tr').find('td:eq(2)').text();
+    var column_vaucher_nro = $(this).closest('tr').find('td:eq(3)').text();
+    var column_monto = $(this).closest('tr').find('td:eq(4)').text();
+
+    $("#tarjetaPanel").show(750);
+    var panelData = {
+          column_id: id,
+          column_tarjeta: column_tarjeta,
+          column_tarjeta_nro: column_tarjeta_nro,
+          column_vaucher_nro: column_vaucher_nro,
+          column_monto: column_monto
+      };
+
+    setTransferTarjetaForm(panelData);
+    $('html, body').animate({
+      scrollTop: $("#tarjetaPanel").offset().top
+    }, 500);
+  });
+
+  // botones tabla, acción delete
+  $("#tbl_transfer").on('click','.deleteButton',function(){
+    //var id = $(this).attr('data-id');
+    $(this).closest('tr').remove();
+    //agregar mensaje: ¡ No se ha encontrado ningún registro !
+    var rowCount = $("#tbl_transfer td").closest("tr").length;
+    if (rowCount == 0) {
+      var markup = "<tr><td colspan='5' style = 'text-align: center;'>"
+      + "<font color='red'>¡ Ningún registro encontrado !</font></td></tr>";
+      $("#tbl_transfer tbody").append(markup);
+    }
+  });
+
+  // botones tabla, acción delete
+  $("#tbl_cheque").on('click','.deleteButton',function(){
+    //var id = $(this).attr('data-id');
+    $(this).closest('tr').remove();
+    //agregar mensaje: ¡ No se ha encontrado ningún registro !
+    var rowCount = $("#tbl_cheque td").closest("tr").length;
+    if (rowCount == 0) {
+      var markup = "<tr><td colspan='6' style = 'text-align: center;'>"
+      + "<font color='red'>¡ Ningún registro encontrado !</font></td></tr>";
+      $("#tbl_cheque tbody").append(markup);
+    }
+  });
+
+  // botones tabla, acción delete
+  $("#tbl_tarjeta").on('click','.deleteButton',function(){
+    $(this).closest('tr').remove();
+    //agregar mensaje: ¡ No se ha encontrado ningún registro !
+    var rowCount = $("#tbl_tarjeta td").closest("tr").length;
+    if (rowCount == 0) {
+      var markup = "<tr><td colspan='5' style = 'text-align: center;'>"
+      + "<font color='red'>¡ Ningún registro encontrado !</font></td></tr>";
+      $("#tbl_tarjeta tbody").append(markup);
+    }
+  });
+
+  function setTransferForm(panelData) {
+    $("#tranf_id").val(panelData.column_id)
+    $("#transf_cta_origen").val(panelData.column_cta_origen);
+    $("#tranf_cta_destino").val(panelData.column_cta_destino);
+    $("#tranf_nro_comp").val(panelData.column_nro_comp);
+    $("#tranf_monto").val(panelData.column_monto);
+  }
+
+  function setTransferChequeForm(panelData) {
+    $("#cheque_id").val(panelData.column_id)
+    $("#cheque_id_select").val($("#cheque_id_select" + " option").filter(function() { return this.text == panelData.column_banco }).val());
+    $("#cheque_cta_numero").val(panelData.column_cta_nro);
+    $("#cheque_chq_numero").val(panelData.column_chq_nro);
+    $("#cheque_datepicker").val(panelData.column_fecha);
+    $("#cheque_monto").val(panelData.column_monto);
+  }
+
+  function setTransferTarjetaForm(panelData) {
+    $("#tarjeta_id").val(panelData.column_id)
+    $("#tarjeta_id_select").val($("#tarjeta_id_select" + " option").filter(function() { return this.text == panelData.column_tarjeta }).val());
+    $("#tarjeta_nro").val(panelData.column_tarjeta_nro);
+    $("#tarjeta_vaucher_nro").val(panelData.column_vaucher_nro);
+    $("#tarjeta_monto").val(panelData.column_monto);
+  }
+</script>

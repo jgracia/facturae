@@ -1,0 +1,37 @@
+<html>
+<head>
+<style>
+    @page {
+        /*size: A6 portrait;*/
+        size: 75mm 210mm;
+        @frame header_frame {           /* Static Frame */
+            -pdf-frame-content: header_content;
+            left: 5mm; width: 65mm; top: 45mm; height: 30mm;
+            -pdf-frame-border: 1;
+        }
+        @frame content_frame {          /* Content Frame */
+            left: 5mm; width: 65mm; top: 76mm; height: 110mm;
+            -pdf-frame-border: 1;
+        }
+        @frame footer_frame {           /* Another static Frame */
+            -pdf-frame-content: footer_content;
+            left: 5mm; width: 65mm; top: 190mm; height: 10mm;
+            -pdf-frame-border: 1;
+        }
+    }
+</style>
+</head>
+
+<body>
+    <!-- Content for Static Frame 'header_frame' -->
+    <div id="header_content">Ticket: 0001</div>
+
+    <!-- Content for Static Frame 'footer_frame' -->
+    <div id="footer_content">(c) - page <pdf:pagenumber>
+        of <pdf:pagecount>
+    </div>
+
+    <!-- HTML Content -->
+    To PDF or not to PDF
+</body>
+</html>

@@ -1,0 +1,298 @@
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">FACTURAE</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile_nav" aria-controls="mobile_nav" aria-expanded="false" aria-label="Toggle navigation">
+     <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mobile_nav">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0 float-md-right">
+      </ul>
+      <ul class="navbar-nav navbar-light">
+        <li class="nav-item {% if active_tab == 'tab_home' %} active {% endif %}"><a class="nav-link" href="{% url 'dashboard:home' %}">{% if user.is_authenticated %} Tablero {% else %} Inicio {% endif %}</a></li>
+        {% if not user.is_authenticated %}
+        <li class="nav-item {% if active_tab == 'tab_about' %} active {% endif %}"><a class="nav-link" href="{% url 'dashboard:about_us' %}">Nosotros</a></li>
+        <li class="nav-item dmenu dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Servicios
+          </a>
+          <div class="dropdown-menu sm-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Desarrollo de software</a>
+            <a class="dropdown-item" href="#">Diseño y desarrollo web</a>
+            <a class="dropdown-item" href="#">Aplicaciones moviles</a>
+            <a class="dropdown-item" href="#">Soluciones comerciales y procesos comerciales</a>
+            <a class="dropdown-item" href="#">Servicios de marketing digital y SEO</a>
+            <a class="dropdown-item" href="#">Hospedaje Web y Mantenimiento</a>
+            <a class="dropdown-item" href="#">Seguridad cibernética</a>
+            <a class="dropdown-item" href="#">Implementación de cadena de bloques</a>
+            <a class="dropdown-item" href="#">Big Data</a>
+          </div>
+        </li>
+        {% endif %}
+        <!--========-->
+        {% if user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'venta:tpv' %}">TPV</a></li>
+        <li class="nav-item dmenu dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Ventas
+          </a>
+          <div class="dropdown-menu sm-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'venta:crear_venta' %}"><i class="fa fa-plus"></i> Agregar Venta</a>
+            <a class="dropdown-item" href="{% url 'venta:listado_ventas' %}"><i class="fa fa-shopping-cart"></i> Gestor de Ventas</a>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Cliente</h6>
+            <a class="dropdown-item" href="{% url 'cliente:crear_cliente' %}"> <i class="fa fa-plus"></i> Agregar Cliente</a>
+            <a class="dropdown-item" href="{% url 'cliente:listado_clientes' %}"><i class="fa fa-id-card"></i> Gestor de Clientes</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'venta:cuentas_cobrar' %}"><i class="fas fa-funnel-dollar"></i> Gestor Ctas. por Cobrar</a>
+            <!--<a class="dropdown-item" href="{% url 'contabilidad:listado_turnos' %}"><i class="fas fa-store-alt"></i> Gestor de Cajas / Turnos</a>-->
+            <a class="dropdown-item" href="javascript:reprint();"><i class="fa fa-print"></i> Reimpresión de Comprobantes</a>
+          </div>
+        </li>
+        <li class="nav-item dmenu dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Compras
+          </a>
+          <div class="dropdown-menu sm-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'compra:ingresar_compra' %}"> <i class="fa fa-plus"></i> Agregar Compra</a>
+            <a class="dropdown-item" href="{% url 'compra:listado_compras' %}"><i class="fa fa-truck"></i> Gestor de Compras</a>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Proveedores</h6>
+            <a class="dropdown-item" href="{% url 'proveedor:crear_proveedor' %}"> <i class="fa fa-plus"></i> Agregar Proveedor</a>
+            <a class="dropdown-item" href="{% url 'proveedor:listado_proveedores' %}"><i class="far fa-id-card"></i> Gestor de Proveedores</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'compra:cuentas_pagar' %}"><i class="fas fa-funnel-dollar"></i> Gestor Ctas. por Pagar</a>
+            <a class="dropdown-item" href="{% url 'retencion:listado_retenciones' %}"><i class="fas fa-coins"></i> Gestor de Retenciones</a>
+          </div>
+        </li>
+
+        <li class="nav-item dmenu dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Productos
+          </a>
+          <div class="dropdown-menu sm-menu" aria-labelledby="navbarDropdown">
+            <h6 class="dropdown-header">Inventario</h6>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addProductModal"> <i class="fa fa-plus"></i> Agregar Producto</a>
+            <a class="dropdown-item" href="{% url 'producto:listado_productos' %}"> <i class="fa fa-tags"></i> Todos los Productos</a>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Categorías de Productos</h6>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addProductTypeModal"> <i class="fa fa-plus"></i> Agregar Categoría</a>
+            <a class="dropdown-item" href="#"> <i class="fa fa-tags"></i> Gestor de Categorías</a>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Unidades de Productos</h6>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addProductTypeModal"> <i class="fa fa-plus"></i> Agregar Unidad</a>
+            <a class="dropdown-item" href="{% url 'unidadmedida:listado_unidades' %}"> <i class="fa fa-tags"></i> Gestor de Unidades</a>
+          </div>
+        </li>
+        <li class="nav-item dmenu dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Servicios
+          </a>
+          <div class="dropdown-menu sm-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addProductModal"> <i class="fa fa-plus"></i> Agregar Servicio</a>
+            <a class="dropdown-item" href="{% url 'servicio:listado_servicios' %}"> <i class="fa fa-tags"></i> Gestor de Servicio</a>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Clases de Servicio</h6>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addProductTypeModal"> <i class="fa fa-plus"></i> Agregar Nueva Clase</a>
+            <a class="dropdown-item" href="#"> <i class="fa fa-tags"></i> Gestor de Clase</a>
+          </div>
+        </li>
+        <li class="nav-item dmenu dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Inventario
+          </a>
+          <div class="dropdown-menu sm-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'almacen:kardex' %}"><i class="fa fa-tags"></i> Consultar Kardex...</a>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Reportes</h6>
+            <a class="dropdown-item" href="{% url 'almacen:existencias' %}"><i class="fa fa-plus"></i> Existencias</a>
+            <a class="dropdown-item" href="{% url 'almacen:consolidado_productos' %}"><i class="fa fa-tags"></i> Consolidado de Productos</a>
+            <a class="dropdown-item" href="{% url 'almacen:consolidado_movimientos' %}"><i class="fa fa-tags"></i> Consolidado de Movimientos</a>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Movimientos</h6>
+            <a class="dropdown-item" href="{% url 'almacen:listado_entradas' %}"><i class="fa fa-plus"></i> Entradas</a>
+            <a class="dropdown-item" href="{% url 'almacen:listado_salidas' %}"><i class="fa fa-tags"></i> Salidas</a>
+            <a class="dropdown-item" href="{% url 'almacen:listado_ajustes' %}"><i class="fa fa-tags"></i> Ajustes</a>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Almacenes</h6>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addProductModal"> <i class="fa fa-plus"></i> Agregar Almacén</a>
+            <a class="dropdown-item" href="{% url 'almacen:listado_almacenes' %}"><i class="fas fa-store"></i> Gestor de Almacenes</a>
+          </div>
+        </li>
+
+
+        <li class="nav-item dmenu dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Contabilidad
+          </a>
+          <div class="dropdown-menu sm-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addProductModal"><i class="fa fa-book"></i> Gestor de Libro Diario</a>
+            <a class="dropdown-item" href="{% url 'servicio:listado_servicios' %}"><i class="fa fa-list-alt"></i> Gestor de Plan de Cuentas</a>
+            <a class="dropdown-item" href="{% url 'contabilidad:listado_asientos_automaticos' %}"><i class="fa fa-magic"></i> Gestor de Asientos Automáticos</a>
+            <a class="dropdown-item" href="{% url 'contabilidad:listado_periodos' %}"><i class="fas fa-spinner"></i> Gestor de Períodos Contables</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'contabilidad:resumen_sri' %}"><i class="fas fa-file-invoice"></i> Resumen Administración Tributaria</a>
+            <a class="dropdown-item" href="#"><img title="facebook" alt="facebook" src="/static/img/core-img/SRI_LOGO.png" width="20px"> Anexo Transaccional Simplificado (ATS)</a>
+          </div>
+        </li>
+        <!--
+        <li class="nav-item dmenu dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Administración
+          </a>
+          <div class="dropdown-menu sm-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'administracion:listado_empresas' %}"><i class="fa fa-industry"></i> Gestor de Empresas</a>
+            <a class="dropdown-item" href="#"><i class="fa fa-users"></i> Gestor de Usuarios</a>
+            <a class="dropdown-item" href="{% url 'administracion:listado_secuencias' %}"><i class="fa fa-list-ol"></i> Gestor de Secuencias</a>
+            <div class="dropdown-divider"></div>
+
+          </div>
+        </li>
+        -->
+        <!--<li class="nav-item dropdown">-->
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+   <ul class="navbar-nav">
+     <li class="nav-item active">
+       <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+     </li>
+     <li class="nav-item dropdown">
+       <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         Dropdown link
+       </a>
+       <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+         <li><a class="dropdown-item" href="#">Action</a></li>
+         <li><a class="dropdown-item" href="#">Another action</a></li>
+         <li class="dropdown-submenu">
+           <a class="dropdown-item dropdown-toggle" href="#">Submenu</a>
+           <ul class="dropdown-menu">
+             <li><a class="dropdown-item" href="#">Submenu action</a></li>
+             <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+
+
+             <li class="dropdown-submenu">
+               <a class="dropdown-item dropdown-toggle" href="#">Subsubmenu</a>
+               <ul class="dropdown-menu">
+                 <li><a class="dropdown-item" href="#">Subsubmenu action</a></li>
+                 <li><a class="dropdown-item" href="#">Another subsubmenu action</a></li>
+               </ul>
+             </li>
+             <li class="dropdown-submenu">
+               <a class="dropdown-item dropdown-toggle" href="#">Second subsubmenu</a>
+               <ul class="dropdown-menu">
+                 <li><a class="dropdown-item" href="#">Subsubmenu action</a></li>
+                 <li><a class="dropdown-item" href="#">Another subsubmenu action</a></li>
+               </ul>
+             </li>
+
+
+
+           </ul>
+         </li>
+       </ul>
+     </li>
+   </ul>
+ </div>
+
+
+        <!-- Mega Menu -->
+        <!--
+        <li class="nav-item dropdown megamenu-li dmenu">
+          <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Todos los Servicios</a>
+          <div class="dropdown-menu megamenu sm-menu border-top" aria-labelledby="dropdown01">
+              <div class="row">
+                  <div class="col-sm-6 col-lg-3 border-right mb-4">
+                      <h6>Administración</h6>
+                      <a class="dropdown-item" href="{% url 'administracion:listado_empresas' %}"><i class="fa fa-industry"></i> Gestor de Empresas</a>
+                      <a class="dropdown-item" href="#"><i class="fa fa-users"></i> Gestor de Usuarios</a>
+                      <a class="dropdown-item" href="{% url 'administracion:listado_secuencias' %}"><i class="fa fa-list-ol"></i> Gestor de Secuencias</a>
+
+                  </div>
+                 <div class="col-sm-6 col-lg-3 border-right mb-4">
+                      <h6>Ventas</h6>
+                      <a class="dropdown-item" href="{% url 'venta:listado_ventas' %}"><i class="fa fa-shopping-cart"></i> Gestor de Ventas</a>
+                      <a class="dropdown-item" href="{% url 'cliente:listado_clientes' %}"><i class="fa fa-id-card"></i> Gestor de Clientes</a>
+                      <a class="dropdown-item" href="{% url 'venta:cuentas_cobrar' %}"><i class="fas fa-funnel-dollar"></i> Gestor Ctas. por Cobrar</a>
+                      <a class="dropdown-item" href="javascript:reprint();"><i class="fa fa-print"></i> Reimpresión de Comprobantes</a>
+
+                  </div>
+                  <div class="col-sm-6 col-lg-3 border-right mb-4">
+                      <h6>Compras</h6>
+                      <a class="dropdown-item" href="{% url 'compra:listado_compras' %}"><i class="fa fa-truck"></i> Gestor de Compras</a>
+                      <a class="dropdown-item" href="{% url 'proveedor:listado_proveedores' %}"><i class="far fa-id-card"></i> Gestor de Proveedores</a>
+                      <a class="dropdown-item" href="{% url 'compra:cuentas_pagar' %}"><i class="fas fa-funnel-dollar"></i> Gestor Ctas. por Pagar</a>
+                      <a class="dropdown-item" href="{% url 'retencion:listado_retenciones' %}"><i class="fas fa-coins"></i> Gestor de Retenciones</a>
+
+                  </div>
+                  <div class="col-sm-6 col-lg-3 mb-4">
+                      <h6>Inventario</h6>
+                      <a class="dropdown-item" href="{% url 'producto:listado_productos' %}"><i class="fab fa-product-hunt"></i> Gestor de Productos</a>
+                      <a class="dropdown-item" href="{% url 'producto:listado_categorias' %}"><i class="fas fa-pallet"></i> Gestor de Categorías</a>
+                      <a class="dropdown-item" href="{% url 'unidadmedida:listado_unidades' %}"><i class="fab fa-untappd"></i> Gestor de Unidades</a>
+                      <a class="dropdown-item" href="{% url 'almacen:listado_almacenes' %}"><i class="fas fa-store"></i> Gestor de Almacenes</a>
+
+                  </div>
+              </div>
+               <div class="row">
+                  <div class="col-sm-6 col-lg-3 border-right mb-4">
+                      <h6>Contabilidad</h6>
+                      <a class="dropdown-item" href="{% url 'contabilidad:libro_diario' %}"><i class="fa fa-book"></i> Gestor de Libro Diario</a>
+                      <a class="dropdown-item" href="{% url 'contabilidad:listado_cuentas' %}"><i class="fa fa-list-alt"></i> Gestor de Plan de Cuentas</a>
+                      <a class="dropdown-item" href="{% url 'contabilidad:listado_asientos_automaticos' %}"><i class="fa fa-magic"></i> Gestor de Asientos Automáticos</a>
+                      <a class="dropdown-item" href="{% url 'contabilidad:listado_periodos' %}"><i class="fas fa-spinner"></i> Gestor de Períodos Contables</a>
+                      <a class="dropdown-item" href="{% url 'contabilidad:resumen_sri' %}"><i class="fas fa-file-invoice"></i> Resumen Administración Tributaria</a>
+                      <a class="dropdown-item" href="#"><img title="facebook" alt="facebook" src="/static/img/core-img/SRI_LOGO.png" width="20px"> Anexo Transaccional Simplificado (ATS)</a>
+                  </div>
+                 <div class="col-sm-6 col-lg-3 border-right mb-4">
+                      <h6>Caja / Bancos</h6>
+                      <a class="dropdown-item" href="{% url 'contabilidad:listado_turnos' %}"><i class="fas fa-user-circle"></i> Gestor Turnos</a>
+                      <a class="dropdown-item" href="#"><i class="fa fa-university"></i> Gestor de Bancos</a>
+
+                  </div>
+                  <div class="col-sm-6 col-lg-3 border-right mb-4">
+                      <h6>Servicios</h6>
+                      <a class="dropdown-item" href="{% url 'servicio:listado_servicios' %}"><i class="fab fa-servicestack"></i> Gestor de Servicios</a>
+                      <a class="dropdown-item" href="#"><i class="fa fa-tags"></i> Gestor de Clase</a>
+
+                  </div>
+                  <div class="col-sm-6 col-lg-3 mb-4">
+                      <h6>Servico de Rentas Internas (SRI)</h6>
+                      <a class="dropdown-item" href="{% url 'sri:listado_tipos_comprobantes' %}"><i class="fas fa-ticket-alt"></i> Tipos de comprobantes</a>
+                      <a class="dropdown-item" href="{% url 'sri:listado_tipos_identificaciones' %}"><i class="fas fa-id-card-alt"></i> Tipos de identificaciones</a>
+                      <a class="dropdown-item" href="{% url 'sri:listado_tipos_impuestos' %}"><i class="fas fa-coins"></i> Tipos de impuestos</a>
+                      <a class="dropdown-item" href="{% url 'sri:listado_tipos_documentos' %}"><i class="fa fa-file"></i> Tipos de documentos</a>
+                      <a class="dropdown-item" href="{% url 'sri:listado_tipos_monedas' %}"><i class="fas fa-money-bill-alt"></i> Tipos de monedas</a>
+                      <a class="dropdown-item" href="{% url 'sri:listado_tarifa_iva' %}"><i class="fas fa-percentage"></i> Tarifas IVA</a>
+                      <a class="dropdown-item" href="{% url 'sri:listado_tipos_documentos' %}"><i class="fas fa-percentage"></i> Tarifas ICE</a>
+
+                  </div>
+              </div>
+          </div>
+        </li>
+        -->
+        {% endif %}
+        <!--=========-->
+        {% if not user.is_authenticated %}
+        <li class="nav-item {% if active_tab == 'tab_portfolio' %} active {% endif %}"><a class="nav-link" href="{% url 'dashboard:portfolio' %}">Portafolio</a></li>
+        <!--<li class="nav-item"><a class="nav-link" href="#">Careers</a></li>-->
+        <li class="nav-item {% if active_tab == 'tab_contact' %} active {% endif %}"><a class="nav-link" href="{% url 'dashboard:contact_us' %}">Contáctenos</a></li>
+        {% endif %}
+        <!--=========-->
+        {% if user.is_authenticated %}
+        <li class="nav-item dmenu dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user"></i> {{ user.first_name }} {{ user.last_name }}
+          </a>
+          <div class="dropdown-menu sm-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'usuario:secret' %}"><i class="fas fa-male"></i> Perfil de usuario</a>
+            <a class="dropdown-item" href="{% url 'password_change' %}"><i class="fas fa-key"></i> Cambiar contraseña</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+          </div>
+        </li>
+        {% else %}
+        <li class="nav-item {% if active_tab == 'tab_login' %} active {% endif %}"><a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Iniciar sesión</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

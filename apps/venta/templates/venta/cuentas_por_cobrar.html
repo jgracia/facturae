@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %} Cuentas por cobrar {% endblock title %}
+
+{% load static %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'css/_estilo_datatable.css' %}">
+{% endblock extra_head %}
+
+{% load my_filters %}
+{% load humanize %}
+
+{% block content %}
+  <div class="base_container">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-12 col-sm-6 col-lx-6">
+          <h3>Cuentas por cobrar</h3>
+        </div>
+        <div class="col-12 col-sm-6 col-lx-6">
+          <div class="btn-group float-right" role="group" aria-label="Acciones">
+            <button type="button" class="btn btn-secondary"
+              onclick="location.href='{% url 'venta:crear_venta' %}';">
+              <i class="fa fa-plus"></i> Crear
+            </button>
+            <button type="button" class="btn btn-secondary"
+                    id="ExportReporttoExcel">
+                    <i class="far fa-file-excel"></i> Exportar
+            </button>
+            <button type="button" class="btn btn-secondary"
+                    id="ReporttoPrinter">
+                    <i class="fa fa-print"></i> Imprimir
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr/>
+
+      <form method="GET">
+      <div class="row">
+        <div class="col-12">
+          <div class="btn-toolbar float-right">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Fecha / Rango</label>
+              </div>
+              <input type="text" class="form-control" name="daterange" value="{{ request.GET.daterange }}" />
+              <div class="input-group-append">
+                <button class="btn btn-success" type="submit">Filtrar!</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </form>
+
+      <!-- Tabla -->
+      <div class="row">
+        <div class="col-12">
+          <table id="tabla" class="table table-striped table-bordered table-hover dt-responsive" style="width:100%">
+            <thead class="cf">
+              <tr>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Comprobante</th>
+                <th class="text-center">L/No</th>
+                <th>Vence</th>
+                <th class="text-center">Estado</th>
+                <th class="text-right">Total</th>
+                <th class="text-right">Abono</th>
+                <th class="text-right">Saldo</th>
+                <th class="noExport text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if object_list %}
+              {% for row in object_list %}
+              <tr>
+                <td>{{ row.pago.cliente.nombre }}</td>
+                <td>{{ row.pago.created_at|naturalday }}</td>
+                <td>{{ row.pago.numero_comprobante }}</td>
+                <td class="text-center">{{ row.cuota_nro }}</td>
+                <td>{{ row.vence|date:"M d, Y" }}</td>
+                <td class="text-center">{{ row.estado.situacion }}</td>
+                <td class="text-right">{{ row.valor_cuota|currency }}</td>
+                <td class="text-right">{{ row.abono|currency }}</td>
+                <td class="text-right">{{ row.saldo|currency }}</td>
+                <td class="noExport text-center">
+                  <div class="btn-group btn-group-sm" role="group">
+                    <button type="button" class="btn btn-secondary">
+                      <i class="fa fa-eye"></i> Ver
+                    </button>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                         <i class="fas fa-dollar-sign"></i> Abono
+                      </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Efectivo</a>
+                        <a class="dropdown-item" href="#">Cheque</a>
+                        <a class="dropdown-item" href="#">Transferencia</a>
+                        <a class="dropdown-item" href="#">Tarjeta</a>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+              {% endif %}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>Proveedor</th>
+                <th>Fecha</th>
+                <th>Comprobante</th>
+                <th class="text-center">L/No</th>
+                <th>Vence</th>
+                <th class="text-center">Estado</th>
+                <th class="text-right">Total</th>
+                <th class="text-right">Abono</th>
+                <th class="text-right">Saldo</th>
+                <th class="noExport text-center">Acciones</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block extra_script %}
+  <!-- librerías protección csrftoken -->
+  <script src="{% static 'js/proteccion_csrf.js' %}"></script>
+  <script src="{% static 'js/_date_range_start.js' %}"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var table = $('#tabla').dataTable( {
+        buttons: [
+          { extend: 'excel', className: 'btn btn-default', exportOptions: { columns: ':not(:last-child)', }, },
+          { extend: 'print', autoPrint: true, exportOptions: { columns: ':not(:last-child)', }, }
+        ],
+        responsive: true,
+        columnDefs: [
+          { "targets": 9, "searchable": false, "orderable": false, },
+          { "responsivePriority": 1, targets: 0 },
+          { "responsivePriority": 2, targets: -1 }
+        ],
+        language: {
+          url: "/static/localizacion/es_ES.json"
+        },
+      });
+    });
+  </script>
+{% endblock extra_script %}

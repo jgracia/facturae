@@ -1,0 +1,43 @@
+
+  		<!--<form id="cashForm" role="form" action="#" method="post" autocomplete="off">-->
+      <form id="cashForm"action="#"  method="post" class="form-horizontal" style="display: none;" autocomplete="off">
+        {% csrf_token %}
+
+
+
+
+
+          <input type="hidden" name="dlg_grand_total" id="dlg_grand_total" value="" />
+        	<input type="hidden" name="credito_id" value="" />
+
+        	<div class="form-group text-center">
+        		<label class="col-12 control-label" name="lblGrandTotal">Total a pagar: $ 0,00 </label>
+        	</div>
+
+          <!-- LINEA HORIZONTAL -->
+        	<div class="line col-10 offset-1" style="border-bottom: 1px solid #ccc;"></div>
+        	<br>
+
+        	<div id="cash-mount-group" class="form-group">
+        		<div class="col-10 offset-1">
+        			<label for="importe_recibido">★★ Monto Recibido ★★</label>
+
+        			<input type="text" min="0" class="form-control currency"
+                style="font-size:20pt; font-weight: bold; color:red; text-align:center;"
+                id="amount_received" name="importe_recibido" />
+        		</div>
+
+            <br>
+        		<div class="col-10 offset-1">
+        			<label class="blinking" style="color: blue;">Cambio o Vuelto</label>
+        			<label class="col-10 offset-1 control-label"
+        		   style="text-align: center; font-size: 22pt; color: blue;" id="lblexchange_money"> 0 </label>
+        		</div>
+        	</div>
+
+
+  			<div class="form-group row">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-money-bill"></i> PAGAR</button>
+  			</div>
+  		</form>

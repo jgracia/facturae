@@ -1,0 +1,238 @@
+.EachItemTopicStyle {
+height:100%;
+width:100%;
+display: table-cell;
+vertical-align: middle;
+}
+
+.ItemTopicStyle {
+  background:#306998;
+  font-weight:bold;
+  font-size:28px;
+  color:#FFFFFF;
+
+  text-align:center;
+}
+
+.ItemRow1BackgroundStyle {
+background:#E8E8E8;
+height:9%;
+width:100%;
+}
+
+.ItemRow2BackgroundStyle {
+background:#F8F8F8;
+height:9%;
+width:100%;
+}
+
+.ItemCol1BackgroundStyle{
+height:100%;
+width:50%;
+float:left;
+border-right:1px dashed;
+}
+
+.ItemCol2BackgroundStyle{
+height:100%;
+width:18%;
+float:left;
+border-right:1px dashed;
+text-align:right;
+}
+
+.ItemCol3BackgroundStyle{
+height:100%;
+width:13%;
+float:left;
+border-right:1px dashed;
+text-align:right;
+}
+
+.ItemCol4BackgroundStyle{
+height:100%;
+width:18%;
+float:left;
+text-align:right;
+}
+
+.ItemRow1Style {
+background:#E8E8E8;
+height:9%;
+width:100%;
+
+font-size:20px;
+}
+
+.ItemRow2Style {
+background:#F8F8F8;
+height:9%;
+width:100%;
+
+font-size:20px;
+}
+
+.ItemCol1Style{
+height:100%;
+width:50%;
+float:left;
+border-right:1px dashed;
+}
+
+.ItemCol2Style{
+height:100%;
+width:18%;
+float:left;
+text-align:right;
+border-right:1px dashed;
+}
+
+.ItemCol3Style{
+height:100%;
+width:13%;
+float:left;
+text-align:right;
+border-right:1px dashed;
+}
+
+.ItemCol4Style{
+height:100%;
+width:18%;
+float:left;
+text-align:right;
+}
+
+.RemoveButton {
+	height:95%;
+	width:95%;
+
+	font-size: 				22px;
+	font-weight: 			bold;
+}
+
+.RegisterButton {
+
+	font-size:32px;
+	text-align:center;
+	font-weight: 			bold;
+}
+
+.PayRow1Style {
+  background:#306998;
+  font-weight:bold;
+  font-size:24px;
+  color:#FFFFFF;
+
+  text-align:right;
+
+  height:100%;
+  width:50%;
+  float:left;
+}
+
+.PayRow2Style {
+height:100%;
+width:50%;
+float:left;
+
+font-weight:bold;
+text-align:right;
+
+background:#FFFFFF;
+}
+
+.ItemRowStyle {
+height:9%;
+width:100%;
+
+font-size:20px;
+}
+
+.ItemRowSelectStyle {
+background:#FFCC99;
+height:9%;
+width:100%;
+
+font-size:20px;
+}
+
+.NumberStyle {
+font-size:42px;
+text-align:center;
+}
+
+.ItemDivTable {
+	height:100%;
+	width:100%;
+	display:table;
+	table-layout: fixed;
+}
+
+.ItemDivCell {
+	height:100%;
+	width:100%;
+	display: table-cell;
+	vertical-align: middle;
+	padding-right:5px;
+	padding-left:5px;
+}
+
+.ItemDiv {
+	width:100%;
+	height:auto;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	-webkit-text-overflow:ellipsis;
+}
+
+.SettingPanel legend {
+color:white;
+padding:0 10px;
+margin-top:10px;
+}
+
+.SettingPanel table, tr, td {
+    border: 1px solid #ffffff;
+    border-collapse: collapse;
+}
+.SettingPanel th {
+    border: 1px solid #ffffff;
+    border-collapse: collapse;
+    background-color: rgb(68, 68, 68);
+}
+.center {
+    text-align: center;
+}
+
+.StatusIndicator img {
+	width:32px;
+	height:32px;
+	margin-top:8px;
+}
+
+#modalbox {
+	margin			: -55px 0 0 -120px;
+	border			: 5px solid #808080;
+	display			: none;
+	position		: absolute;
+	top				: 50%;
+	left			: 45%;
+	z-index			: 9999;
+	width			: 450px;
+	height			: 150px;
+	background-color: #696969;
+}
+
+#overlay {
+	display			: none;
+	position		: absolute;
+	top				: 0;
+	left			: 0;
+	z-index			: 1000;
+	width			: 100%;
+	height			: 100%;
+	background-color: #000000;
+	filter			: alpha(opacity=60);	/* IE —p */
+	opacity			: .60;
+}

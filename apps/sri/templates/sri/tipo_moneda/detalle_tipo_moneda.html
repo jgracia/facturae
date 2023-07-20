@@ -1,0 +1,46 @@
+<!-- Modal Header -->
+<div class="modal-header bg-secondary text-light">
+  <h4 class="modal-title">Detalle Tipo de Moneda</h4>
+  <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+
+<div class="modal-body">
+  <p class="font-bold">Información del la moneda.</p>
+  <div class="">
+    Código:
+    {{ object.codigo }}
+  </div>
+
+  <div class="">
+    Descripción:
+    {{ object.descripcion }}
+  </div>
+
+  <div class="">
+    Creado por:
+    {{ object.usuario_creador }}
+  </div>
+
+  <div class="">
+    Creado el:
+    {{ object.created_at }}
+  </div>
+
+  <div class="">
+    Actualizado el:
+    {{ object.update_at }}
+  </div>
+
+  <div class="">
+    Estado:
+    {% if object.activo %}
+    ACTIVO
+    {% else %}
+    INACTIVO
+    {% endif %}
+  </div>
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+</div>

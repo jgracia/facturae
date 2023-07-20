@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %} Alerta {% endblock title %}
+
+{% block content %}
+
+  {% include "includes/_modal.html" %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="linebreak"></div>
+        <h3>Punto de Venta</h3>
+        <hr>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-sm-12 col-lx-12">
+
+        <div class="row">
+          <div class="col-md-offset-4 col-md-5">
+            {% if activo %}
+            <p>
+                Ya existe una apertura de caja.
+            </p>
+            <p>
+                Volver a <a href="{% url 'contabilidad:listado_turnos' %}" style="color: #428bca">página de administración de turnos</a>.
+            </p>
+            {% else %}
+            <p>
+                No existe apertura de caja.
+            </p>
+            <p>
+                Volver a <a href="{% url 'contabilidad:listado_turnos' %}" style="color: #428bca">página de administración de turnos</a>.
+            </p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+    {{ block.super }}
+
+    <!-- You can alternatively load the minified version -->
+    <script type="text/javascript" src="/static/vendors/bootstrap_modal_forms/js/jquery.bootstrap.modal.forms.js"></script>
+
+    <script type="text/javascript">
+        // Create shift button
+        $(".create-shift").modalForm({formURL: "{% url 'contabilidad:crear_turno' %}"});
+    </script>
+{% endblock javascripts %}

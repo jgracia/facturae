@@ -1,0 +1,4 @@
+<option value="">---------</option>
+{% for cuenta in cuentas %}
+<option value="{{ cuenta.id }}">{{ cuenta.codigo }} {{ cuenta.nombre }}</option>
+{% endfor %}

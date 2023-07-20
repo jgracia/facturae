@@ -1,0 +1,124 @@
+{# formulario con crispy_forms #}
+
+{% load crispy_forms_tags %}
+
+<div class="modal-dialog modal-lg">
+	<div class="modal-content">
+		<form id="formCliente" role="form" action="{% url 'venta:crear_cliente_modal' %}" method="post" autocomplete="off">
+      {% csrf_token %}
+
+      <div class="modal-header bg-primary text-white">
+    		<h4 class="modal-title">Crear Cliente</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    			<span aria-hidden="true">&times;</span>
+    		</button>
+    	</div>
+
+			<div class="modal-body">
+        <p class="font-bold">Complete el siguiente formulario y haga clic en el botón <i>Guardar</i>.</p>
+        <!--
+        {% for hidden in form.hidden_fields %}
+          {{ hidden }}
+        {% endfor %}
+
+        {% for field in form.visible_fields %}
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% for error in field.errors %}
+              <span class="help-block">{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% endfor %}
+        -->
+        <div class="form-row">
+           <div class="form-group col-6 mb-0">
+            {{ form.identificacion_tipo|as_crispy_field }}
+          </div>
+          <div class="form-group col-6 mb-0">
+            {{ form.identificacion|as_crispy_field }}
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-12 mb-0">
+            {{ form.nombre|as_crispy_field }}
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-12 mb-0">
+            {{ form.direccion|as_crispy_field }}
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-6 mb-0">
+            {{ form.telefono|as_crispy_field }}
+          </div>
+          <!--
+          	<div class="form-group col-2 mb-0">
+            {# {{ form.extension|as_crispy_field }} #}
+          </div>
+          -->
+          <div class="form-group col-6 mb-0">
+            {{ form.celular|as_crispy_field }}
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-12 mb-0">
+            {{ form.email|as_crispy_field }}
+          </div>
+        </div>
+
+        <br>
+        <div class="form-row">
+          <div class="form-group col-6 mb-0">
+            {{ form.obligado_contabilidad|as_crispy_field }}
+          </div>
+          <div class="form-group col-6 mb-0">
+            {{ form.activo|as_crispy_field }}
+          </div>
+        </div>
+			</div>
+
+			<div class="modal-footer">
+				<div class="col-lg-12 text-right">
+					<input type="submit" class="btn btn-primary" name="submit" value="Guardar">
+					<button type="button" class="btn btn-default" onclick="return cerrar_modal()">
+						Cancelar
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+$(function() {
+
+  var url = $("#formCliente").attr("action");
+  var token = jQuery("#formCliente [name=csrfmiddlewaretoken]").val();
+
+  $("#formCliente").submit(function(e){
+    e.preventDefault();
+    // alert(token);
+    var formData = $("#formCliente").serializeArray();
+    // console.log(formData);
+    $.ajax({
+      url:url,
+      method:"POST",
+      headers: {'X-CSRFToken': token },
+      data: formData
+    })
+    .done(function(r,textStatus,xhr){
+      if(xhr.status == 200){
+        location.reload(true);
+      }
+      else{
+        mensaje(textStatus);
+      }
+    }).fail(function (error) {
+      mensaje(error.responseText);
+    });
+  });
+});
+</script>
+

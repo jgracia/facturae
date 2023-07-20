@@ -1,0 +1,22 @@
+{% load widget_tweaks %}
+
+<form method="post" action="">
+	{% csrf_token %}
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+
+		<h3 class="modal-title">Eliminar Tarjeta</h3>
+		<small class="font-bold">No podrá recuperar el registro eliminado.</small>
+	</div>
+
+	<div class="modal-body">
+		<p class="delete-text">¿Estás seguro de que deseas eliminar la tarjeta con el nombre
+			<strong>{{object.nombre}}</strong>?</p>
+	</div>
+
+	<div class="modal-footer">
+		<button type="submit" class="delete-btn btn btn-danger">Eliminar</button>
+	</div>
+</form>

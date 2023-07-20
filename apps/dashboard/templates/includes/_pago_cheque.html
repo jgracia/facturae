@@ -1,0 +1,65 @@
+<form id="chequeForm" method="post" class="form-horizontal" style="display: none;" autocomplete="off">
+  {% csrf_token %}
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="dlgcheque_bank_name">Banco</label>
+      <select class="form-control" name="dlgcheque_bank_name" id="dlgcheque_bank_name">
+        <option value="">-- Seleccione --</option>
+        {% for banco in bancos %}
+        <option value={{ banco.entidad_id }}>{{ banco.nombre }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="dlgcheque_account">Cta. Número</label>
+      <input type="text" name="dlgcheque_account" id="dlgcheque_account" class="form-control">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="dlgcheque_cheque_number">Chq. Número</label>
+      <input type="text" name="dlgcheque_cheque_number" id="dlgcheque_cheque_number" class="form-control">
+    </div>
+    <div class="form-group col-md-5">
+      <label for="dlgcheque_date">Fecha Cheque</label>
+      <input type="date" name="dlgcheque_date" id="dlgcheque_date" value={{ fecha_emision }} class="form-control">
+    </div>
+    <div class="form-group col-md-3">
+      <label for="dlgcheque_amount">Monto $</label>
+      <input type="text" min="0" placeholder="0.00" name="dlgcheque_amount" id="dlgcheque_amount" class="form-control" data-fv-greaterthan-inclusive="false" data-fv-greaterthan-message="Valor debe ser mayor a cero"/>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <div class="float-right">
+        <a id="addCheque" href="#" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Agregar</a>
+      </div>
+      <section id="no-more-tables">
+        <table id="tbl_cheque" class="table table-bordered table-condensed cf">
+          <thead class="cf">
+            <tr>
+              <th>Banco</th>
+              <th>Cta. Número</th>
+              <th>Chq. Número</th>
+              <th>Fecha</th>
+              <th class="numeric">Monto</th>
+              <th class="text-center">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tbody_transfer_data">
+
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <button type="submit" id="btnCheque" class="btn btn-primary btn-sm" disabled>Confirmar</button>
+      <button type="reset" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+    </div>
+  </div>
+</form>

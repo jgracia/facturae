@@ -1,0 +1,222 @@
+html,
+body {
+  overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+
+body {
+  padding-top: 56px;
+}
+
+@media (max-width: 767.98px) {
+  .offcanvas-collapse {
+    position: fixed;
+    top: 56px; /* Height of navbar */
+    bottom: 0;
+    width: 100%;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    overflow-y: auto;
+    background-color: var(--gray-dark);
+    transition: -webkit-transform .3s ease-in-out;
+    transition: transform .3s ease-in-out;
+    transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+  .offcanvas-collapse.open {
+    -webkit-transform: translateX(-1rem);
+    transform: translateX(-1rem); /* Account for horizontal padding on navbar */
+  }
+}
+
+.nav-scroller {
+  position: relative;
+  z-index: 2;
+  height: 2.75rem;
+  overflow-y: hidden;
+}
+
+.nav-scroller .nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  padding-bottom: 1rem;
+  margin-top: -1px;
+  overflow-x: auto;
+  color: rgba(255, 255, 255, .75);
+  text-align: center;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-underline .nav-link {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  font-size: .875rem;
+  color: var(--secondary);
+}
+
+.nav-underline .nav-link:hover {
+  color: var(--blue);
+}
+
+.nav-underline .active {
+  font-weight: 500;
+  color: var(--gray-dark);
+}
+
+.text-white-50 { color: rgba(255, 255, 255, .5); }
+
+.bg-purple { background-color: var(--purple); }
+
+.border-bottom { border-bottom: 1px solid #e5e5e5; }
+
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+.lh-100 { line-height: 1; }
+.lh-125 { line-height: 1.25; }
+.lh-150 { line-height: 1.5; }
+
+/* ---------------------------------------
+  ##### - CUSTOM CSS - #####
+  --------------------------------------- */
+
+/* ampliar imagen carousel a pantalla */
+.carousel-item {
+  height: 65vh;
+  min-height: 350px;
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+/* ampliar imagen carousel a pantalla */
+/*.carousel-item {
+  height: 100vh;
+  min-height: 350px;
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}/*
+
+
+/* zoom */
+.carousel-item.active img {
+  transition: transform 5000ms linear 0s;
+  /* This should be based on your carousel setting. For bs, it should be 5second*/
+  transform: scale(1.05, 1.05);
+}
+
+/* Featurettes
+------------------------- */
+
+.featurette-divider {
+  margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+}
+
+.base_container {
+  /*margin: 10px;
+  margin: 0.714285714rem;*/
+  margin-top: 10px;
+  margin-bottom: 10px;
+  /*border: 1px solid black  ;*/
+  padding: 10px;
+  padding: 0.714285714rem;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  /*border-radius: 10px;*/
+}
+
+/* sub menu */
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu a::after {
+  transform: rotate(-90deg);
+  position: absolute;
+  right: 6px;
+  top: .8em;
+}
+
+.dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-left: .1rem;
+  margin-right: .1rem;
+}
+
+.linebreak {margin-top:40px;}
+.linebreak_login {margin-bottom:190px;}
+.ln_solid {
+    border-top: 1px solid #e5e5e5;
+    color: #ffffff;
+    background-color: #ffffff;
+    height: 1px;
+    margin: 20px 0
+}
+
+/* NUEVO CODIGO ESTILO NAVBAR */
+
+.navbar {
+  background-color: #484848;
+}
+.navbar .navbar-nav .nav-link {
+  color: #fff;
+}
+.navbar .navbar-nav .nav-link:hover {
+  color: #fbc531;
+}
+.navbar .navbar-nav .active > .nav-link {
+  color: #fbc531;
+}
+
+/* SUBMENU */
+.dropdown-menu {
+  /* color submenu */
+  background-color: #484848;
+  border: 1px solid #fbc531;
+}
+
+.dropdown-item {
+    /*color: #3c3c3c;*/
+    color: #fff;
+    /*font-size: 14px;*/
+
+    /* fuente sub menu */
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+}
+.dropdown-item.active, .dropdown-item:active {
+    /* color activo submenu */
+    color: black;
+    text-decoration: none;
+    /*background-color: #2196F3;*/
+}
+.dropdown-item:focus, .dropdown-item:hover {
+    color: black;
+    text-decoration: none;
+    background-color: #fbc531 !important;
+}
+
+/* estivo tab productos */
+.nav-tabs .nav-link {
+  color: #0275d8;
+}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  background: #fbc531;
+  color: black;
+  /*border-bottom: 2px solid green;*/
+}
+
+/* Prevent Page Scrolling When a Modal is Open */
+body.modal-open {
+  height: 100vh;
+  overflow-y: hidden;
+}

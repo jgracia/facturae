@@ -1,0 +1,6 @@
+{% load humanize %}
+
+<option value="">---------</option>
+{% for comprobante in comprobantes %}
+    <option value="{{ comprobante.orden_id }}">{{ comprobante.numero_comprobante }} => [{{ comprobante.fecha_emision|naturalday }}]</option>
+{% endfor %}

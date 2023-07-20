@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<factura id="comprobante" version="1.0.0">
+  <infoTributaria>
+    <ambiente>1</ambiente>
+    <tipoEmision>1</tipoEmision>
+    <razonSocial>GOBIERNO AUTONOMO DESCENTRALIZADO PARROQUIAL RURAL DE PAÑACOCHA</razonSocial>
+    <nombreComercial>GAD PAÑACOCHA</nombreComercial>
+    <ruc>1768088020001</ruc>
+    <claveAcceso>0507202201176808802000110010010000000021234567810</claveAcceso>
+    <codDoc>01</codDoc>
+    <estab>001</estab>
+    <ptoEmi>001</ptoEmi>
+    <secuencial>000000002</secuencial>
+    <dirMatriz>C. PANAMÁ Y PUERTO RICO</dirMatriz>
+  </infoTributaria>
+  <infoFactura>
+    <fechaEmision>05/07/2022</fechaEmision>
+    <dirEstablecimiento>BARRIO LAS GARZAS</dirEstablecimiento>
+    <obligadoContabilidad>NO</obligadoContabilidad>
+    <tipoIdentificacionComprador>05</tipoIdentificacionComprador>
+    <razonSocialComprador>CAPUZ GUAQUIPANA GUSTAVO MARCELO</razonSocialComprador>
+    <identificacionComprador>1711200244</identificacionComprador>
+    <direccionComprador>SEGUNDA LINEA a 100 metros del rio Andayaco</direccionComprador>
+    <totalSinImpuestos>45.00</totalSinImpuestos>
+    <totalDescuento>24.75</totalDescuento>
+    <totalConImpuestos>
+      <totalImpuesto>
+        <codigo>2</codigo>
+        <codigoPorcentaje>2</codigoPorcentaje>
+        <baseImponible>20.25</baseImponible>
+        <tarifa>12</tarifa>
+        <valor>2.43</valor>
+      </totalImpuesto>
+    </totalConImpuestos>
+    <propina>0.00</propina>
+    <importeTotal>22.68</importeTotal>
+    <moneda>DOLAR</moneda>
+    <pagos>
+      <pago>
+        <formaPago>01</formaPago>
+        <total>22.68</total>
+      </pago>
+    </pagos>
+  </infoFactura>
+  <detalles>
+    <detalle>
+      <codigoPrincipal>RONUFOTV</codigoPrincipal>
+      <codigoAuxiliar>RONUFOTV</codigoAuxiliar>
+      <descripcion></descripcion>
+      <cantidad>1.00</cantidad>
+      <precioUnitario>45.00</precioUnitario>
+      <descuento>24.75</descuento>
+      <precioTotalSinImpuesto>45.00</precioTotalSinImpuesto>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12</tarifa>
+          <baseImponible>20.25</baseImponible>
+          <valor>2.43</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+  </detalles>
+  <infoAdicional>
+    <campoAdicional nombre="Dirección">SEGUNDA LINEA a 100 metros del rio Andayaco</campoAdicional>
+    <campoAdicional nombre="Teléfono">0994925138</campoAdicional>
+  </infoAdicional>
+</factura>

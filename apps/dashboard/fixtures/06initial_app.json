@@ -1,0 +1,270 @@
+[
+    {
+        "model": "cliente.Cliente",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "identificacion_tipo": "4",
+            "nombre": "CONSUMIDOR FINAL",
+            "identificacion": "9999999999999",
+            "direccion": "N/D",
+            "telefono": "N/D",
+            "celular": "N/D",
+            "email": "N/D",
+            "empresa": "1"
+        }
+    },
+    {
+        "model": "venta.FacturaEstado",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "nombre": "CREADA",
+            "descripcion": "FACTURAS CREADAS"
+        }
+    },
+    {
+        "model": "venta.FacturaEstado",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "nombre": "FIRMADA",
+            "descripcion": "FACTURAS FIRMADA"
+        }
+    },
+    {
+        "model": "venta.FacturaEstado",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "nombre": "ENVIADA",
+            "descripcion": "FACTURAS ENVIADA SRI"
+        }
+    },
+    {
+        "model": "venta.FacturaEstado",
+        "pk": 4,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "nombre": "AUTORIZADA",
+            "descripcion": "FACTURAS AUTORIZADA SRI"
+        }
+    },
+    {
+        "model": "venta.FacturaEstado",
+        "pk": 5,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "nombre": "NO AUTORIZADA",
+            "descripcion": "FACTURAS NO AUTORIZADA SRI"
+        }
+    },
+    {
+        "model": "venta.FacturaEstado",
+        "pk": 6,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "nombre": "ANULADA",
+            "descripcion": "FACTURAS ANULADA SRI"
+        }
+    },
+    {
+        "model": "compra.OrdenCompraEstado",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "nombre": "REGISTRADA",
+            "descripcion": "REGISTRADA"
+        }
+    },
+    {
+        "model": "compra.OrdenCompraEstado",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "nombre": "CONTABILIZADA",
+            "descripcion": "CONTABILIZADA"
+        }
+    },
+    {
+        "model": "compra.OrdenCompraEstado",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "nombre": "ANULADA",
+            "descripcion": "ANULADA"
+        }
+    },
+    {
+        "model": "notaentrega.NotaEntregaEstado",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "situacion": "REGISTRADA"
+        }
+    },
+    {
+        "model": "notaentrega.NotaEntregaEstado",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "situacion": "CONTABILIZADA"
+        }
+    },
+    {
+        "model": "notaentrega.NotaEntregaEstado",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "situacion": "ANULADA"
+        }
+    },
+    {
+        "model": "proforma.ProformaEstado",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "nombre": "EMITIDA",
+            "descripcion": "PROFORMA EMITIDA"
+        }
+    },
+    {
+        "model": "proforma.ProformaEstado",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "nombre": "FACTURADA",
+            "descripcion": "PROFORMA FACTURADA"
+        }
+    },
+    {
+        "model": "proforma.ProformaEstado",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "nombre": "VENCIDA",
+            "descripcion": "PROFORMA VENCIDA"
+        }
+    },
+    {
+        "model": "proforma.ProformaEstado",
+        "pk": 4,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "nombre": "ANULADA",
+            "descripcion": "PROFORMA ANULADA"
+        }
+    },
+    {
+        "model": "retencion.RetencionEstado",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "nombre": "CREADO",
+            "descripcion": "COMPROBANTE CREADO"
+        }
+    },
+    {
+        "model": "retencion.RetencionEstado",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "nombre": "FIRMADO",
+            "descripcion": "COMPROBANTE FIRMADO"
+        }
+    },
+    {
+        "model": "retencion.RetencionEstado",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "nombre": "ENVIADO",
+            "descripcion": "COMPROBANTE ENVIADO SRI"
+        }
+    },
+    {
+        "model": "retencion.RetencionEstado",
+        "pk": 4,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "nombre": "AUTORIZADO",
+            "descripcion": "COMPROBANTE AUTORIZADO SRI"
+        }
+    },
+    {
+        "model": "retencion.RetencionEstado",
+        "pk": 5,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "nombre": "NO AUTORIZADO",
+            "descripcion": "COMPROBANTE NO AUTORIZADO SRI"
+        }
+    },
+    {
+        "model": "retencion.RetencionEstado",
+        "pk": 6,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "nombre": "ANULADO",
+            "descripcion": "COMPROBANTE ANULADO SRI"
+        }
+    }
+]

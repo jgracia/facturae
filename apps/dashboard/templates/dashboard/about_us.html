@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Sobre Nosotros
+{% endblock title %}
+
+{% block navigation %}
+  {% include "includes/_navbar.html" with active_tab='tab_about' %}
+{% endblock navigation %}
+
+{% block content %}
+
+<!-- Page Content -->
+<section class="py-5" style="background: white">
+  <div class="container text-center">
+
+    <h1 class="my-4" style="color: #ff2828;font-family: Bookman Old Style; font-size: 48px; font-style: italic; font-variant: normal; font-weight: 700; line-height: 46.2px;">mi.jota documentos electrónicos</h1>
+
+    <!--<h1 class="my-4 text-info display-4">mi.jota documentos electrónicos
+    </h1>-->
+
+    <p class="lead">Sistema de Información integral para la gestión de todo tipo de negocio de una manegar fácil y sencilla a travéz de sus diferentes módulos como: Contro de Inventarios, Clientes, Proveedores, Cuentas por Cobrar y Cuentas por Pagar, Bancos, Contabilidad y Anexos Transaccionales del SRI, Comprobantes Electrónicos.</p>
+  </div>
+</section>
+
+<!-- Header -->
+<header class="bg-secondary text-center py-5 mb-4">
+  <div class="container">
+    <h1 class="font-weight-light text-white">Contrate con nosotros ahora y obtenga un 10% de descuento!</h1>
+  </div>
+</header>
+
+<article>
+  <div class="section-1-container section-container">
+    <section class="py-5">
+      <div class="container">
+        <p class="lead">Somos una empresa de Consultoría y Servicios de Tecnología de la Información y Comunicación con amplia experiencia en el sector. Estamos comprometidos a satisfacer las necesidades de nuestros clientes con los más altos estándares de calidad en todos nuestros sistemas, servicios y productos.</p>
+
+        <p class="lead">Ofrecemos desarrollo de software personalizado de acurdo con las necesidades de su empresa.</p>
+      </div>
+    </section>
+  </div>
+</article>
+{% endblock content %}
+
+{% block footer %}
+  {% include "includes/_footer.html" %}
+{% endblock footer %}

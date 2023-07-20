@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Regístrese - El Contador
+{% endblock title %}
+
+{% block navigation %}
+  {% include "includes/tabs.html" with active_tab='tab_signup' %}
+{% endblock navigation %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+  <article>
+    <div class="section-1-container section-container">
+      <div class="container">
+        <div class="row">
+          <div class="col section-1 section-description">
+            <br>
+            <h3>Regístrese</h3>
+            <hr>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-4 offset-4 col-lg-4 offset-lg-4">
+            <div class="div-to-align">
+              <form method="post" autocomplete="off">
+                {% csrf_token %}
+
+                <section style="text-align: left;">
+                  {% for field in form %}
+                    <p>
+                      {{ field.label_tag }}<br>
+                      {{ field }}
+                      {% if field.help_text %}
+                        <small style="color: grey">{{ field.help_text }}</small>
+                      {% endif %}
+                      {% for error in field.errors %}
+                        <p style="color: red">{{ error }}</p>
+                      {% endfor %}
+                    </p>
+                  {% endfor %}
+                </section>
+
+                <!--
+                <div class="g-recaptcha" data-sitekey="6Lfsq-IUAAAAAITQ0it39-NS1XFfKRbZNtrApGfL"></div>
+                -->
+
+                <div>
+                  <button class="btn btn-primary btn-sm" type="submit">Registrarse</button>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="separator">
+                  <p class="change_link">Ya eres usuario?
+                    <a href="{% url 'login' %}" class="to_register" style="color: #428bca"> Iniciar sesión </a>
+                  </p>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+{% endblock content%}
+
+{% block extra_script %}
+  <!--<script src='https://www.google.com/recaptcha/api.js'></script>-->
+{% endblock extra_script %}

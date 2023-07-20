@@ -1,0 +1,714 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    TPV
+{% endblock %}
+
+{% block extra_head %}
+
+  <link rel="stylesheet" href="{% static 'vendor/jquery-ui/themes/dark-hive/jquery-ui.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/_estilo_tpv.css' %}">
+  <style media="screen">
+    #theCalcDiv {
+      height: calc(100vh - 178px);
+    }
+  </style>
+{% endblock %}
+
+{% block navigation %}
+  {% include "includes/_navbar.html" with active_tab='tab_tpv' %}
+{% endblock %}
+
+{% block content %}
+<div class="base_container">
+  <div class="col-12">
+
+  <div id="theCalcDiv" class="row" onSelectStart = "return false;" onMouseDown = "return false;" style = "-moz-user-select: none; -khtml-user-select: none; user-select: none;">
+		<!--<div style="height:100%;width:61%;float:left;">-->
+    <div class="col-8">
+			<div style="height:100%;width:100%;margin:auto;margin-top:1%;">
+				<div style="height:90%;width:100%;">
+					<div class="ItemTopicStyle" style="height:10%;width:100%;">
+						<div style="height:100%;width:50%;float:left;border-right:1px dashed #FFFFFF;">
+							<div style="height:100%;width:100%;display:table;">
+								<div class="EachItemTopicStyle">Descripción</div>
+							</div>
+						</div>
+						<div style="height:100%;width:18%;float:left;border-right:1px dashed #FFFFFF;">
+							<div style="height:100%;width:100%;display:table;">
+								<div class="EachItemTopicStyle">Precio</div>
+							</div>
+						</div>
+						<div style="height:100%;width:13%;float:left;border-right:1px dashed #FFFFFF;">
+							<div style="height:100%;width:100%;display:table;">
+								<div class="EachItemTopicStyle">Cant</div>
+							</div>
+						</div>
+						<div style="height:100%;width:18%;float:left;">
+							<div style="height:100%;width:100%;display:table;">
+								<div class="EachItemTopicStyle">Total</div>
+							</div>
+						</div>
+					</div>
+          <!-- cabecera tabla -->
+
+					<div style="height:90%;width:100%;">
+						<div style="height:93%;width:100%;float:right;">
+							<div style="height:100%;width:100%;">
+
+								<div style="height:100%;width:100%;background:white;position:relative;" id="ItemListArea">
+
+									<div style="height:100%;width:100%;position:absolute;">
+
+										<div class="ItemRow2BackgroundStyle" style="height:1%;">
+											<div class="ItemCol1BackgroundStyle"></div>
+											<div class="ItemCol2BackgroundStyle"></div>
+											<div class="ItemCol3BackgroundStyle"></div>
+											<div class="ItemCol4BackgroundStyle"></div>
+										</div>
+
+										<div style="width:100%;height:100%;">
+											<div style="width:100%;height:99%;position:relative;top:0;">
+												<div class="ItemRow1BackgroundStyle" id="ItemHeight">
+													<div class="ItemCol1BackgroundStyle"></div>
+													<div class="ItemCol2BackgroundStyle"></div>
+													<div class="ItemCol3BackgroundStyle"></div>
+													<div class="ItemCol4BackgroundStyle"></div>
+												</div>
+												<div class="ItemRow2BackgroundStyle">
+													<div class="ItemCol1BackgroundStyle"></div>
+													<div class="ItemCol2BackgroundStyle"></div>
+													<div class="ItemCol3BackgroundStyle"></div>
+													<div class="ItemCol4BackgroundStyle"></div>
+												</div>
+												<div class="ItemRow1BackgroundStyle">
+													<div class="ItemCol1BackgroundStyle"></div>
+													<div class="ItemCol2BackgroundStyle"></div>
+													<div class="ItemCol3BackgroundStyle"></div>
+													<div class="ItemCol4BackgroundStyle"></div>
+												</div>
+												<div class="ItemRow2BackgroundStyle">
+													<div class="ItemCol1BackgroundStyle"></div>
+													<div class="ItemCol2BackgroundStyle"></div>
+													<div class="ItemCol3BackgroundStyle"></div>
+													<div class="ItemCol4BackgroundStyle"></div>
+												</div>
+												<div class="ItemRow1BackgroundStyle">
+													<div class="ItemCol1BackgroundStyle"></div>
+													<div class="ItemCol2BackgroundStyle"></div>
+													<div class="ItemCol3BackgroundStyle"></div>
+													<div class="ItemCol4BackgroundStyle"></div>
+												</div>
+												<div class="ItemRow2BackgroundStyle">
+													<div class="ItemCol1BackgroundStyle"></div>
+													<div class="ItemCol2BackgroundStyle"></div>
+													<div class="ItemCol3BackgroundStyle"></div>
+													<div class="ItemCol4BackgroundStyle"></div>
+												</div>
+												<div class="ItemRow1BackgroundStyle">
+													<div class="ItemCol1BackgroundStyle"></div>
+													<div class="ItemCol2BackgroundStyle"></div>
+													<div class="ItemCol3BackgroundStyle"></div>
+													<div class="ItemCol4BackgroundStyle"></div>
+												</div>
+												<div class="ItemRow2BackgroundStyle">
+													<div class="ItemCol1BackgroundStyle"></div>
+													<div class="ItemCol2BackgroundStyle"></div>
+													<div class="ItemCol3BackgroundStyle"></div>
+													<div class="ItemCol4BackgroundStyle"></div>
+												</div>
+												<div class="ItemRow1BackgroundStyle">
+													<div class="ItemCol1BackgroundStyle"></div>
+													<div class="ItemCol2BackgroundStyle"></div>
+													<div class="ItemCol3BackgroundStyle"></div>
+													<div class="ItemCol4BackgroundStyle"></div>
+												</div>
+												<div class="ItemRow2BackgroundStyle">
+													<div class="ItemCol1BackgroundStyle"></div>
+													<div class="ItemCol2BackgroundStyle"></div>
+													<div class="ItemCol3BackgroundStyle"></div>
+													<div class="ItemCol4BackgroundStyle"></div>
+												</div>
+												<div class="ItemRow1BackgroundStyle">
+													<div class="ItemCol1BackgroundStyle"></div>
+													<div class="ItemCol2BackgroundStyle"></div>
+													<div class="ItemCol3BackgroundStyle"></div>
+													<div class="ItemCol4BackgroundStyle"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div style="height:100%;width:100%;position:absolute;">
+
+										<div class="ItemRow2Style" style="height:1%;">
+											<div class="ItemCol1Style">
+												<div class="ItemDivTable">
+													<div class="ItemDivCell">
+														<div class="ItemDiv"></div>
+													</div>
+												</div>
+											</div>
+											<div class="ItemCol2Style">
+												<div class="ItemDivTable">
+													<div class="ItemDivCell">
+														<div class="ItemDiv"></div>
+													</div>
+												</div>
+											</div>
+											<div class="ItemCol3Style">
+												<div class="ItemDivTable">
+													<div class="ItemDivCell">
+														<div class="ItemDiv"></div>
+													</div>
+												</div>
+											</div>
+											<div class="ItemCol4Style">
+												<div class="ItemDivTable">
+													<div class="ItemDivCell">
+														<div class="ItemDiv"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div style="width:100%;height:100%;overflow:hidden;">
+											<div style="width:100%;height:99%;position:relative;top:0;" id="ItemList">
+
+											</div>
+										</div>
+
+									</div>
+
+								</div>
+
+							</div>
+
+							<div style="height:7%;width:100%;background:#FFFFFF;position:relative;top:-1%;">
+								<div style="height:100%;width:51%;float:left;"></div>
+								<div style="height:100%;width:18%;float:left;text-align:right;">
+									<div style="height:100%;width:100%;display:table;"><div style="height:100%;width:100%;display: table-cell;vertical-align: middle;"><B>Subtotal</B></div></div>
+								</div>
+								<div style="height:100%;width:13%;float:left;"></div>
+								<div style="height:100%;width:18%;float:left;">
+									<div style="height:100%;width:100%;display:table;"><div style="height:100%;width:100%;display: table-cell;vertical-align: middle;text-align:right;padding-right:5px;" id="SubTotal">$0</div></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div style="height:10%;width:100%;">
+					<div style="height:100%;width:55%;float:left;">
+						<div style="height:100%;width:50%;float:left;">
+							<div style="height:100%;width:100%;display:table;">
+								<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+									<button id="RemoveItemButton" class="RemoveButton">Eliminar Elmemento</button>
+								</div>
+							</div>
+						</div>
+						<div style="height:100%;width:50%;float:left;">
+							<div style="height:100%;width:100%;display:table;">
+								<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+									<button id="RemoveAllItemsButton" class="RemoveButton">Delete Todos</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style="height:100%;width:45%;float:left;">
+            <div style="height:45%;width:100%;">
+							<div style="height:100%;width:100%;display:table;">
+								<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;"><B>Código</B></div>
+							</div>
+						</div>
+						<div style="height:45%;width:100%;border:1px solid;background:#ffe873;text-align:right;">
+							<div style="height:100%;width:100%;display:table;">
+								<div id="ItemCode" style="height:100%;width:100%;display: table-cell;vertical-align: middle;padding-right:5px;"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+    <!-- /.col-8 -->
+
+		<!--<div style="height:100%;width:39%;float:right;">-->
+    <div class="col-4">
+			<div style="height:100%;width:100%;margin:auto;margin-top:1%;">
+				<div style="height:20%;width:99%;">
+					<div style="height:33%;">
+						<div class="PayRow1Style">
+							<div style="height:100%;width:100%;display:table;">
+                <div class="EachItemTopicStyle" style="padding-right:5px;">Total</div>
+              </div>
+						</div>
+						<div class="PayRow2Style">
+							<div style="height:100%;width:100%;display:table;">
+                <div style="height:100%;width:100%;display: table-cell;vertical-align: middle;padding-right:5px;" id="Total">
+                  $0
+                </div>
+              </div>
+						</div>
+					</div>
+					<div style="height:34%;">
+						<div class="PayRow1Style" style="border-top:1px solid #FFFFFF;border-bottom:1px solid #FFFFFF;">
+							<div style="height:100%;width:100%;display:table;">
+                <div class="EachItemTopicStyle" style="padding-right:5px;">Efectivo</div>
+              </div>
+						</div>
+						<div class="PayRow2Style" style="border-top:1px solid #000000;border-bottom:1px solid #000000;">
+							<div style="height:100%;width:100%;display:table;">
+                <div style="height:100%;width:100%;display: table-cell;vertical-align: middle;padding-right:5px;" id="Deposit">
+                  $0
+                </div>
+              </div>
+						</div>
+					</div>
+					<div style="height:33%;">
+						<div class="PayRow1Style">
+							<div style="height:100%;width:100%;display:table;">
+                <div class="EachItemTopicStyle" style="padding-right:5px;">Cambio</div>
+              </div>
+						</div>
+						<div class="PayRow2Style">
+							<div style="height:100%;width:100%;display:table;">
+                <div style="height:100%;width:100%;display: table-cell;vertical-align: middle;padding-right:5px;" id="Change">
+                  $0
+                </div>
+              </div>
+						</div>
+					</div>
+				</div>
+
+				<div style="height:80%;width:100%;margin-top:5px;">
+					<div style="height:20%;width:100%;">
+						<div style="height:100%;width:25%;float:left;">
+							<div style="height:100%;width:100%;display:table;">
+								<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+									<button id="ClearButton" class="RegisterButton" style="height:100%;width:100%;">C</button>
+								</div>
+							</div>
+						</div>
+						<div style="height:100%;width:25%;float:left;">
+							<div style="height:100%;width:100%;display:table;">
+								<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+									<button id="QuantityButton" class="RegisterButton" style="height:100%;width:100%;">Cant</button>
+								</div>
+							</div>
+						</div>
+						<div style="height:100%;width:50%;float:left;">
+							<div style="height:100%;width:100%;display:table;">
+								<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+									<button id="SubtotalButton" class="RegisterButton Horizontal2" style="height:100%;width:99%;">Subtotal</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div style="height:80%;width:100%;">
+						<div style="height:100%;width:75%;float:left;">
+							<div style="height:25%;width:100%;">
+								<div style="height:100%;width:33%;float:left;">
+									<div style="height:100%;width:100%;display:table;">
+										<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+											<button id="SevenButton" class="RegisterButton Gray" style="height:100%;width:100%;">7</button>
+										</div>
+									</div>
+								</div>
+								<div style="height:100%;width:33%;float:left;">
+									<div style="height:100%;width:100%;display:table;">
+										<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+											<button id="EightButton" class="RegisterButton Gray" style="height:100%;width:100%;">8</button>
+										</div>
+									</div>
+								</div>
+								<div style="height:100%;width:33%;float:left;">
+									<div style="height:100%;width:100%;display:table;">
+										<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+											<button id="NineButton" class="RegisterButton Gray" style="height:100%;width:100%;">9</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div style="height:25%;width:100%;">
+								<div style="height:100%;width:33%;float:left;">
+									<div style="height:100%;width:100%;display:table;">
+										<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+											<button id="FourButton" class="RegisterButton Gray" style="height:100%;width:100%;">4</button>
+										</div>
+									</div>
+								</div>
+								<div style="height:100%;width:33%;float:left;">
+									<div style="height:100%;width:100%;display:table;">
+										<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+											<button id="FiveButton" class="RegisterButton Gray" style="height:100%;width:100%;">5</button>
+										</div>
+									</div>
+								</div>
+								<div style="height:100%;width:33%;float:left;">
+									<div style="height:100%;width:100%;display:table;">
+										<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+											<button id="SixButton" class="RegisterButton Gray" style="height:100%;width:100%;">6</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div style="height:25%;width:100%;">
+								<div style="height:100%;width:33%;float:left;">
+									<div style="height:100%;width:100%;display:table;">
+										<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+											<button id="OneButton" class="RegisterButton Gray" style="height:100%;width:100%;">1</button>
+										</div>
+									</div>
+								</div>
+								<div style="height:100%;width:33%;float:left;">
+									<div style="height:100%;width:100%;display:table;">
+										<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+											<button id="TwoButton" class="RegisterButton Gray" style="height:100%;width:100%;">2</button>
+										</div>
+									</div>
+								</div>
+								<div style="height:100%;width:33%;float:left;">
+									<div style="height:100%;width:100%;display:table;">
+										<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+											<button id="ThreeButton" class="RegisterButton Gray" style="height:100%;width:100%;">3</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div style="height:25%;width:100%;">
+								<div style="height:100%;width:33%;float:left;">
+									<div style="height:100%;width:100%;display:table;">
+										<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+											<button id="ZeroButton" class="RegisterButton Gray" style="height:100%;width:100%;">0</button>
+										</div>
+									</div>
+								</div>
+								<div style="height:100%;width:33%;float:left;">
+									<div style="height:100%;width:100%;display:table;">
+										<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+											<button id="DoubleZeroButton" class="RegisterButton Gray" style="height:100%;width:100%;">00</button>
+										</div>
+									</div>
+								</div>
+								<div style="height:100%;width:33%;float:left;">
+									<div style="height:100%;width:100%;display:table;">
+										<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+											<button id="TenThousandButton" class="RegisterButton Gray" style="height:100%;width:100%;font-size:25px;">0000</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div style="height:100%;width:25%;float:left;">
+							<div style="height:100%;width:100%;display:table;margin-left:-3%;">
+								<div style="height:100%;width:100%;display: table-cell;vertical-align: middle;">
+									<button id="CashButton" class="RegisterButton Vartical4" style="height:100%;width:100%;">
+										Ent
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    <!-- /.col-4 -->
+	</div>
+  <!-- /.row -->
+
+  <br>
+	<div class="row" style="background-color:#404040; height: 55px;">
+    <div class="col-12">
+  		<div style="width:13%;float:left;">
+  			<div style="margin:auto;margin-left:5%;margin-top:5%;">
+  				<button class="SettingButton" onclick="OpenSetting()">Ajustes</button>
+        </div>
+  		</div>
+
+  		<div class="StatusIndicator" style="width:87%;float:right;margin-top:0.2em;">
+  			<div style="height:40px;width:32px;float:left;"><img src="/static/img/pos/printer.png" alt="printer" title="printer" /></div>
+  			<div id="indicator_printer" style="height:40px;width:80px;float:left;"></div>
+  			<div style="height:40px;width:32px;float:left;"><img src="/static/img//pos/display.png" alt="display" title="display"/></div>
+  			<div id="indicator_display" style="height:40px;width:80px;float:left;"></div>
+  			<div style="height:40px;width:32px;float:left;"><img src="/static/img/pos//keys.png" alt="keyboard" title="keyboard" /></div>
+  			<div id="indicator_keyboard" style="height:40px;width:80px;float:left;"></div>
+  			<div style="height:40px;width:32px;float:left;"><img src="/static/img/pos//barcode.png" alt="scanner" title="scanner" /></div>
+  			<div id="indicator_scanner" style="height:40px;width:80px;float:left;"></div>
+  		</div>
+    </div>
+	</div>
+
+  <!--Setting page-->
+	<div class="SettingPanel" id="setting" title="Settings">
+		<form action="" onsubmit="return false;">
+		<fieldset>
+		<legend>Connect to:</legend>
+		IP address
+        <input id="ipaddress" type="text" size="15">
+        Port
+        <input id="port" type="text" size="5"><br />
+		</fieldset>
+		<br />
+		<table style="width:100%;">
+		<tr>
+			<th>Using Device</th>
+			<th>Device ID</th>
+			<th>Encryption</th>
+			<th>Status</th>
+		</tr>
+		<tr>
+			<td><input type="checkbox" id="use_printer" />Printer</td>
+			<td><input id="id_printer" type="text" size="20"></td>
+			<td class="center"><input type="checkbox" id="crypto_printer" /></td>
+			<td id="status_printer"></td>
+		</tr>
+		<tr>
+			<td><input type="checkbox" id="use_display" />Display</td>
+			<td><input id="id_display" type="text" size="20"></td>
+			<td class="center"><input type="checkbox" id="crypto_display" /></td>
+			<td id="status_display"></td>
+		</tr>
+		<tr>
+			<td><input type="checkbox" id="use_keyboard" />Keyboard</td>
+			<td><input id="id_keyboard" type="text" size="20"></td>
+			<td class="center"><input type="checkbox" id="crypto_keyboard" /></td>
+			<td id="status_keyboard"></td>
+		</tr>
+		<tr>
+			<td><input type="checkbox" id="use_scanner" />Scanner</td>
+			<td><input id="id_scanner" type="text" size="20"></td>
+			<td class="center"><input type="checkbox" id="crypto_scanner" /></td>
+			<td id="status_scanner"></td>
+		</tr>
+		</table>
+		</form>
+	</div>
+
+	<!--Overlay and Modalbox for KeyLock-->
+	<div id="overlay"></div>
+	<div id="modalbox">
+		<p style="margin:0; padding-top:14px; text-align:center; color:white;">
+			<br>Under Terminal Locking<br>Please unlock to operation<br>
+		</p>
+	</div>
+
+	<canvas id="canvas" style="display:none;" ></canvas>
+  </div>
+</div>
+<!-- /.base_container -->
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block extra_script %}
+
+
+<script src="{% static  'vendor/jquery-ui/jquery-ui.min.js' %}"></script>
+
+<script src="{% static 'js/cash/epos-2.13.0.js' %}"></script>
+<script src="{% static 'js/cash/devicesetting.js' %}"></script>
+<script src="{% static 'js/cash/PriceLookupper.js' %}"></script>
+<script src="{% static 'js/cash/Formatter.js' %}"></script>
+<script src="{% static 'js/cash/CashRegister.js' %}"></script>
+<script src="{% static 'js/cash/UIItemListArea.js' %}"></script>
+<script src="{% static 'js/cash/UIAmountArea.js' %}"></script>
+<script src="{% static 'js/cash/UIDeviceStateArea.js' %}"></script>
+<script src="{% static 'js/cash/Purchases.js' %}"></script>
+<script src="{% static 'js/cash/PrinterObject.js' %}"></script>
+<script src="{% static 'js/cash/DisplayObject.js' %}"></script>
+<script src="{% static 'js/cash/HfDisplayObject.js' %}"></script>
+<script src="{% static 'js/cash/KeyboardObject.js' %}"></script>
+<script src="{% static 'js/cash/ScannerObject.js' %}"></script>
+<script src="{% static 'js/cash/CustomerDisplayController.js' %}"></script>
+
+
+<script type="text/javascript">
+//**********************************************************
+//* Constants
+//**********************************************************
+/**
+ * Operation Mode
+ *
+ */
+var MODE = {
+	MODE_REGISTER	: 0,	// Register Item Mode
+	MODE_QUANTITY	: 1,	// Change Quantity Mode
+	MODE_PAYMENT	: 2		// Payment Mode
+};
+
+//**********************************************************
+//* Global variables
+//**********************************************************
+var formatter = new Formatter();
+var printer = null;
+var display = null;
+var keyboard = null;
+var scanner = null;
+var hfDisplay = null;	// Highly-functional display
+
+var cashRegister = null;
+var uiItemListArea = null;
+var uiAmountArea = null;
+var uiDeviceStateArea = null;
+var priceLookupper = null;
+var logocontext = null;
+var intervalID = null;
+var ModeFlag = MODE.MODE_REGISTER;
+
+var eposdev = new epson.ePOSDevice();
+eposdev.onreconnecting = onReconnecting;
+eposdev.onreconnect = onReconnect;
+eposdev.ondisconnect = onDisconnect;
+
+function onReconnecting(){
+	uiDeviceStateArea.ShowConnectStatus("reconnecting");
+}
+function onReconnect(){
+	uiDeviceStateArea.ShowConnectStatus("reconnect");
+}
+function onDisconnect(){
+	uiDeviceStateArea.ShowConnectStatus("clear");
+	if ( intervalID == null ){
+		intervalID = setInterval(function(){
+			eposdev.connect(ipAddress, port, Callback_connect);
+			}, 5000);
+	}
+}
+
+function Connect() {
+	uiDeviceStateArea.ShowConnectStatus("clear");
+	eposdev.ondisconnect = null;
+	eposdev.disconnect();
+	eposdev.connect(ipAddress, port, Callback_connect);
+}
+
+function Callback_connect(data) {
+	clearInterval(intervalID);
+	intervalID = null;
+	eposdev.ondisconnect = onDisconnect;
+
+	if (data == "OK" || data == "SSL_CONNECT_OK") {
+		if ( printerProp.deviceUse ) { printer = new PrinterObject(eposdev, printerProp); }
+		if ( lineDisplayProp.deviceUse ) { display = new DisplayObject(eposdev, lineDisplayProp); }
+		if ( keyboardProp.deviceUse ) { keyboard = new KeyboardObject(eposdev, keyboardProp); }
+		if ( scannerProp.deviceUse ) { scanner = new ScannerObject(eposdev, scannerProp); }
+		hfDisplay = new HfDisplayObject(eposdev);
+	} else {
+		setTimeout(function(){
+			eposdev.connect(ipAddress, port, Callback_connect);
+		}, 5000);
+	}
+}
+
+function OpenSetting() {
+	$('#ipaddress').val(ipAddress);
+	$('#port').val(port);
+
+	$('#id_printer').val(printerProp.deviceId);
+	$('#id_display').val(lineDisplayProp.deviceId);
+	$('#id_keyboard').val(keyboardProp.deviceId);
+	$('#id_scanner').val(scannerProp.deviceId);
+
+	$('#use_printer').attr('checked', printerProp.deviceUse);
+	$('#use_display').attr('checked', lineDisplayProp.deviceUse);
+	$('#use_keyboard').attr('checked', keyboardProp.deviceUse);
+	$('#use_scanner').attr('checked', scannerProp.deviceUse);
+
+	$('#crypto_printer').attr('checked', printerProp.crypto);
+	$('#crypto_display').attr('checked', lineDisplayProp.crypto);
+	$('#crypto_keyboard').attr('checked', keyboardProp.crypto);
+	$('#crypto_scanner').attr('checked', scannerProp.crypto);
+
+	$('#setting').dialog('open');
+}
+
+window.onload = function () {
+	//Apply button design
+	$('button').button();
+
+	//Definition of setting dialog
+	$('#setting').dialog({
+		autoOpen: false,
+		width: 850,
+		closeOnEscape: true,
+		buttons: {
+			"Connect": function () {
+				ipAddress = $('#ipaddress').val();
+				port = $('#port').val();
+				printerProp.deviceId = $('#id_printer').val();
+				lineDisplayProp.deviceId = $('#id_display').val();
+				keyboardProp.deviceId = $('#id_keyboard').val();
+				scannerProp.deviceId = $('#id_scanner').val();
+
+				printerProp.deviceUse = $('#use_printer').is(':checked');
+				lineDisplayProp.deviceUse = $('#use_display').is(':checked');
+				keyboardProp.deviceUse = $('#use_keyboard').is(':checked');
+				scannerProp.deviceUse = $('#use_scanner').is(':checked');
+
+				printerProp.crypto = $('#crypto_printer').is(':checked');
+				lineDisplayProp.crypto = $('#crypto_display').is(':checked');
+				keyboardProp.crypto = $('#crypto_keyboard').is(':checked');
+				scannerProp.crypto = $('#crypto_scanner').is(':checked');
+
+				Connect();
+			},
+			"Close": function () {
+				$(this).dialog("close");
+			}
+		},
+		draggable: false,
+		resizable: false,
+		modal: true
+	});
+
+	// Load a logoimage for prints into canvas
+	var logocanvas = document.getElementById("canvas");
+	logocontext = logocanvas.getContext('2d');
+	var logoimg = new Image();
+	logoimg.src = "/static/img/pos/logo2.bmp?" + new Date().getTime();
+	logoimg.onload = function () {
+		logocontext.drawImage(logoimg, 0, 0);
+	};
+
+	uiItemListArea = new UIItemListArea();
+	uiAmountArea = new UIAmountArea();
+	uiDeviceStateArea = new UIDeviceStateArea();
+	cashRegister = new CashRegister();
+	priceLookupper = new PriceLookupper();
+	priceLookupper.onLookupSuccess = cashRegister.onLookupSuccess.bind(cashRegister);
+	eposdev.connect(ipAddress, port, Callback_connect);
+};
+
+if (!Function.prototype.bind) {
+	Function.prototype.bind = function (oThis) {
+		if (typeof this !== "function") {
+			// closest thing possible to the ECMAScript 5 internal IsCallable function
+			throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+		}
+
+		var aArgs = Array.prototype.slice.call(arguments, 1),
+				fToBind = this,
+				fNOP = function () {},
+				fBound = function () {
+					return fToBind.apply(this instanceof fNOP && oThis
+							? this
+							: oThis,
+							aArgs.concat(Array.prototype.slice.call(arguments)));
+				};
+
+		fNOP.prototype = this.prototype;
+		fBound.prototype = new fNOP();
+
+		return fBound;
+	};
+}
+
+</script>
+{% endblock %}

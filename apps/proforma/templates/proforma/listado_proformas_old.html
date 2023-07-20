@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+    Facturas Proforma - Hacienda.ec
+{% endblock title %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/table_style.css' %}">
+
+    <style>
+        td.numeric, th.numeric { text-align: right; }
+        #resultTable td.red {color: red; font-weight: bold}
+        #resultTable td.coral {color: coral; font-weight: bold}
+
+        /*#sriico
+        {
+           background:url(../../static/icons/sri.png) left top;
+           width:32px;
+           height:16px;
+           display: block;
+           float: left;
+        }
+        #receipt
+        {
+           background:url(../../static/icons/receipt.png) left top;
+           width:32px;
+           height:16px;
+           display: block;
+           float: left;
+        }*/
+
+    </style>
+{% endblock extra_head %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb my-4">
+        <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Inicio</a></li>
+		<li class="breadcrumb-item active">Facturas Proforma</li>
+    </ol>
+{% endblock breadcrumb %}
+
+{% block content %}
+
+<h3>Facturas Proforma</h3>
+
+<p>
+<div class="row">
+    <div class="col-md-2">
+        <a href="{% url 'proforma:crear_proforma' %}" class="btn btn-primary">
+            <span class="glyphicon glyphicon-tag"></span> Añadir Proforma
+        </a>
+    </div>
+
+    <div class="col-md-5 col-md-offset-3">
+        <form method="GET" >
+            <div class="input-group">
+                <input type="text" class="form-control" name="q" value="{{ request.GET.q }}" placeholder="Cliente..."/>
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" type="submit" name="action">
+                    <span class="glyphicon glyphicon-search"></span> Buscar!
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-2">
+        <div class="btn-toolbar pull-right">
+            <a href="#" class="btn btn-default">
+                <span class="fa fa-file-excel-o" aria-hidden="true" style="font-size:16px;color:green"></span>
+            </a>
+            <a href="#" class="btn btn-default">
+                <span class="fa fa-file-pdf-o" aria-hidden="true" style="font-size:16px;color:red"></span>
+            </a>
+            <a href="#" class="btn btn-default">
+                <span class="fa fa-print" aria-hidden="true" style="font-size:16px;"></span>
+            </a>
+        </div>
+    </div>
+</div>
+</p>
+<hr/>
+
+{% load my_filters %}
+{% load humanize %}
+
+<section id="no-more-tables">
+    <table class="table table-hover table-striped table-condensed cf">
+        <thead class="cf">
+            <tr>
+                <th>FECHA</th>
+				<th>CLIENTE</th>
+				<th>ID</th>
+                <th class="text-center">ESTADO</th>
+				<th class="numeric">TOTAL</th>
+				<th class="text-center">ACCIONES</th>
+            </tr>
+        </thead>
+		<tbody>
+            {% if all_proformas %}
+            {% for proforma in all_proformas %}
+			<tr>
+                <td data-title="Fecha">{{ proforma.fecha_emision|naturalday }}</td>
+                <td data-title="Cliente">{{ proforma.cliente.nombre }}</td>
+                <td data-title="ID">{{ proforma.pk }}</td>
+                <td data-title="Estado" class="text-center">{{ proforma.estado.nombre }}</td>
+                <td data-title="Total" class="numeric">{{ proforma.valor_total|currency }}</td>
+                <td data-title="Acciones" class="text-center">
+                    <nobr>
+                        <a class="btn btn-info btn-sm" target="_blank" href="{% url 'proforma:render_pdf' proforma.pk %}">
+                            <!--<span class="fa fa-file-pdf-o" ></span> Ver PDF-->
+                            <span class="glyphicon glyphicon-search" ></span> Ver
+                        </a>
+                        {% if proforma.estado.nombre == 'EMITIDA' %}
+                        <div class="btn-group btn-group-sm">
+                            <div class="dropdown">
+                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                                    <span class="glyphicon glyphicon-file"></span> Emitir
+                                <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#" class="js-cash-payment" data-id="{{ credito.id }}" data-url="#"><span class="glyphicon glyphicon-certificate"></span> Factura Comercial</a></li>
+                                    <li><a href="#" class="js-bank-transfer" data-id="{{ credito.id }}" data-url="#"><span class="glyphicon glyphicon-file"></span> Nota de Venta</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <a class="btn btn-danger btn-sm" href="{% url 'proforma:eliminar_proforma' proforma.pk %}">
+                            <span class="glyphicon glyphicon-trash"></span> Eliminar
+                        </a>
+                        {% elif proforma.estado.nombre == 'REGISTRADA' %}
+                        <div class="btn-group btn-group-sm">
+                            <div class="dropdown">
+                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                                    <span class="glyphicon glyphicon-file"></span> Emitir
+                                <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#" class="js-cash-payment" data-id="{{ credito.id }}" data-url="#"><span class="glyphicon glyphicon-certificate"></span> Factura Comercial</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <a class="btn btn-warning btn-sm" href="#">
+                            <span class="glyphicon glyphicon-remove"></span> Anular&nbsp;&nbsp;
+                        </a>
+                        {% endif %}
+                    </nobr>
+                </td>
+            </tr>
+			{% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="6" style = "text-align: center;"
+                bgcolor="Gainsboro"><font color="OrangeRed">¡ Ninguna proforma encontrada !</font></td>
+            </tr>
+            {% endif %}
+        </tbody>
+	</table>
+</section>
+
+{% if all_proformas.has_other_pages %}
+    <div class="result pull-lef"><strong>Mostrando de {{ all_proformas.start_index }} a {{ all_proformas.end_index }} de un total de {{ all_proformas.paginator.count }} registros</strong></div>
+    <ul class="pagination">
+        {% if all_proformas.has_previous %}
+            <li class="waves-effect"><a
+                    href="?page={{ all_proformas.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i
+                    class="material-icons">&laquo</i></a></li>
+        {% else %}
+            <li class="disabled"><a href="#!"><i class="material-icons">&laquo</i></a></li>
+        {% endif %}
+        {% for num in all_proformas.paginator.page_range %}
+            {% if all_proformas.number == num %}
+                <li class="active"><a href="#!">{{ num }}</a></li>
+            {% else %}
+                <li class="waves-effect"><a
+                        href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if all_proformas.has_next %}
+            <li class="waves-effect"><a
+                    href="?page={{ all_proformas.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i
+                    class="material-icons">&raquo;</i></a></li>
+        {% else %}
+            <li class="disabled"><a href="#!"><i class="material-icons">&raquo;</i></a></li>
+        {% endif %}
+    </ul>
+{% endif %}
+
+{% endblock content %}

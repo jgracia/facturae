@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %} Períodos Contables {% endblock title %}
+
+{% load static %}
+
+{% block extra_head %}
+  <!-- DataTables Extensions -->
+  <link rel="stylesheet" href="{% static 'vendor/datatables/extensions/RowGroup/rowGroup.bootstrap4.min.css' %}">
+
+{% endblock extra_head %}
+
+{% block content %}
+<div class="base_container">
+  <div class="col-12">
+    <div class="row">
+      <!-- Mixed: mobile, tablet, and desktop -->
+      <div class="col-12 col-sm-6 col-lx-6">
+        <h3>Períodos Contables</h3>
+      </div>
+      <div class="col-12 col-sm-6 col-lx-6">
+        <div class="btn-group float-right" role="group" aria-label="Acciones">
+          <button type="button" class="btn btn-secondary"
+                  onclick="location.href='{% url 'contabilidad:crear_periodo' %}';">
+                  <i class="fa fa-plus"></i> Crear
+          </button>
+          <button type="button" class="btn btn-secondary"
+                  id="ExportReporttoExcel">
+                  <i class="far fa-file-excel"></i> Exportar
+          </button>
+          <button type="button" class="btn btn-secondary"
+                  id="ReporttoPrinter">
+                  <i class="fas fa-print"></i> Imprimir
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr/>
+
+    <div class="row">
+      <div class="col-12">
+        <table id="datatable-responsive" class="table table-striped table-bordered table-hover dt-responsive nowrap" cellspacing="0" width="100%">
+          <thead class="cf">
+            <tr>
+              <th>#</th>
+              <th>Empresa</th>
+              <th>Período</th>
+              <th>Fecha Inicio</th>
+              <th class="text-center">Activo</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if object_list  %}
+            {% for row in object_list %}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.empresa.razon_social }} - {{ row.empresa.ruc }}</td>
+                <td>{{ row.descripcion }}</td>
+                <td>{{ row.fecha_inicio }}</td>
+                {% if row.activo %}
+                <td class="text-center"><span class="label label-success">SI</span></td>
+                {% else %}
+                <td class="text-center"><span class="label label-default">NO</span></td>
+                {% endif %}
+                <td class="noExport text-center">
+                  <!-- Small button groups (default and split) -->
+                  <div class="btn-group">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fa fa-eye"></i> Ver
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="{% url 'contabilidad:libro_mayor_principal' %}">Libro Mayor Principal</a>
+                      <a class="dropdown-item" href="{% url 'contabilidad:libro_mayor_auxiliar' %}">Libro Mayor Auxiliar</a>
+                      <a class="dropdown-item" href="{% url 'contabilidad:balance_comprobacion' %}">Balance de Comprobación</a>
+                      <li class="divider"></li>
+                      <a class="dropdown-item" href="{% url 'contabilidad:estado_resultados' row.pk %}">Estado de Resultado</a>
+                      <a class="dropdown-item" href="{% url 'contabilidad:balance_general' row.pk %}">Estado de Situación Financiera</a>
+                    </div>
+                  </div>
+
+                  <button type="button" class="btn btn-warning btn-sm">
+                    <i class="far fa-edit"></i> Editar
+                  </button>
+                  <button type="button" class="btn btn-danger btn-sm">
+                    <i class="fa fa-trash"></i> Eliminar
+                  </button>
+                </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+          </tbody>
+          <tfoot>
+              <tr>
+                <th>#</th>
+                <th>Empresa</th>
+                <th>Período</th>
+                <th>Fecha Inicio</th>
+                <th class="text-center">Activo</th>
+                <th></th>
+              </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block extra_script %}
+  <!-- librerías protección csrftoken -->
+  <script src="{% static 'js/proteccion_csrf.js' %}"></script>
+
+  <!-- DataTables Extensions -->
+  <script src="{% static 'vendor/datatables/extensions/RowGroup/dataTables.rowGroup.min.js' %}"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();
+
+      var table = $('#datatable-responsive').dataTable( {
+        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todas"]],
+        buttons: [
+          { extend: 'excel', className: 'btn btn-default', exportOptions: { columns: ':not(:last-child)', }, },
+          //{ extend: 'pdf', exportOptions: { columns: ':not(:last-child)', }, messageTop: 'Hacienda - Listado de almacenes', },
+          //{ extend: 'copy', exportOptions: { columns: ':not(:last-child)', }, },
+          { extend: 'print', autoPrint: true, exportOptions: { columns: ':not(:last-child)', }, }
+        ],
+        columnDefs: [
+          { "targets": 5, "searchable": false, "orderable": false, }
+        ],
+        colReorder: {
+          allowReorder: true
+        },
+        language: {
+        	url: "/static/localizacion/es_ES.json"
+        }
+      });
+    });
+
+    $("#ExportReporttoExcel").on("click", function() { var table = $('#datatable-responsive').DataTable(); table.button( '.buttons-excel' ).trigger(); });
+    $("#ReporttoPrinter").on("click", function() { var table = $('#datatable-responsive').DataTable(); table.button( '.buttons-print' ).trigger(); });
+  </script>
+{% endblock extra_script %}

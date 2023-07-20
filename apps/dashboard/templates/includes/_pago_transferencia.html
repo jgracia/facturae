@@ -1,0 +1,57 @@
+<form id="transferForm" method="post" class="form-horizontal" style="display: none;" autocomplete="off">
+  {% csrf_token %}
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="dlgtransfer_bank_name">Banco Origen</label>
+      <select class="form-control" name="dlgtransfer_bank_name" id="dlgtransfer_bank_name">
+        <option value="">-- Seleccione --</option>
+        {% for banco in bancos %}
+        <option value={{ banco.entidad_id }}>{{ banco.nombre }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="dlgtransfer_origin_account">Cuenta Origen</label>
+      <input type="text" name="dlgtransfer_origin_account" id="dlgtransfer_origin_account" class="form-control">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="dlgtransfer_destination_bank_name">Banco Destino</label>
+      <select class="form-control" name="dlgtransfer_destination_bank_name" id="dlgtransfer_destination_bank_name">
+        <option value="">-- Seleccione --</option>
+        {% for banco in bancos %}
+        <option value={{ banco.entidad_id }}>{{ banco.nombre }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="dlgtransfer_destination_account">Cuenta Destino</label>
+      <input type="text" name="dlgtransfer_destination_account" id="dlgtransfer_destination_account" class="form-control">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label for="dlgtransfer_comprobante">Nro. Comprob.</label>
+      <input type="text" name="dlgtransfer_comprobante" id="dlgtransfer_comprobante" class="form-control">
+    </div>
+    <div class="form-group col-md-5">
+      <label>Fecha Transferencia</label>
+      <input type="text" class="form-control" name="dlgtransfer_fecha" id="dlgtransfer_fecha" />
+    </div>
+    <div class="form-group col-md-4">
+      <label for="dlgtransfer_amount">Monto $</label>
+      <input type="text" min="0" placeholder="0" class="form-control" id="dlgtransfer_amount" name="dlgtransfer_amount" data-fv-greaterthan-inclusive="false" data-fv-greaterthan-message="Valor debe ser mayor a cero"/>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <button type="submit" id="btnTransfer" class="btn btn-primary btn-sm">Confirmar</button>
+      <button type="reset" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+    </div>
+  </div>
+</form>

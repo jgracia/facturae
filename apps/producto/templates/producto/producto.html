@@ -1,0 +1,575 @@
+{% extends "base.html" %}
+
+{% block title %} {% if object %} Editar Producto {% else %} Crear Producto {% endif %} {% endblock title %}
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="linebreak"></div>
+      {% if object %}
+      <h3>Editar Producto</h3>
+      {% else %}
+      <h3>Crear Producto</h3>
+      {% endif %}
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-sm-12 col-lx-12">
+      {% if object %}
+      <form role="form" action="{% url 'producto:editar_producto' object.pk %}" method="post">
+      {% else %}
+      <form role="form" action="{% url 'producto:crear_producto' %}" method="post">
+      {% endif %}
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="row">
+              <div class="col-lg-6">
+                {{ form.codigo_principal.errors }}
+                {{ form.codigo_principal.label_tag }}
+                {{ form.codigo_principal }}
+              </div>
+              <div class="col-lg-6">
+                {{ form.codigo_auxiliar.errors }}
+                {{ form.codigo_auxiliar.label_tag }}
+                {{ form.codigo_auxiliar }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                {{ form.nombre.errors }}
+                {{ form.nombre.label_tag }}
+                {{ form.nombre }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                {{ form.marca.errors }}
+                {{ form.marca.label_tag }}
+                {{ form.marca }}
+              </div>
+              <div class="col-lg-4">
+                {{ form.modelo.errors }}
+                {{ form.modelo.label_tag }}
+                {{ form.modelo }}
+              </div>
+              <div class="col-lg-4">
+                {{ form.categoria.errors }}
+                {{ form.categoria.label_tag }}
+                <div class="input-group">
+                  {{ form.categoria }}
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default js-create-category"
+                      data-url="{% url 'producto:category_create' %}">+</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <br>
+
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Impuestos del Producto</legend>
+                <div class="row">
+                  <div class="col-lg-6">
+                    {{ form.iva.errors }}
+                    {{ form.iva.label_tag }}
+                    {{ form.iva }}
+                  </div>
+                  <div class="col-lg-6">
+                    {{ form.es_deducible.errors }}
+                    {{ form.es_deducible.label_tag }}
+                    {{ form.es_deducible }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    {{ form.ice.errors }}
+                    {{ form.ice.label_tag }}
+                    {{ form.ice }}
+                  </div>
+                  <div class="col-lg-6">
+                    {{ form.irbpnr.errors }}
+                    {{ form.irbpnr.label_tag }}
+                    {{ form.irbpnr }}
+                  </div>
+                </div>
+            </fieldset>
+            <!-- /.fielset -->
+
+            <br>
+            <div class="panel panel-primary">
+              <div class="panel-body">
+                <h5 class="text-on-pannel text-primary"><strong class="text-uppercase"> Precios </strong></h5>
+                <!-- precio de costo -->
+                <div class="row">
+                  <div class="col-lg-3">
+                    {{ form.precio_costo.errors }}
+                    <label>Precio Costo:</label>
+                    {{ form.precio_costo }}
+                  </div>
+                </div>
+                <br>
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <th></th>
+                      <th style="text-align:right">% Ut. </th>
+                      <th style="text-align:right">% Dto. </th>
+                      <th style="text-align:right; font-weight: bold;color:coral">Precio Neto</th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td width="85px"><span style="white-space: nowrap"><strong>Precio 1</strong></span></td>
+                        <td style="text-align: center;">{{ form.precio_uno }}</td>
+                        <td>{{ form.utilidad_uno }}</td>
+                        <td>{{ form.descuento_uno }}</td>
+                        <td>{{ form.precio_neto_uno }}</td>
+                      </tr>
+                      <tr>
+                        <td width="85px"><span style="white-space: nowrap"><strong>Prcio 2</strong></span></td>
+                        <td>{{ form.precio_dos }}</td>
+                        <td>{{ form.utilidad_dos }}</td>
+                        <td>{{ form.descuento_dos }}</td>
+                        <td>{{ form.precio_neto_dos }}</td>
+                      </tr>
+                      <tr>
+                        <td width="85px"><span style="white-space: nowrap"><strong>Precio 3</strong></span></td>
+                        <td>{{ form.precio_tres }}</td>
+                        <td>{{ form.utilidad_tres }}</td>
+                        <td>{{ form.descuento_tres }}</td>
+                        <td>{{ form.precio_neto_tres }}</td>
+                      </tr>
+                      <tr>
+                        <td width="85px"><span style="white-space: nowrap"><strong>Precio 4</strong></span></td>
+                        <td>{{ form.precio_cuatro }}</td>
+                        <td>{{ form.utilidad_cuatro }}</td>
+                        <td>{{ form.descuento_cuatro }}</td>
+                        <td>{{ form.precio_neto_cuatro }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.table-responsive -->
+              </div>
+            </div>
+            <!-- /.panel -->
+
+            <fieldset class="scheduler-border">
+              <legend class="scheduler-border">Clasificación</legend>
+              <div class="row">
+                <div class="col-lg-4">
+                  {{ form.unidad_principal.errors }}
+                  <label>Unidad Primaria:</label>
+
+                  <div class="input-group">
+                    {{ form.unidad_principal }}
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default js-create-unit"
+                        data-url="{% url 'unidadmedida:unit_create' %}">+</button>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  {{ form.unidad_secundaria.errors }}
+                  <label>Unidad Secundaria:</label>
+
+                  <div class="input-group">
+                    {{ form.unidad_secundaria }}
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default js-create-unit"
+                        data-url="{% url 'unidadmedida:unit_create' %}">+</button>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  {{ form.unidad_equivalencia.errors }}
+                  <label>Equivalencia:</label>
+                  {{ form.unidad_equivalencia }}
+                </div>
+              </div>
+            </fieldset>
+            <!-- /.fielset -->
+
+            <br>
+            <fieldset class="scheduler-border">
+              <legend class="scheduler-border">Existencias</legend>
+              <div class="row">
+                <div class="col-lg-3">
+                    {{ form.cantidad_minima.errors }}
+                    <label>Cantidad Mínima:</label>
+                    {{ form.cantidad_minima }}
+                </div>
+                <div class="col-lg-3">
+                    {{ form.cantidad_maxima.errors }}
+                    <label>Cantidad Máxima:</label>
+                    {{ form.cantidad_maxima }}
+                </div>
+                <div class="col-lg-3">
+                    {{ form.cantidad_inicial.errors }}
+                    <label>Cantidad Inicial:</label>
+                    {% if object %}
+                    <input class="form-control" type="text" name="cantidad_inicial"
+                      value="{{ object.cantidad_inicial }}" readonly>
+                    {% else %}
+                    {{ form.cantidad_inicial }}
+                    {% endif %}
+                </div>
+                <div class="col-lg-3">
+                    {{ form.precio_principal.errors }}
+                    {{ form.precio_principal.label_tag }}
+                    {{ form.precio_principal }}
+                </div>
+              </div>
+            </fieldset>
+            <!-- /.fielset -->
+
+            <br>
+            <div class="col-12">
+              <div class="row">
+                <div class="col-lg-4">
+                  {{ form.activo }} {{ form.activo.label_tag }}
+                </div>
+                <div class="col-lg-4">
+                  {{ form.tiene_vencimiento }} {{ form.tiene_vencimiento.label_tag }}
+                </div>
+                <div class="col-lg-4">
+                  {{ form.tiene_serie }} {{ form.tiene_serie.label_tag }}
+                </div>
+              </div>
+            </div>
+
+            <br>
+            <div class="row">
+              <div class="col-lg-12">
+                {{ form.descripcion.errors }}
+                {{ form.descripcion.label_tag }}
+                {{ form.descripcion }}
+              </div>
+            </div>
+
+          </div>
+          <!-- /.col-lg-8 -->
+
+          <div class="col-lg-4">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Imágen</h3>
+              </div>
+              <div class="panel-body">
+                <p>
+                  <input id="id_image" type="file" class="" name="image">
+                </p>
+                {% if object.image_url %}
+                  <img src="{{ object.image_url }}" class="img-thumbnail" alt="Imágen del producto">
+                {% else %}
+                  <img src="{{ MEDIA_URL }}product-img/no-img.jpg" class="img-thumbnail" alt="Imágen del producto" />
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <!-- /.col-lg-4 -->
+        </div>
+        <!-- /.row -->
+
+        <div class="ln_solid"></div>
+        <div class="form-group">
+          <button class="btn btn-secondary" type="button"
+            onclick="location.href='{% url 'producto:listado_productos' %}';">Cancelar</button>
+          <button type="submit" class="btn btn-primary"><span class="fa fa-save"></span> Guardar</button>
+        </div>
+      </form>
+    </div>
+    <!-- /.col-12 -->
+  </div>
+  <!-- /.row -->
+</div>
+
+<div class="modal fade" id="modal-product_app">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block extra_script %}
+<script src="{% static 'js/modal_category.js' %}"></script>
+<script src="{% static 'js/modal_unit.js' %}"></script>
+
+<script>
+  // calculo utilidad cuando cambia el pvp
+  $("#precio_uno").on("keyup mouseup",function (e) {
+      e.preventDefault();
+
+      var precio_costo = parseFloat($( "#precio_costo" ).val());
+      var nuevo_precio_uno = parseFloat($(this).val());
+      var porcentaje_descuento_uno = parseFloat($( "#descuento_uno" ).val());
+
+      var nuevo_porcentaje_utilidad_uno = 0;
+      nuevo_porcentaje_utilidad_uno = (((nuevo_precio_uno - precio_costo) / precio_costo) * 100).toFixed(4);
+      $( "#utilidad_uno" ).val(nuevo_porcentaje_utilidad_uno);
+
+      var descuento_uno_usd = 0;
+      descuento_uno_usd = (nuevo_precio_uno * porcentaje_descuento_uno) / 100;
+
+      var precio_neto_uno = 0;
+      precio_neto_uno = (nuevo_precio_uno - descuento_uno_usd).toFixed(4);
+      $( "#precio_neto_uno" ).val(precio_neto_uno);
+  });
+
+  // calculos pvp cuando cambia la utilidad
+  $("#utilidad_uno").on("keyup mouseup",function (e) {
+      e.preventDefault();
+
+      var precio_costo = parseFloat($( "#precio_costo" ).val());
+      var nuevo_porcentaje_utilidad_uno = parseFloat($(this).val());
+      var porcentaje_descuento_uno = parseFloat($( "#descuento_uno" ).val());
+
+      var utilidad_uno_usd = 0;
+      utilidad_uno_usd = (precio_costo * nuevo_porcentaje_utilidad_uno) / 100;
+
+      var nuevo_precio_uno = 0;
+      nuevo_precio_uno = (precio_costo + utilidad_uno_usd).toFixed(4);
+      $("#precio_uno").val(nuevo_precio_uno);
+
+      var descuento_uno_usd = 0;
+      descuento_uno_usd = (nuevo_precio_uno * porcentaje_descuento_uno) / 100;
+
+      var nuevo_precio_neto_uno = 0;
+      nuevo_precio_neto_uno = nuevo_precio_uno - (descuento_uno_usd).toFixed(4);
+      $("#precio_neto_uno").val(nuevo_precio_neto_uno);
+  });
+
+  // calculos pvp cuando cambia el descuento
+  $("#descuento_uno").on("keyup mouseup",function (e) {
+      e.preventDefault();
+
+      var precio_costo = parseFloat($( "#precio_costo" ).val());
+      var porcentaje_utilidad_uno = parseFloat($( "#utilidad_uno" ).val());
+      var nuevo_porcentaje_descuento = parseFloat($(this).val());
+
+      var utilidad_uno_usd = 0;
+      utilidad_uno_usd = (precio_costo * porcentaje_utilidad_uno) / 100;
+
+      var nuevo_precio_uno = 0;
+      nuevo_precio_uno = (precio_costo + utilidad_uno_usd).toFixed(4);
+      $("#precio_uno").val(nuevo_precio_uno);
+
+      var descuento_uno_usd = 0;
+      descuento_uno_usd = (nuevo_precio_uno * nuevo_porcentaje_descuento) / 100;
+
+      var nuevo_precio_neto_uno = 0;
+      nuevo_precio_neto_uno = nuevo_precio_uno - (descuento_uno_usd).toFixed(4);
+      $("#precio_neto_uno").val(nuevo_precio_neto_uno);
+  });
+
+  // ===================== precio 2 =====================
+  // calculo utilidad cuando cambia el pvp
+  $("#precio_dos").on("keyup mouseup",function (e) {
+      e.preventDefault();
+
+      var precio_costo = parseFloat($( "#precio_costo" ).val());
+      var nuevo_precio_dos = parseFloat($(this).val());
+      var porcentaje_descuento_dos = parseFloat($( "#descuento_dos" ).val());
+
+      var nuevo_porcentaje_utilidad_dos = 0;
+      nuevo_porcentaje_utilidad_dos = (((nuevo_precio_dos - precio_costo) / precio_costo) * 100).toFixed(4);
+      $( "#utilidad_dos" ).val(nuevo_porcentaje_utilidad_dos);
+
+      var descuento_usd_dos = 0;
+      descuento_usd_dos = (nuevo_precio_dos * porcentaje_descuento_dos) / 100;
+
+      var precio_neto_dos = 0;
+      precio_neto_dos = (nuevo_precio_dos - descuento_usd_dos).toFixed(4);
+      $( "#precio_neto_dos" ).val(precio_neto_dos);
+  });
+
+  // calculos pvp cuando cambia la utilidad
+  $("#utilidad_dos").on("keyup mouseup",function (e) {
+      e.preventDefault();
+
+      var precio_costo = parseFloat($( "#precio_costo" ).val());
+      var nuevo_porcentaje_utilidad_dos = parseFloat($(this).val());
+      var porcentaje_descuento_dos = parseFloat($( "#descuento_dos" ).val());
+
+      var utilidad_usd_dos = 0;
+      utilidad_usd_dos = (precio_costo * nuevo_porcentaje_utilidad_dos) / 100;
+
+      var nuevo_precio_dos = 0;
+      nuevo_precio_dos = (precio_costo + utilidad_usd_dos).toFixed(4);
+      $("#precio_dos").val(nuevo_precio_dos);
+
+      var descuento_usd_dos = 0;
+      descuento_usd_dos = (nuevo_precio_dos * porcentaje_descuento_dos) / 100;
+
+      var nuevo_precio_neto_dos = 0;
+      nuevo_precio_neto_dos = nuevo_precio_dos - (descuento_usd_dos).toFixed(4);
+      $("#precio_neto_dos").val(nuevo_precio_neto_dos);
+  });
+
+  // calculos pvp cuando cambia el descuento
+  $("#descuento_dos").on("keyup mouseup",function (e) {
+      e.preventDefault();
+
+      var precio_costo = parseFloat($( "#precio_costo" ).val());
+      var porcentaje_utilidad_dos = parseFloat($( "#utilidad_dos" ).val());
+      var nuevo_porcentaje_descuento = parseFloat($(this).val());
+
+      var utilidad_usd_dos = 0;
+      utilidad_usd_dos = (precio_costo * porcentaje_utilidad_dos) / 100;
+
+      var nuevo_precio_dos = 0;
+      nuevo_precio_dos = (precio_costo + utilidad_usd_dos).toFixed(4);
+      $("#precio_dos").val(nuevo_precio_dos);
+
+      var descuento_usd_dos = 0;
+      descuento_usd_dos = (nuevo_precio_dos * nuevo_porcentaje_descuento) / 100;
+
+      var nuevo_precio_neto_dos = 0;
+      nuevo_precio_neto_dos = nuevo_precio_dos - (descuento_usd_dos).toFixed(4);
+      $("#precio_neto_dos").val(nuevo_precio_neto_dos);
+  });
+
+
+  // ===================== precio 3 =====================
+  // calculo utilidad cuando cambia el pvp
+  $("#precio_tres").on("keyup mouseup",function (e) {
+      e.preventDefault();
+
+      var precio_costo = parseFloat($( "#precio_costo" ).val());
+      var nuevo_precio_tres = parseFloat($(this).val());
+      var porcentaje_descuento_tres = parseFloat($( "#descuento_tres" ).val());
+
+      var nuevo_porcentaje_utilidad_tres = 0;
+      nuevo_porcentaje_utilidad_tres = (((nuevo_precio_tres - precio_costo) / precio_costo) * 100).toFixed(4);
+      $( "#utilidad_tres" ).val(nuevo_porcentaje_utilidad_tres);
+
+      var descuento_usd_tres = 0;
+      descuento_usd_tres = (nuevo_precio_tres * porcentaje_descuento_tres) / 100;
+
+      var precio_neto_tres = 0;
+      precio_neto_tres = (nuevo_precio_tres - descuento_usd_tres).toFixed(4);
+      $( "#precio_neto_tres" ).val(precio_neto_tres);
+  });
+
+  // calculos pvp cuando cambia la utilidad
+  $("#utilidad_tres").on("keyup mouseup",function (e) {
+      e.preventDefault();
+
+      var precio_costo = parseFloat($( "#precio_costo" ).val());
+      var nuevo_porcentaje_utilidad_tres = parseFloat($(this).val());
+      var porcentaje_descuento_tres = parseFloat($( "#descuento_tres" ).val());
+
+      var utilidad_usd_tres = 0;
+      utilidad_usd_tres = (precio_costo * nuevo_porcentaje_utilidad_tres) / 100;
+
+      var nuevo_precio_tres = 0;
+      nuevo_precio_tres = (precio_costo + utilidad_usd_tres).toFixed(4);
+      $("#precio_tres").val(nuevo_precio_tres);
+
+      var descuento_usd_tres = 0;
+      descuento_usd_tres = (nuevo_precio_tres * porcentaje_descuento_tres) / 100;
+
+      var nuevo_precio_neto_tres = 0;
+      nuevo_precio_neto_tres = nuevo_precio_tres - (descuento_usd_tres).toFixed(4);
+      $("#precio_neto_tres").val(nuevo_precio_neto_tres);
+  });
+
+  // calculos pvp cuando cambia el descuento
+  $("#descuento_tres").on("keyup mouseup",function (e) {
+      e.preventDefault();
+
+      var precio_costo = parseFloat($( "#precio_costo" ).val());
+      var porcentaje_utilidad_tres = parseFloat($( "#utilidad_tres" ).val());
+      var nuevo_porcentaje_descuento = parseFloat($(this).val());
+
+      var utilidad_usd_tres = 0;
+      utilidad_usd_tres = (precio_costo * porcentaje_utilidad_tres) / 100;
+
+      var nuevo_precio_tres = 0;
+      nuevo_precio_tres = (precio_costo + utilidad_usd_tres).toFixed(4);
+      $("#precio_tres").val(nuevo_precio_tres);
+
+      var descuento_usd_tres = 0;
+      descuento_usd_tres = (nuevo_precio_tres * nuevo_porcentaje_descuento) / 100;
+
+      var nuevo_precio_neto_tres = 0;
+      nuevo_precio_neto_tres = nuevo_precio_tres - (descuento_usd_tres).toFixed(4);
+      $("#precio_neto_tres").val(nuevo_precio_neto_tres);
+  });
+
+
+  // ===================== precio 4 =====================
+  // calculo utilidad cuando cambia el pvp
+  $("#precio_cuatro").on("keyup mouseup",function (e) {
+      e.preventDefault();
+
+      var precio_costo = parseFloat($( "#precio_costo" ).val());
+      var nuevo_precio_cuatro = parseFloat($(this).val());
+      var porcentaje_descuento_cuatro = parseFloat($( "#descuento_cuatro" ).val());
+
+      var nuevo_porcentaje_utilidad_cuatro = 0;
+      nuevo_porcentaje_utilidad_cuatro = (((nuevo_precio_cuatro - precio_costo) / precio_costo) * 100).toFixed(4);
+      $( "#utilidad_cuatro" ).val(nuevo_porcentaje_utilidad_cuatro);
+
+      var descuento_usd_cuatro = 0;
+      descuento_usd_cuatro = (nuevo_precio_cuatro * porcentaje_descuento_cuatro) / 100;
+
+      var precio_neto_cuatro = 0;
+      precio_neto_cuatro = (nuevo_precio_cuatro - descuento_usd_cuatro).toFixed(4);
+      $( "#precio_neto_cuatro" ).val(precio_neto_cuatro);
+  });
+
+  // calculos pvp cuando cambia la utilidad
+  $("#utilidad_cuatro").on("keyup mouseup",function (e) {
+      e.preventDefault();
+
+      var precio_costo = parseFloat($( "#precio_costo" ).val());
+      var nuevo_porcentaje_utilidad_cuatro = parseFloat($(this).val());
+      var porcentaje_descuento_cuatro = parseFloat($( "#descuento_cuatro" ).val());
+
+      var utilidad_usd_cuatro = 0;
+      utilidad_usd_cuatro = (precio_costo * nuevo_porcentaje_utilidad_cuatro) / 100;
+
+      var nuevo_precio_cuatro = 0;
+      nuevo_precio_cuatro = (precio_costo + utilidad_usd_cuatro).toFixed(4);
+      $("#precio_cuatro").val(nuevo_precio_cuatro);
+
+      var descuento_usd_cuatro = 0;
+      descuento_usd_cuatro = (nuevo_precio_tres * porcentaje_descuento_cuatro) / 100;
+
+      var nuevo_precio_neto_cuatro = 0;
+      nuevo_precio_neto_cuatro = nuevo_precio_tres - (descuento_usd_cuatro).toFixed(4);
+      $("#precio_neto_cuatro").val(nuevo_precio_neto_cuatro);
+  });
+
+  // calculos pvp cuando cambia el descuento
+  $("#descuento_cuatro").on("keyup mouseup",function (e) {
+      e.preventDefault();
+
+      var precio_costo = parseFloat($( "#precio_costo" ).val());
+      var porcentaje_utilidad_cuatro = parseFloat($( "#utilidad_cuatro" ).val());
+      var nuevo_porcentaje_descuento = parseFloat($(this).val());
+
+      var utilidad_usd_cuatro = 0;
+      utilidad_usd_cuatro = (precio_costo * porcentaje_utilidad_cuatro) / 100;
+
+      var nuevo_precio_cuatro = 0;
+      nuevo_precio_cuatro = (precio_costo + utilidad_usd_cuatro).toFixed(4);
+      $("#precio_cuatro").val(nuevo_precio_cuatro);
+
+      var descuento_usd_cuatro = 0;
+      descuento_usd_cuatro = (nuevo_precio_cuatro * nuevo_porcentaje_descuento) / 100;
+
+      var nuevo_precio_neto_cuatro = 0;
+      nuevo_precio_neto_cuatro = nuevo_precio_cuatro - (descuento_usd_cuatro).toFixed(4);
+      $("#precio_neto_cuatro").val(nuevo_precio_neto_cuatro);
+  });
+</script>
+{% endblock extra_script %}

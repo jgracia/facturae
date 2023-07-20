@@ -1,0 +1,787 @@
+{% extends "base.html" %}
+
+{% block title %} Salida Manual de Inventario {% endblock title %}
+
+{% load static %}
+
+{% block extra_head %}
+  <!-- librerías typeahead -->
+  <link rel="stylesheet" type="text/css" href="/static/vendor/typeahead/css/typeaheadjs.css">
+  <link rel="stylesheet" type="text/css" href="/static/vendor/typeahead/css/typeaheadbundle.css">
+  <!-- librerías FormValidation -->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/formvalidation/css/formValidation.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/_estilo_tabla_articulos.css' %}">
+  <style>
+    /*table { width: 100%; }
+    td, th {text-align: left; white-space: nowrap;}
+    td.numeric, th.numeric { text-align: right; }*/
+
+    /* scrooll para typeahead */
+    #scrollable-dropdown-menu .tt-menu {
+        max-height: 250px;
+        overflow-y: auto;
+        /*background-color: red;*/
+    }
+    #prefetch_customer .tt-menu {
+        max-height: 250px;
+        overflow-y: auto;
+    }
+  </style>
+{% endblock extra_head %}
+
+{% block content %}
+<div class="base_container">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-6">
+        <h5>Salida Manual de Inventario <small>(Productos)</small></h5>
+      </div>
+      <div class="col-6">
+        <div class="btn-group float-right" role="group" aria-label="Acciones">
+          <button type="button" class="btn btn-primary btn-sm"
+                  id="empty_shopping_cart">
+                  <i class="fas fa-plus"></i> Nuevo
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm"
+                  onclick="location.href='{{ request.META.HTTP_REFERER }}';">
+                  <i class="fas fa-undo"></i> Regresar
+          </button>
+        </div>
+      </div>
+    </div>
+    <br>
+    <!--<hr/>-->
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-info fa-fw"></i> General
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="id_fuente">Referencia (motivo)</label>
+                <select  class="form-control" id="id_fuente">
+                  {% for tipo_mov in object_list %}
+                  {% if tipo_mov.codigo == 'SAL_FACT' or tipo_mov.codigo == 'SAL_NE' %}
+                  <option disabled value={{ tipo_mov.tipo_movimiento_id }}>{{ tipo_mov.descripcion }}</option>
+                  {% else %}
+                  <option value={{ tipo_mov.tipo_movimiento_id }}>{{ tipo_mov.descripcion }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+                <small class="float-right">Referencia no listada aquí? <a href="#">Agregar nueva</a> </small>
+              </div>
+
+              <div class="form-group col-md-4">
+                <label for="id_destino">Desde (fuente / origen)</label>
+                <select  class="form-control" id="id_destino">
+                  {% for almacen in almacenes %}
+                  <option value={{ almacen.almacen_id }}>{{ almacen.descripcion }}</option>
+                  {% endfor %}
+                </select>
+                <small class="float-right">Almaceén no listado aquí? <a href="#">Agregar almacén</a> </small>
+              </div>
+              <div class="col-md-2">
+                <label for="numero_comprobante">Nro. Comp.</label>
+                <input type="text" class="form-control" id="numero_comprobante" data-inputmask="'mask': '999-999-999999999'" data-toggle="tooltip" title="Nro. Comprobante">
+              </div>
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+              <input type="hidden" name="id_producto" id="id_producto" />
+              <div class="form-group col-md-6">
+                <label for="scrollable-dropdown-menu">Producto</label>
+                <div class="form-group">
+                  <div id="scrollable-dropdown-menu">
+                    <input type="text" class="typeahead tt-query form-control" autocomplete="off" spellcheck="false" id="typeahead_producto" placeholder="Buscar por código de barra o nombre del producto">
+                  </div>
+                  <small class="float-right">Producto no listado aquí? <a href="#"data-toggle="modal" data-target="#addProductTypeModal">Agregar nuevo</a> </small>
+                </div>
+              </div>
+
+              <div class="form-group col-md-2">
+                <input type="hidden" name="relacion_unidades" />
+                <label for="id_unidad">Unidad</label>
+                <select  class="form-control" id="id_unidad">
+                  <!--
+                  {% for unidad in unidades %}
+                  <option value={{ unidad.unidad_id }}>{{ unidad.abreviatura }}</option>
+                  {% endfor %}
+                  -->
+                </select>
+                <small class="float-right">Unidad no listada aquí? <a href="#">Agregar unidad</a> </small>
+              </div>
+
+              <div class="form-group col-md-1">
+                <input type="hidden" id="current_qty">
+                <label for="qty_producto">Cantidad</label>
+                <input type="text" class="form-control" id="qty_producto">
+              </div>
+              <div class="form-group col-md-2">
+                <label for="product_cost">Costo</label>
+                <input type="text" class="form-control" id="product_cost">
+              </div>
+
+              <div class="form-group col-md-1">
+                <label for="addBtn"><span class="badge badge-warning">ACCIÓN ITEM</span></label>
+                <button type="button" class="btn btn-primary btn-sm"
+                        id="addBtn">
+                        <i class="fas fa-plus"></i> Agregar
+                </button>
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+    <br>
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-list fa-fw"></i> Detalle
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <section id="flip-scroll">
+                  <table id="tbl_article" class="table table-bordered table-hover table-striped table-condensed cf">
+                    <thead class="cf">
+                      <tr>
+                        <th style="display:none;">Codigo</th>
+                        <th>#</th>
+                        <th>Producto</th>
+                        <th class="text-center">Unidad</th>
+                        <th class="numeric">Cantidad</th>
+                        <th class="numeric">Costo</th>
+                        <th class="numeric">Total</th>
+                        <th class="text-center">Acción</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbl_article_body">
+                      <tr>
+                        <td colspan="7" style = "text-align: center;">
+                          <font color="red">¡ Ningún registro encontrado !</font>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+              <!-- /.col-md-12 -->
+            </div>
+            <!-- /.row -->
+          </div>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+    <br>
+    <div class="row">
+      <div class="col-lg-12">
+        <button type="submit" id="save_inventory" class="btn btn-sm btn-primary">
+          <span class="glyphicon glyphicon-floppy-save"></span> Guardar
+        </button>
+        <button type="reset" id="empty_shopping_cart" class="btn btn-sm btn-danger">
+          <span class="glyphicon glyphicon-trash"></span> Vaciar
+        </button>
+      </div>
+      <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.col-md-12 -->
+</div>
+<!-- /.base_container -->
+
+
+    <!-- formularios modales -->
+    <!-- The form which is used to populate the item data -->
+    <form id="editItemForm" method="post" class="form-horizontal" style="display: none;" autocomplete="off">
+      {% csrf_token %}
+      <div class="form-group">
+        <div class="col-xs-4">
+          <input type="hidden" class="form-control" name="id" disabled="disabled" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-xs-3 control-label">Producto</label>
+        <div class="col-xs-9">
+          <input type="text" class="form-control" name="product" disabled="disabled" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input type="hidden" name="equivalencia" />
+        <label class="col-xs-3 control-label">Unidad</label>
+        <div class="col-xs-4">
+          <select class="form-control" name="unit" id="selectId">
+            <!--
+            {% for unidad in unidades %}
+            <option value={{ unidad.abreviatura }}>{{ unidad.abreviatura }}</option>
+            {% endfor %}
+            -->
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-xs-3 control-label">Cantidad</label>
+        <div class="col-xs-4">
+          <input type="text" style="text-align: right;" class="form-control" name="qty" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-xs-3 control-label">Costo</label>
+        <div class="col-xs-4">
+          <input type="text" style="text-align: right;" class="form-control" name="cost" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-xs-6 col-xs-offset-3">
+          <button type="submit" class="btn btn-default">Actualizar</button>
+        </div>
+      </div>
+    </form>
+    <!-- End editItemForm-->
+{% endblock content %}
+
+{% block extra_script %}
+  <!-- jquery.inputmask -->
+  <script src="{% static 'vendor/inputmask/jquery.inputmask.min.js' %}"></script>
+
+  <!-- librerías typeahead -->
+  <script src="{% static 'vendor/typeahead/js/typeahead.bundle.js' %}"></script>
+
+  <!-- librerías FormValidation -->
+  <script src="{% static 'vendor/formvalidation/js/FormValidation.min.js' %}"></script>
+  <script src="{% static 'vendor/formvalidation/js/plugins/Bootstrap.min.js' %}"></script>
+
+  <!-- librerías bootbox -->
+  <script src="{% static 'vendor/bootbox/bootbox.min.js' %}"></script>
+
+  <!-- librerías csrftoken protección csrf  -->
+  <script src="{% static 'js/proteccion_csrf.js' %}"></script>
+  <script type="text/javascript">
+    // Initialize InputMask
+    $(":input").inputmask();
+
+    $(document).ready(function() {
+      showCart();
+
+      $('[data-toggle="tooltip"]').tooltip();
+
+      // Instantiate the Bloodhound suggestion engine
+      var products = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: {
+          cache: false, //SIN CACHE
+          url: "{% url 'almacen:product_lookup' %}",
+          filter: function (products) {
+            return $.map(products, function (product) {
+              return {
+                id: product.producto_id,
+                name: product.nombre + ' - ' + product.codigo_principal,
+                existencia: product.existencia
+              };
+            });
+          }
+        }
+      });
+
+      // Initialize the Bloodhound suggestion engine, SIN CHACHE
+      products.clearRemoteCache();
+      products.initialize(true);
+
+      $('#typeahead_producto').typeahead({
+        hint: true,
+        highlight: true, /* Enable substring highlighting */
+        minLength: 1 /* Specify minimum characters required for showing suggestions */
+      },
+      {
+        limit: 50, // This controls the number of suggestions displayed
+        displayKey: 'name',
+        source: products.ttAdapter(),
+        templates: {
+          suggestion: function (data) {
+            //return '<p><strong>' + data.name + '</strong> - '+ data.id +'</p>';
+            return '<p>' + data.name + '<strong style="color:coral;"> <span class="glyphicon glyphicon-hand-right"></span> ' + parseFloat(data.existencia).toFixed(2) + '</strong></p>';
+          }
+        }
+      }).on('typeahead:selected', function($e, datum){
+        var productId = datum["id"];
+        $("#id_producto").val(productId);
+
+        // borrar producto de input text typeahead y coloca el nombre del producto sin el codigo
+        var pos = datum["name"].indexOf(" - ");
+        $(this).typeahead('val', datum["name"].substr(0, pos));
+        $(this).typeahead('close');
+
+        //colocar precio de costo
+        var almacenId = $("#id_destino").val();
+        $.ajax({
+          url: "{% url 'almacen:get_producto_control' %}",
+          type: 'GET',
+          data: { productoId: productId, almacenId: almacenId },
+          success: function(response, textStatus, xhr) {
+            // eliminar unidades existentes y agrega unidad principal y secundaria
+            $('#id_unidad')
+            .empty()
+            .append('<option selected value="' + response.unit_primary + '">* ' + response.unit_primary + '</option>');
+
+            if (response.unit_secondary != null) {
+              $('#id_unidad')
+              .append('<option selected value="' + response.unit_secondary + '">' + response.unit_secondary + '</option>');
+            }
+
+            // cambiar unidad del producto
+            $("#id_unidad").val(response.unit_primary);
+
+            // cambiar precio de costo
+            $("#product_cost").val(response.precio_costo);
+
+            // envia el foco a cantidad
+            $("#qty_producto").val('1');
+            $("#qty_producto").focus().select();
+          }
+        });
+
+        // envia el foco a cantidad
+        //$("#qty_producto").val('1');
+        //$("#qty_producto").focus().select();
+      }).on('typeahead:autocompleted', function(object, datum){
+        var productId = datum["id"];
+        $("#id_producto").val(productId);
+
+        var pos = datum["name"].indexOf(" - ");
+        $(this).typeahead('val', datum["name"].substr(0, pos));
+        $(this).typeahead('close');
+
+      }).on('keydown', this, function (event) {
+        if (event.keyCode == 13) {
+          $(this).typeahead('close');
+
+          // BUSCAR string en db
+          var search_string = $("#typeahead_producto").val();
+          $.ajax({
+            url: "{% url 'producto:buscar_producto' %}",
+            type: 'GET',
+            data: { search_string: search_string },
+            success: function(response, textStatus, xhr) {
+              //console.log("UNIDAD ID=" + response.unitId);
+              if (response.success == true) {
+                //var productId = response.productId;
+                //var cost = response.cost;
+                var product = response.product;
+                var productId = response.productId;
+                $("#id_producto").val(productId);
+                $("#typeahead_producto").typeahead('val', product);
+                // cambiar unidad del producto
+                $("#id_unidad").val(response.unitId);
+
+                //console.log("AHORA AQUI... COSTO=" + response.cost);
+                // cambiar precio de costo
+                $("#product_cost").val(response.cost);
+
+                // envia el foco a cantidad
+                $("#qty_producto").val('1');
+                $("#qty_producto").focus().select();
+              } else {
+                swal("Oops...", "El producto no existe.", "error");
+              }
+            }
+          });
+        } else {
+          // tab key
+          if (event.keyCode != 9) {
+            $("#id_producto").val('');
+          }
+        }
+      });
+    }); // fin document ready
+
+    function showCart() {
+      $("#tbl_article_body").empty();
+      $.ajax({
+        type: "GET",
+        url: "{% url 'almacen:cartout_show' %}",
+        success: function(response, textStatus, xhr){
+          cart = JSON.parse(response.cart);
+          if (cart.length == 0) {
+            //$("#cart").css("visibility", "hidden");
+            var markup = "<tr><td colspan='7' style = 'text-align: center;'>"
+              + "<font color='red'>¡ Ningún registro encontrado !</font></td></tr>";
+
+            $("table tbody").append(markup);
+            return;
+          }
+
+          for (var i in cart) {
+            var item = cart[i];
+            var row = "<tr><td style='display:none;'>" + item.cesta_pk + "</td>" +
+              "<td data-title='#'>" + (parseInt(i) + 1) + "</td>" +
+              "<td data-title='Producto'>" + item.name + "</td>" +
+              "<td data-title='Unidad' class='text-center'>" + item.unit + "</td>" +
+              "<td data-title='Cantidad' class='numeric'>" + parseFloat(item.quantity).toFixed(2) + "</td>" +
+              "<td data-title='Costo' class='numeric'>" + parseFloat(item.price).toFixed(3) + "</td>" +
+              "<td data-title='Total' class='numeric'>" + parseFloat(item.subtotal).toFixed(3) + "</td>" +
+              "<td data-title='Acción' class='text-center'>" +
+                "<div class='btn-group btn-group-sm'>" +
+                  "<button type='button' data-id=" + item.cesta_pk + " class='btn btn-default glyphicon glyphicon-edit editButton' data-toggle='tooltip' title='Editar Item'></button>" +
+                  "<button type='button' data-id=" + item.cesta_pk + " class='btn btn-default glyphicon glyphicon-trash deleteButton' data-toggle='tooltip' title='Eliminar Item'></button>" +
+                "</div>"+
+              "</td>" +
+              "</tr>";
+            $("#tbl_article_body").append(row);
+          }
+        },
+        error : function(xhr, textStatus, errorThrown) {
+          swal("Oops...", errorThrown, "error");
+        }
+      });
+    }
+
+    // permitir solo datos númericos con decimales
+    $("#qty_producto").on("keypress keyup blur",function (event) {
+      $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+      if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+        event.preventDefault();
+      }
+    });
+    // permitir solo datos númericos con decimales
+    $("#product_cost").on("keypress keyup blur",function (event) {
+      $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+      if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+        event.preventDefault();
+      }
+    });
+
+    $('#qty_producto').keydown(function (event) {
+      if (event.keyCode == 13 && $(this).val() != '') {
+        event.preventDefault();
+        $('#product_cost').focus().select();
+      }
+    });
+
+    $('#product_cost').keydown(function (event) {
+      if (event.keyCode == 13 && $("#id_producto").val() != ''
+      && $("#qty_producto").val() != '' && $(this).val() != '') {
+        event.preventDefault();
+        // programmatically trigger the click
+        $('#addBtn').click();
+        return false;
+      }
+    });
+
+    //////////////// botones tabla, acción delete ////////////////
+    $("table").on('click','.deleteButton',function(){
+      // Get the record's ID via attribute
+      var id = $(this).attr('data-id');
+
+      var csrftoken = getCookie('csrftoken');
+      $.ajax({
+        headers: { "X-CSRFToken": csrftoken },
+        type: "POST",
+        url: "{% url 'almacen:cartout_remove' %}",
+        dataType: 'json',
+        data: { cesta_id: id, },
+        success: function(response, textStatus, xhr){
+          showCart();
+        },
+        error : function(xhr, textStatus, errorThrown) {
+          swal("Oops...", errorThrown, "error");
+        }
+      });
+    });
+
+    //////////////// formulario modal editItemForm ////////////////
+    $('#editItemForm')
+      .formValidation({
+        framework: 'bootstrap',
+        icon: {
+          valid: 'glyphicon glyphicon-ok',
+          invalid: 'glyphicon glyphicon-remove',
+          validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+          qty: {
+            validators: {
+              /*notEmpty: {
+                message: 'Cantidad requerida'
+              },
+              numeric: {
+                message: 'El precio debe ser un número',
+                // The default separators
+                thousandsSeparator: '',
+                decimalSeparator: '.'
+              }*/
+              callback: {
+                message: 'Por favor especifique una cantidad válida.',
+                callback: function(value, validator, $field) {
+                  //var channel = $('#surveyForm').find('[name="channel"]:checked').val();
+                  var cantidad = $('#editItemForm').find('[name="qty"]').val();
+                  var equivalencia = $('#editItemForm').find('[name="equivalencia"]').val();
+                  var unidad = $('#editItemForm').find('[name="unit"] option:selected').text();
+
+                  //console.log(unidad);
+                  if (unidad.substring(0, 2) != '* ') {
+                    if ((parseFloat(cantidad) < parseFloat(equivalencia)) && (parseFloat(cantidad) > 0)) {
+                      return true;
+                    } else {
+                      return false;
+                    }
+                  } else {
+                    return (parseFloat(cantidad) > 0)
+                          ? true
+                          : false;
+                  }
+                }
+              }
+            }
+          },
+          unit: {
+            validators: {
+              notEmpty: {
+                message: 'Por favor seleccione una unidad'
+              },
+            }
+          },
+          cost: {
+            validators: {
+              notEmpty: {
+                message: 'El precio es requerido'
+              },
+              numeric: {
+                message: 'El precio debe ser un número',
+                // The default separators
+                thousandsSeparator: '',
+                decimalSeparator: '.'
+              }
+            }
+          }
+        }
+      })
+      .on('success.form.fv', function(e) {
+        // Save the form data via an Ajax request
+        e.preventDefault();
+
+        var $form = $(e.target),
+        id    = $form.find('[name="id"]').val();
+
+        var data = {
+          'id' : id
+        };
+
+        $.ajax({
+          url: "{% url 'almacen:cartout_update' %}",
+          method: 'POST',
+          data: $form.serialize() + '&' + $.param(data),
+          success: function(response, textStatus, xhr) {
+            //console.log(response);
+            showCart();
+
+            // Hide the dialog
+            $form.parents('.bootbox').modal('hide');
+          },
+          error : function(xhr, textStatus, errorThrown) {
+            swal("Oops...", errorThrown, "error");
+          }
+        });
+      });
+
+    //////////////// botones tabla, acción editar ////////////////
+    $("table").on('click','.editButton',function(){
+      // Get the record's ID via attribute
+      var id = $(this).attr('data-id');
+      $.ajax({
+        url: "{% url 'almacen:cartout_update' %}",
+        method: 'GET',
+        data: { id: id },
+        success: function(response, textStatus, xhr){
+          // eliminar unidades existentes y agrega unidad principal y secundaria
+          $('#editItemForm')
+            .find('[name="unit"]').children().remove().end()
+            .append('<option selected value="' + response.unit_primary + '">* ' + response.unit_primary + '</option>');
+
+          if (response.unit_secondary != null) {
+            $('#editItemForm')
+              .find('[name="unit"]')
+              .append('<option selected value="' + response.unit_secondary + '">' + response.unit_secondary + '</option>');
+          }
+
+          // Populate the form fields with the data returned from server
+          $('#editItemForm')
+          .find('[name="id"]').val(response.id).end()
+          .find('[name="product"]').val(response.product).end()
+          .find('[name="unit"]').val(response.unit).end()
+          .find('[name="equivalencia"]').val(response.unit_equivalence).end()
+          .find('[name="qty"]').val(response.qty).end()
+          .find('[name="cost"]').val(response.cost).end();
+
+          // Show the dialog
+          bootbox
+          .dialog({
+            title: 'Editar item',
+            message: $('#editItemForm'),
+            show: false // We will show it manually later
+          })
+          .on('shown.bs.modal', function() {
+            $('#editItemForm')
+            .show()                       // Show the form
+            .formValidation('resetForm') // Reset form
+            .find("[name='qty']").focus().select();
+
+          })
+          .on('hide.bs.modal', function(e) {
+            // Bootbox will remove the modal (including the body which contains the login form)
+            // after hiding the modal
+            // Therefor, we need to backup the form
+            $('#editItemForm').hide().appendTo('body');
+          })
+          .modal('show');
+        },
+        error : function(xhr, textStatus, errorThrown) {
+          swal("Oops...", errorThrown, "error");
+        }
+      });
+    });
+
+    // cambiar precio si cambia unidad de medida
+    $('#selectId').on('change', function () {
+      var optionSelected = $("option:selected", this);
+      var valueSelected = this.value;
+      var text = $(this).find(":selected").text();
+
+      var costo_actual = $('input[name="cost"]').val();
+      var equivalencia = $('input[name="equivalencia"]').val();
+
+      if (text.substring(0, 2) == '* ') {
+        // unidad principal
+        var nuevo_precio = costo_actual * equivalencia;
+        $('input[name="cost"]').val(nuevo_precio.toFixed(5));
+
+      } else {
+        // unidad secundaria
+        var nuevo_precio = costo_actual / equivalencia;
+        $('input[name="cost"]').val(nuevo_precio.toFixed(5));
+
+        // revalidar cantidad
+        $fieldQty = $('#editItemForm').find('input[name="qty"]');
+        $('#editItemForm').formValidation('revalidateField', 'qty');
+
+      }
+    });
+
+    $('#addBtn').click(function(e){
+      e.preventDefault();
+      if ($("#id_producto").val() != '' && $("#qty_producto").val() != ''
+      && $("#product_cost").val() != '') {
+        var referenciaId = $('#id_fuente').val();
+        var productId = $('#id_producto').val();
+        var productName = $("#typeahead_producto").val();
+        var productQty = $("#qty_producto").val();
+        var productCost = $("#product_cost").val();
+        //var productUnit = $("#id_unidad").val();
+        var productUnit = $( "#id_unidad option:selected" ).val();
+
+        // limpiar input text
+        $('#id_producto').val('');
+        //$("#typeahead_producto").val('');  NO FUNCIONA CORRECTAMENTE
+        $("#typeahead_producto").typeahead('val', '');
+        $("#qty_producto").val('');
+        $("#product_cost").val('');
+
+        // enviar el foco a input productos
+        $("#typeahead_producto").focus();
+        $("#typeahead_producto").typeahead('close');
+
+        // enviar al carrito
+        var csrftoken = getCookie('csrftoken');
+        $.ajax({
+          headers: { "X-CSRFToken": csrftoken },
+          type: "POST",
+          //url: "../../carton/add/" + productId,
+          url: "../salida/add/" + productId,
+          dataType: 'json',
+          data: {
+            unit: productUnit,
+            quantity: productQty,
+            cost: productCost,
+          },
+          success: function(response, textStatus, xhr){
+            showCart();
+          },
+          error : function(xhr, textStatus, errorThrown) {
+            swal("Oops...", errorThrown, "error");
+          }
+        });
+      } else {
+        //swal("Oops...", "Producto mal ingresado.", "error");
+        swal("Producto mal ingresado.");
+      }
+    });
+
+    //////////////// botón de acción Recibir Inventario ////////////////
+    $('#save_inventory').click(function(e){
+      e.preventDefault();
+
+      $.ajax({
+        url: "/cesta/total_filas_cesta/?key=CART-INV_SALIDA",
+        success: function(response, textStatus, xhr) {
+          if (!response.is_empty) {
+            var referencia_id = $('#id_fuente').val();
+            var almacen_id = $("#id_destino").val();
+            var nroComprobante = $("#numero_comprobante").val();
+
+            if (nroComprobante != '' && nroComprobante.length == 17) {
+              $.ajax({
+                type: "GET",
+                url: "{% url 'almacen:cartout_save' %}",
+                data: { referencia_id: referencia_id, almacen_id: almacen_id, nro_comp: nroComprobante },
+                success: function(response, textStatus, xhr){
+                  // Eliminar filas guardadas
+                  document.querySelectorAll("table tbody tr").forEach(function(e){e.remove()});
+
+                  // Agregar Fila: ¡ Ningún registro encontrado !
+                  var markup = "<tr><td colspan='7' style = 'text-align: center;'>"
+                    + "<font color='red'>¡ Ningún registro encontrado !</font></td></tr>";
+
+                  $("table tbody").append(markup);
+                  $("#motivo").val('');
+
+                  swal("Buen trabajo!", "Entrada Guardada.", "success");
+                },
+                error : function(xhr, textStatus, errorThrown) {
+                  swal("Oops...", errorThrown, "error");
+                }
+              });
+            } else {
+              swal("Oops...", "Revise Nro. Comprobante.", "error");
+            }
+          } else {
+            swal("Oops...", "No existe items.", "error");
+          }
+        },
+        error: function(xhr, textStatus, errorThrown) {
+          swal("Oops...", errorThrown, "error");
+        }
+      });
+    });
+  </script>
+{% endblock extra_script %}

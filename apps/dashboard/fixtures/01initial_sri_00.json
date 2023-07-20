@@ -1,0 +1,408 @@
+[
+    {
+        "model": "sri.SriTipoComprobante",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "01",
+            "descripcion": "FACTURA",
+            "alias": "FC"
+        }
+    },
+    {
+        "model": "sri.SriTipoComprobante",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "04",
+            "descripcion": "NOTA DE CRÉDITO",
+            "alias": "NC"
+        }
+    },
+    {
+        "model": "sri.SriTipoComprobante",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "05",
+            "descripcion": "NOTA DE DÉBITO",
+            "alias": "ND"
+        }
+    },
+    {
+        "model": "sri.SriTipoComprobante",
+        "pk": 4,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+          "update_at": "2018-11-10T18:48:20-05:00",
+          "codigo": "06",
+          "descripcion": "GUÍA DE REMISIÓN",
+          "alias": "GR"
+        }
+    },
+    {
+        "model": "sri.SriTipoComprobante",
+        "pk": 5,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "07",
+            "descripcion": "COMPROBANTE DE RETENCIÓN",
+            "alias": "CR"
+        }
+    },
+    {
+        "model": "sri.SriTipoComprobante",
+        "pk": 6,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "101",
+            "descripcion": "NOTA ENTREGA",
+            "alias": "NE"
+        }
+    },
+    {
+        "model": "sri.SriTipoComprobante",
+        "pk": 7,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "102",
+            "descripcion": "PROFORMA",
+            "alias": "FP"
+        }
+    },
+    {
+        "model": "sri.SriTipoIdentificacion",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "04",
+            "nombre": "RUC"
+        }
+    },
+    {
+        "model": "sri.SriTipoIdentificacion",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "05",
+            "nombre": "CEDULA"
+        }
+    },
+    {
+        "model": "sri.SriTipoIdentificacion",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "06",
+            "nombre": "PASAPORTE"
+        }
+    },
+    {
+        "model": "sri.SriTipoIdentificacion",
+        "pk": 4,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "07",
+            "nombre": "VENTA A CONSUMIDOR FINAL"
+        }
+    },
+    {
+        "model": "sri.SriTipoIdentificacion",
+        "pk": 5,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "08",
+            "nombre": "IDENTIFICACIÓN DEL EXTERIOR"
+        }
+    },
+    {
+        "model": "sri.SriTipoIdentificacion",
+        "pk": 6,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "09",
+            "nombre": "PLACA"
+        }
+    },
+    {
+        "model": "sri.SriTipoMoneda",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "DOLAR",
+            "descripcion": "ECUADOR"
+        }
+    },
+    {
+        "model": "sri.SriTipoMoneda",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "002",
+            "descripcion": "PESO ANDINO"
+        }
+    },
+    {
+        "model": "sri.SriTipoMoneda",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "004",
+            "descripcion": "CERT LIBRE DISP"
+        }
+    },
+    {
+        "model": "sri.SriTipoDocumento",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "01",
+            "descripcion": "FACTURA",
+            "alias": "FC",
+            "tipo_impuesto": "1"
+        }
+    },
+    {
+        "model": "sri.SriTipoDocumento",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "03",
+            "descripcion": "NOTA DÉBITO",
+            "alias": "ND",
+            "tipo_impuesto": "1"
+        }
+    },
+    {
+        "model": "sri.SriTipoDocumento",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "07",
+            "descripcion": "LIQUIDACIÓN COMPRAS",
+            "alias": "LC",
+            "tipo_impuesto": "1"
+        }
+    },
+    {
+        "model": "sri.SriTarifaIVA",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "0",
+            "descripcion": "0%",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTarifaIVA",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "2",
+            "descripcion": "GRAVA IVA",
+            "porcentaje": "12"
+        }
+    },
+    {
+        "model": "sri.SriTarifaIVA",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "6",
+            "descripcion": "NO OBJETO DE IMPUESTO",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTarifaIVA",
+        "pk": 4,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "7",
+            "descripcion": "EXCENTO",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTarifaICE",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "3011",
+            "descripcion": "CIGARRILLOS RUBIOS",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTarifaICE",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "3021",
+            "descripcion": "CIGARRILLOS NEGOS",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTarifaICE",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "3023",
+            "descripcion": "PRODUCTOS DEL TABACO Y SUCEDANEOS DEL TABACO EXCENTO CIGARRILLOS",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTarifaIRBPNR",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "5001",
+            "descripcion": "BOTELLAS PLASTICAS NO RETORNABLES",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriFormaPago",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "01",
+            "descripcion": "SIN UTILIZAR EL SISTEMA FINANCIERO"
+        }
+    },
+    {
+        "model": "sri.SriFormaPago",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "15",
+            "descripcion": "COMPENSACIÓN DE DEUDAS"
+        }
+    },
+    {
+        "model": "sri.SriFormaPago",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "16",
+            "descripcion": "TARJETA DE DÉBITO"
+        }
+    },
+    {
+        "model": "sri.SriFormaPago",
+        "pk": 4,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "17",
+            "descripcion": "DINERO ELECTRÓNICO"
+        }
+    },
+    {
+        "model": "sri.SriFormaPago",
+        "pk": 5,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "18",
+            "descripcion": "TARJETA PREPAGO"
+        }
+    },
+    {
+        "model": "sri.SriFormaPago",
+        "pk": 6,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "19",
+            "descripcion": "TARJETA DE CRÉDITO"
+        }
+    },
+    {
+        "model": "sri.SriFormaPago",
+        "pk": 7,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "20",
+            "descripcion": "OTRO CON UTILIZACIÓN DEL SISTEMA FINANCIERO"
+        }
+    },
+    {
+        "model": "sri.SriFormaPago",
+        "pk": 8,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "21",
+            "descripcion": "ENDOSO DE TÍTULO"
+        }
+    }
+]

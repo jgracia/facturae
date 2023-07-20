@@ -1,0 +1,129 @@
+{% extends "base/base_site.html" %}
+
+{% block title %} {% if object %} Editar Usuario {% else %} Crear Usuario {% endif %} {% endblock title %}
+
+{% block content %}
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="page-title">
+                <div class="title_left">
+                    {% if object %}
+                    <h3>Editar Usuario</h3>
+                    {% else %}
+                    <h3>Crear Usuario</h3>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Formulario Usuario <small>elementos del formulario</small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a href="{% url 'administracion:listado_usuarios' %}"><i class="fa fa-mail-reply"></i></a>
+                                </li>
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <!--<li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{% url 'almacen:listado_almacenes' %}">Cancelar</a>
+                                        </li>
+                                        <li><a href="{% url 'almacen:crear_almacen' %}">Resetear</a>
+                                        </li>
+                                    </ul>
+                                </li>-->
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div> <!-- fin x-title -->
+
+                        <div class="x_content">
+                            <br />
+
+                            <!--<form method="post">
+                              {% csrf_token %}
+                              {{ form.as_p }}
+                              <button type="submit">Guardar</button>
+                            </form>-->
+
+                            <!--<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">-->
+                            {% if object %}
+                            <form action="{% url 'usuario:editar_usuario' object.pk %}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+                            {% else %}
+                            <form action="{% url 'usuario:registrar' %}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+                            {% endif %}
+                                {% csrf_token %}
+                                {% load widget_tweaks %}
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nombre <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        {{ form.first_name |add_class:"required" |add_class:'form-control' }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last_name">Apellidos <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        {{ form.last_name |add_class:"required" |add_class:'form-control' }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Nombre de Usuario <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        {{ form.username |add_class:"required" |add_class:'form-control' }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Correo electrónico <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        {{ form.email |add_class:"required" |add_class:'form-control' }}
+                                    </div>
+                                </div>
+
+                                {% if not object %}
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password1">Contraseña <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            {{ form.password1 |add_class:"required" |add_class:'form-control' }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password2">Confirmar contraseña <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            {{ form.password2 |add_class:"required" |add_class:'form-control' }}
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Activo?</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        {{ form.is_active|attr:"class:flat" }}
+                                    </div>
+                                </div>
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <button class="btn btn-primary" type="button" onclick="location.href='{% url 'administracion:listado_usuarios' %}';">Cancelar</button>
+                                        <!--<button class="btn btn-primary" type="reset">Reset</button>-->
+                                        <button type="submit" class="btn btn-success">Guardar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+    </div>
+{% endblock content %}

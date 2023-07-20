@@ -1,0 +1,90 @@
+{% extends "base/base_site.html" %}
+
+{% block title %} Plan de Cuentas {% endblock title %}
+
+
+{% block content %}
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Plan de Cuentas</h3>
+                </div>
+
+                <!--
+                <div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                -->
+
+                <div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <!--<div class="btn-toolbar">-->
+                        <div class="btn-group pull-right">
+                            <button onclick="location.href='{% url 'contabilidad:crear_cuenta' %}';" class="btn btn-sm btn-default" type="button"  data-placement="top" data-toggle="tooltip" data-original-title="Crear"><i class="fa fa-plus"></i></button>
+                            <button id="ExportReporttoExcel" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Exportar"><i class="fa fa-file-excel-o" style="color:green"></i></button>
+                            <button id="ReporttoPrinter" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Imprimir"><i class="fa fa-print"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Lista Plan de Cuentas <small>Gestionar plan de cuentas.</small></h2>
+
+                                <!--<div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                    <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                                </div>-->
+                            <div class="title_right">
+                                <div class="pull-right">
+                                   <a class="btn btn-default btn-xs" onclick="return abrir_modal('{% url 'contabilidad:cargar_plan_cuenta' %}')">Plan Ctas. Predef.</a>
+                                   <a class="btn btn-default btn-xs">Importar Plan Ctas.</a>
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            <!--<table id="datatable" class="table table-striped table-bordered">-->
+                            <!--<table id="datatable-responsive" class="table table-striped table-bordered">-->
+
+                          {% load mptt_tags %}
+                          <ul>
+                            {% recursetree genres %}
+                              <li>
+                                {{ node.codigo }} {{ node.nombre }}
+                                {% if not node.is_leaf_node %}
+                                  <ul class="children">
+                                    {{ children }}
+                                  </ul>
+                                {% endif %}
+                              </li>
+                            {% endrecursetree %}
+                          </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup" class="modal fade" role="dialog">
+
+    </div>
+
+{% endblock content %}

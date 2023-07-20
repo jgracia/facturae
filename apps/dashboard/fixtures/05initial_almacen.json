@@ -1,0 +1,189 @@
+[
+    {
+        "model": "almacen.TipoMovimiento",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "INV_INI",
+            "descripcion": "EXISTENCIA INVENTARIO INICIAL",
+            "pide_referencia": 0,
+            "es_entrada": 0,
+            "es_salida": 0,
+            "es_existencia": 1,
+            "es_ajuste": 0,
+            "estado": 1
+        }
+    },
+    {
+        "model": "almacen.TipoMovimiento",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "ENT_FAC",
+            "descripcion": "ENTRADA FACTURA COMPRAS",
+            "pide_referencia": 0,
+            "es_entrada": 1,
+            "es_salida": 0,
+            "es_existencia": 0,
+            "es_ajuste": 0,
+            "estado": 1
+        }
+    },
+    {
+        "model": "almacen.TipoMovimiento",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "ENT_OBSQ",
+            "descripcion": "ENTRADA OBSEQUIO PROVEEDORES",
+            "pide_referencia": 0,
+            "es_entrada": 1,
+            "es_salida": 0,
+            "es_existencia": 0,
+            "es_ajuste": 0,
+            "estado": 1
+        }
+    },
+    {
+        "model": "almacen.TipoMovimiento",
+        "pk": 4,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "ENT_TRANS",
+            "descripcion": "ENTRADA TRANSFERENCIA SUCURSALES",
+            "pide_referencia": 0,
+            "es_entrada": 1,
+            "es_salida": 0,
+            "es_existencia": 0,
+            "es_ajuste": 0,
+            "estado": 1
+        }
+    },
+    {
+        "model": "almacen.TipoMovimiento",
+        "pk": 5,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "SAL_FACT",
+            "descripcion": "SALIDA FACTURA VENTAS",
+            "pide_referencia": 0,
+            "es_entrada": 0,
+            "es_salida": 1,
+            "es_existencia": 0,
+            "es_ajuste": 0,
+            "estado": 1
+        }
+    },
+    {
+        "model": "almacen.TipoMovimiento",
+        "pk": 6,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "SD",
+            "descripcion": "SALIDA DEVOLUCIÓN PROVEEDORES",
+            "pide_referencia": 0,
+            "es_entrada": 0,
+            "es_salida": 1,
+            "es_existencia": 0,
+            "es_ajuste": 0,
+            "estado": 1
+        }
+    },
+    {
+        "model": "almacen.TipoMovimiento",
+        "pk": 7,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "ST",
+            "descripcion": "SALIDA TRANSFERENCIA SUCURSALES",
+            "pide_referencia": 0,
+            "es_entrada": 0,
+            "es_salida": 1,
+            "es_existencia": 0,
+            "es_ajuste": 0,
+            "estado": 1
+        }
+    },
+    {
+        "model": "almacen.TipoMovimiento",
+        "pk": 7,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "SAL_TRANS",
+            "descripcion": "SALIDA TRANSFERENCIA BODEGA",
+            "pide_referencia": 0,
+            "es_entrada": 0,
+            "es_salida": 1,
+            "es_existencia": 0,
+            "es_ajuste": 0,
+            "estado": 1
+        }
+    },
+    {
+        "model": "almacen.TipoMovimiento",
+        "pk": 8,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "SAL_NE",
+            "descripcion": "SALIDA NOTA ENTREGA",
+            "pide_referencia": 0,
+            "es_entrada": 0,
+            "es_salida": 1,
+            "es_existencia": 0,
+            "es_ajuste": 0,
+            "estado": 1
+        }
+    },
+    {
+        "model": "almacen.TipoMovimiento",
+        "pk": 9,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "ENT_AJSOB",
+            "descripcion": "AJUSTE POR SOBRANTE DE INVENTARIOS",
+            "pide_referencia": 0,
+            "es_entrada": 1,
+            "es_salida": 0,
+            "es_existencia": 0,
+            "es_ajuste": 1,
+            "estado": 1
+        }
+    },
+    {
+        "model": "almacen.TipoMovimiento",
+        "pk": 10,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "codigo": "SAL_AJFAL",
+            "descripcion": "AJUSTE POR FALTANTE DE INVENTARIOS",
+            "pide_referencia": 0,
+            "es_entrada": 0,
+            "es_salida": 1,
+            "es_existencia": 0,
+            "es_ajuste": 1,
+            "estado": 1
+        }
+    }
+]

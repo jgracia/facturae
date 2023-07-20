@@ -1,0 +1,315 @@
+{% extends "base.html" %}
+
+{% block title %} Tarjetas Kardex {% endblock title %}
+
+{% load static %}
+
+{% block extra_head %}
+  <!-- librerías typeahead -->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/typeahead/css/typeaheadjs.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/typeahead/css/typeaheadbundle.css' %}">
+{% endblock extra_head %}
+
+{% block content %}
+<div class="base_container">
+  <div class="col-12">
+    <div class="row">
+      <!-- Mixed: mobile, tablet, and desktop -->
+      <div class="col-12 col-sm-6 col-lx-6">
+        <h5>Tarjeta Kardex <small>Productos</small></h5>
+      </div>
+      <div class="col-12 col-sm-6 col-lx-6">
+        <div class="btn-group float-right" role="group" aria-label="Acciones">
+          <button type="button" class="btn btn-secondary"
+                  onclick="location.href='{% url 'almacen:inventario_entrada' %}';">
+                  <i class="fa fa-plus"></i> Entrada
+          </button>
+          <button type="button" class="btn btn-secondary"
+                  onclick="location.href='{% url 'almacen:inventario_salida' %}';">
+                  <i class="fas fa-minus"></i> Salida
+          </button>
+          <button type="button" class="btn btn-secondary"
+                  onclick="location.href='{% url 'almacen:inventario_ajuste' %}';">
+                  <i class="fab fa-mixer"></i> Ajuste
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr/>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="btn-toolbar float-right">
+          <!--
+          <div class="input-group mb-3">
+            <select  id="id_almacen" data-toggle="tooltip" title="Filtrar Almacén / Bodega" style="padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: 30px;">
+              {% for almacen in almacenes %}
+                <option value={{ almacen.almacen_id }}>{{ almacen.descripcion }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          -->
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Bodega / Almacén</label>
+            </div>
+            <select class="custom-select" id="id_almacen">
+              {% for almacen in almacenes %}
+                <option value={{ almacen.almacen_id }}>{{ almacen.descripcion }}</option>
+              {% endfor %}
+              <option disabled>----------</option>
+              <option value="0">TODO</option>
+            </select>
+          </div>
+
+          <span>&nbsp;&nbsp;</span>
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Fecha / Rango</label>
+            </div>
+            <div class="input-group">
+              <div id="daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span></span> <i class="fa fa-caret-down"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-5 offset-lg-7">
+        <div class="form-group">
+          <div id="scrollable-dropdown-menu">
+            <input type="text" class="typeahead tt-query form-control" autocomplete="off" spellcheck="false" id="typeahead_producto" placeholder="Producto..." data-toggle="tooltip" title="Buscar producto">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="row">
+      <div class="col-12">
+        <table id='myTable' class="table table-condensed">
+          <tbody>
+            <tr>
+              <td style="font-weight:bold; text-align: right;" width="15%">ID: </td>
+              <td style="font-weight:bold; text-align: right;"></td>
+              <td style="font-weight:bold; text-align: right;" width="15%">Descripción:</td>
+              <td colspan="3">
+              </td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold; text-align: right;">Existencia: </td>
+              <td style="font-weight:bold; text-align: right; color: coral;">0.00</td>
+              <!--<td width="30%"></td>-->
+
+              <td style="font-weight:bold; text-align: right;">Precio Uno: </td>
+              <td align="right">0.00</td>
+              <td style="font-weight:bold; text-align: right;" width="15%">Precio Tres: </td>
+              <td align="right">0.00</td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold; text-align: right;">Precio Costo: </td>
+              <td style="font-weight:bold; text-align: right; color: coral;">0.00</td>
+              <!--<td width="30%"></td>-->
+
+              <td style="font-weight:bold; text-align: right;">Precio Dos:</td>
+              <td align="right">0.00</td>
+              <td style="font-weight:bold; text-align: right;">Precio Cuatro:</td>
+              <td align="right">0.00</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div> <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+    <!-- Tabla -->
+    <div class="row">
+      <div class="col-12">
+        <table id="resultTable" class="table table-bordered table-hover table-striped table-condensed cf">
+          <thead class="cf">
+            <tr>
+              <th rowspan="2" style="text-align:center;vertical-align: middle;">#</th>
+              <th rowspan="2" style="vertical-align: middle;">Fecha | Hora</th>
+              <th rowspan="2" style="vertical-align: middle;">Comprobante</th>
+              <th rowspan="2" style="vertical-align: middle;">Almacén</th>
+              <th rowspan="2" style="vertical-align: middle;">Descripción</th>
+              <th rowspan="2" style="vertical-align: middle;">Movimiento</th>
+              <th rowspan="2" style="text-align:center;vertical-align: middle;">Unidad</th>
+              <th colspan="2" style="text-align:center;">MOVIMIENTO</th>
+              <th colspan="2" style="text-align:center;">BALANCE</th>
+              <th rowspan="2" style="text-align:center;vertical-align: middle;">Acciones</th>
+            </tr>
+            <tr>
+              <th style="text-align:right;">Cantidad</th>
+              <th style="text-align:right;">Precio</th>
+              <th style="text-align:right;">Cantidad</th>
+              <th style="text-align:right;">Costo</th>
+            </tr>
+          </thead>
+          <tbody id = "kardex">
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.col-12 -->
+</div>
+{% endblock content %}
+
+{% block extra_script %}
+<!-- librerías typeahead -->
+<script src="{% static 'vendor/typeahead/js/typeahead.bundle.js' %}"></script>
+<script src="{% static 'js/_date_range_start.js' %}"></script>
+
+<script type="text/javascript">
+  // Inicializar tooltip para tabla Bootstrap 3.3+
+  $(function () {
+    $("body").tooltip({
+      selector: '[data-toggle="tooltip"]',
+      container: 'body'
+    });
+  });
+
+  $(document).ready(function() {
+    var items = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      prefetch: {
+        cache: false, //SIN CACHE
+        //url: "../ajax/product_lookup/",
+        url: "{% url 'almacen:product_lookup' %}",
+        filter: function (items) {
+          return $.map(items, function (producto) {
+            return {
+              id: producto.producto_id,
+              name: producto.nombre + ' - ' + producto.codigo_principal,
+              existencia: producto.existencia
+            };
+          });
+        }
+      }
+    });
+
+    // Initialize the Bloodhound suggestion engine
+    items.initialize();
+
+    $('#scrollable-dropdown-menu .typeahead').typeahead({
+      hint: true,
+      highlight: true, /* Enable substring highlighting */
+      minLength: 1 /* Specify minimum characters required for showing suggestions */
+    },
+    {
+      limit: 50, // This controls the number of suggestions displayed
+      displayKey: 'name',
+      source: items.ttAdapter(),
+      templates: {
+        suggestion: function (data) {
+          //return '<p><strong>' + data.name + '</strong> - '+ data.id +'</p>';
+          return '<p>' + data.name + '<strong style="color:coral;"> <span class="glyphicon glyphicon-hand-right"></span> ' + parseFloat(data.existencia).toFixed(2) + '</strong></p>';
+        }
+      }
+    }).on('typeahead:selected', function($e, datum){
+      var dataId = datum["id"];
+      buscarKardex(dataId);
+
+      // borrar producto de input text typeahead
+      $(this).typeahead('val', '');
+      $(this).typeahead('close');
+    }).on('typeahead:autocompleted', function(object, datum){
+      $(this).trigger('typeahead:_done', [object, datum]);
+      $(this).typeahead('val', '');
+      $(this).typeahead('close');
+    });
+
+    // función para buscar kardex
+    function buscarKardex($param) {
+      //console.log("enviado=" + $param);
+      var almacenId = $("#id_almacen").val();
+      var drp = $('#daterange').data('daterangepicker');
+
+      //console.log(drp.startDate.format('MM/DD/YYYY'));
+      var from_date = drp.startDate.format('YYYY/MM/DD')
+      var to_date = drp.endDate.format('YYYY/MM/DD');
+
+      $.ajax({
+        url: "{% url 'almacen:kardex_json' %}",
+        data: { from_date: from_date, to_date: to_date, dataId: $param, almacenId: almacenId },
+        dataType: 'json',
+        success: function(response, textStatus, xhr) {
+          // eliminar filas existentes
+          $("#kardex tr").remove();
+
+          //console.log(response);
+
+          // actualizar datos costo
+          var table = document.getElementById('myTable');
+          table.rows[0].cells[1].innerHTML = response.producto_id; // ID
+          table.rows[1].cells[1].innerHTML = parseFloat(response.existencia).toFixed(3); // existencia
+          table.rows[2].cells[1].innerHTML = parseFloat(response.costo).toFixed(3); // precio de costo
+
+          table.rows[0].cells[3].innerHTML = response.producto; // descripción
+          table.rows[1].cells[3].innerHTML = parseFloat(response.precio_uno).toFixed(3); // precio uno
+          table.rows[2].cells[3].innerHTML = parseFloat(response.precio_dos).toFixed(3); // precio dos
+
+          table.rows[1].cells[5].innerHTML = parseFloat(response.precio_tres).toFixed(3); // precio tres
+          table.rows[2].cells[5].innerHTML = parseFloat(response.precio_cuatro).toFixed(3); // precio cuatro
+
+          if (response.success == true) {
+            // llenar nuevos datos
+            var json = JSON.parse(response.data);
+            for(var i = 0; i < json.length; i++) {
+              kardex = json[i];
+
+              var e = $('<tr>\n\
+              <td id = "id" data-title="#" class="text-center"></td>\n\
+              <td id = "fecha" data-title="Fecha | Hora"></td>\n\
+              <td id = "comprobante" data-title="Comprobante"></td>\n\
+              <td id = "almacen" data-title="Almacén"></td>\n\
+              <td id = "descripcion" data-title="Descripción"></td>\n\
+              <td id = "movimiento" data-title="Movimiento"></td>\n\
+              <td id = "unidad" data-title="Unidad" class="text-center"></td>\n\
+              <td id = "movimiento_cantidad" data-title="Cantidad" class="text-right"></td>\n\
+              <td id = "movimiento_precio" data-title="Precio" class="text-right"></td>\n\
+              <td id = "balance_cantidad" data-title="Cantidad" class="text-right red"></td>\n\
+              <td id = "balance_costo" data-title="Costo" class="text-right"></td>\n\
+              <td data-title="Acciones" class="text-center">\n\
+              <nobr>\n\
+              <a class="btn btn-warning btn-sm" href="#"><i class="far fa-edit"></i> Editar</a>\n\
+              <a class="btn btn-danger btn-sm" href="#"><i class="fa fa-trash"></i> Eliminar</a>\n\
+              </nobr>\n\
+              </td>\n\
+              </td>');
+
+              $('#id', e).html(i+1);
+              $('#fecha', e).html(kardex['fecha']);
+              $('#comprobante', e).html(kardex['comprobante']);
+              $('#almacen', e).html(kardex['almacen']);
+              $('#descripcion', e).html(kardex['descripcion']);
+              $('#movimiento', e).html(kardex['movimiento']);
+              $('#unidad', e).html(kardex['unidad']);
+              $('#movimiento_cantidad', e).html(parseFloat(kardex['movimiento_cantidad']).toFixed(2));
+              $('#movimiento_precio', e).html(formatter.format(kardex['movimiento_precio']));
+              $('#balance_cantidad', e).html(parseFloat(kardex['balance_cantidad']).toFixed(2));
+              $('#balance_costo', e).html(formatter.format(kardex['balance_costo']));
+              $("table#resultTable tbody").append(e);
+            }
+          } else {
+            $("#kardex tr").remove();
+          }
+        },
+        error : function(xhr, textStatus, errorThrown) {
+          mensaje(errorThrown, 'error');
+        }
+      });
+    }
+  });
+</script>
+{% endblock extra_script %}

@@ -1,0 +1,154 @@
+{% extends 'base/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+    Proforma | Hacienda.ec - {{ user.perfil.empresa.nombre_comercial }}
+{% endblock title %}
+
+{% block extra_head %}
+<!-- Data Table JS
+    ============================================ -->
+<link rel="stylesheet" href="{% static 'css/jquery.dataTables.min.css' %}">
+
+<!-- Data Table JS Spanish
+    ============================================ -->
+<script src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $('#data-table-basic').DataTable( {
+            "language": {
+                url: "/static/localizacion/es_ES.json"
+            }
+        } );
+    } );
+</script>
+{% endblock extrahead %}
+
+{% block menuarea %}
+    {% include 'base/menu_comprobantes.html' %}
+{% endblock menuarea %}
+
+{% block breadcomb %}
+<div class="breadcomb-list">
+    <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="breadcomb-wp">
+			<div class="breadcomb-icon">
+				<i class="notika-icon notika-edit"></i>
+			</div>
+			<div class="breadcomb-ctn">
+				<h2>Proforma</h2>
+				<p>Gestionar <span class="bread-ntd"> factura proforma</span></p>
+			</div>
+		</div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-3">
+        <div class="breadcomb-report">
+            <button data-toggle="tooltip" data-placement="left" title="Download Report" class="btn"><i class="notika-icon notika-sent"></i></button>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock breadcomb %}
+
+{% load mathfilters %}
+{% load my_filters %}
+{% load humanize %}
+
+{% block content %}
+<div class="data-table-list">
+    <div class="basic-tb-hd">
+        <a onclick="return abrir_modal('{% url 'venta:listado_ventas' %}')" class="btn btn-primary">
+			Crear
+		</a>
+    </div>
+    <div class="table-responsive">
+        <table id="data-table-basic" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th class="text-center">Documento</th>
+                    <th class="text-center">Estado</th>
+                    <th class="numeric">Total</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if object_list  %}
+                {% for row in object_list %}
+                <tr>
+                    <td>{{ row.fecha_emision|naturalday }}</td>
+                    <td>{{ row.cliente.nombre }}</td>
+                    <td class="text-center">{{ row.secuencia.punto_establecimiento }}-{{ factura.secuencia.punto_emision }}-{{ factura.get_numero_secuencia_formateado }}</td>
+                    <td class="text-center">{{ row.estado.nombre }}</td>
+                    <td class="numeric">{{ row.valor_total|currency }}</td>
+                    <td data-title="Acciones" class="text-center">
+    					<nobr>
+                        <a class="btn" class="btn" data-toggle="tooltip" title="Ver" target="_blank" href="{% url 'proforma:render_pdf' proforma.pk %}">
+                            <span style="color:#607c8a" class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a class="btn" data-toggle="tooltip" title="Editar">
+                            <span style="color:DodgerBlue" class="glyphicon glyphicon-edit" ></span>
+                        </a>
+                        {% if row.estado.nombre == 'EMITIDA' %}
+                        <a class="btn" data-toggle="tooltip" title="Anular">
+                            <span style="color:coral" class="glyphicon glyphicon-remove"></span>
+                        </a>
+                        {% else %}
+                        <a class="btn" data-toggle="tooltip" title="Eliminar">
+                            <span style="color:coral" class="glyphicon glyphicon-trash"></span>
+                        </a>
+                        {% endif %}
+                        </nobr>
+                    </td>
+				</tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Documento</th>
+                    <th class="text-center">Estado</th>
+                    <th class="numeric">Total</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<div id="popup" class="modal fade" role="dialog">
+
+</div>
+<script>
+    function abrir_modal(url)
+    {
+    	$('#popup').load(url, function()
+    	{
+    		$(this).modal('show');
+    	});
+    	return false;
+    }
+
+    function cerrar_modal()
+    {
+    	$('#popup').modal('hide');
+    	return false;
+    }
+
+</script>
+{% endblock content %}
+
+{% block extra_script %}
+  <!-- jquery
+      ============================================ -->
+
+  <!-- Data Table JS
+      ============================================ -->
+  <script src="{% static 'js/data-table/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'js/data-table/data-table-act.js' %}"></script>
+{% endblock extra_script %}

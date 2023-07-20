@@ -1,0 +1,58 @@
+<div class="modal-dialog modals-default">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <h2>Detalle de Unidad</h2>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="h6"><strong>Código</strong></td>
+                        <td> </td>
+                        <td class="h5">{{object.pk}}</td>
+                    </tr>
+                    <tr>
+                        <td class="h6"><strong>Abreviatura</strong></td>
+                        <td> </td>
+                        <td class="h5">{{object.abreviatura}}</td>
+                    </tr>
+                    <tr>
+                        <td class="h6"><strong>Nombre</strong></td>
+                        <td> </td>
+                        <td class="h5">{{ object.nombre }}</td>
+                    </tr>
+                    <tr>
+                        <td class="h6"><strong>Estado</strong></td>
+                        <td> </td>
+                        {% if row.activo %}
+                        <td class="h5">ACTIVO</td>
+                        {% else %}
+                        <td class="h5">INACTIVO</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td class="h6"><strong>Creado el</strong></td>
+                        <td> </td>
+                        <td class="h5">{{ object.created_at }}</td>
+                    </tr>
+                    <tr>
+                        <td class="h6"><strong>Creado por</strong></td>
+                        <td> </td>
+                        <td class="h5">{{ object.usuario_creador.username }}</td>
+                    </tr>
+                    <tr>
+                        <td class="h6"><strong>Modificado el</strong></td>
+                        <td> </td>
+                        <td class="h5">{{ object.update_at }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal-footer">
+            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Save changes</button>-->
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+    </div>
+</div>

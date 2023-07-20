@@ -1,0 +1,190 @@
+<autorizacion><estado>PENDIENTE</estado><numeroAutorizacion>0205201901179020232100120169010000435420004354217</numeroAutorizacion><ambiente>PRODUCCIÓN</ambiente><comprobante><![CDATA[<?xml version="1.0" encoding="UTF-8"?><factura id="comprobante" version="2.1.0">
+  <infoTributaria>
+    <ambiente>2</ambiente>
+    <tipoEmision>1</tipoEmision>
+    <razonSocial>NATIONALTIRE EXPERTS SA</razonSocial>
+    <nombreComercial>NATIONAL TIRE EXPERTS SA</nombreComercial>
+    <ruc>1790202321001</ruc>
+    <claveAcceso>0205201901179020232100120169010000435420004354217</claveAcceso>
+    <codDoc>01</codDoc>
+    <estab>016</estab>
+    <ptoEmi>901</ptoEmi>
+    <secuencial>000043542</secuencial>
+    <dirMatriz>SANTO DOMINGO / KM 2 1/2 MARGEN DERECHO VIA QUEVEDO S/N Y SEGUNDA CIRCUNVALACION Santo Domingo</dirMatriz>
+  </infoTributaria>
+  <infoFactura>
+    <fechaEmision>02/05/2019</fechaEmision>
+    <dirEstablecimiento>Calle de los Naranjos No 44-250 y Avda. de los Granados Diagonal a la farmacia Sana Sana QUITOECUADOR</dirEstablecimiento>
+    <contribuyenteEspecial>5368</contribuyenteEspecial>
+    <obligadoContabilidad>SI</obligadoContabilidad>
+    <tipoIdentificacionComprador>04</tipoIdentificacionComprador>
+    <razonSocialComprador>MONAR CAMACHO SERVULO ISAIAS</razonSocialComprador>
+    <identificacionComprador>1712156973001</identificacionComprador>
+    <totalSinImpuestos>238.96</totalSinImpuestos>
+    <totalDescuento>156.64</totalDescuento>
+    <totalConImpuestos>
+      <totalImpuesto>
+        <codigo>2</codigo>
+        <codigoPorcentaje>2</codigoPorcentaje>
+        <baseImponible>238.96</baseImponible>
+        <tarifa>12.00</tarifa>
+        <valor>28.68</valor>
+      </totalImpuesto>
+    </totalConImpuestos>
+    <propina>0.00</propina>
+    <importeTotal>267.64</importeTotal>
+    <moneda>DOLAR</moneda>
+    <pagos>
+      <pago>
+        <formaPago>01</formaPago>
+        <total>267.64</total>
+        <plazo>120</plazo>
+        <unidadTiempo>dias</unidadTiempo>
+      </pago>
+    </pagos>
+  </infoFactura>
+  <detalles>
+    <detalle>
+      <codigoPrincipal>15506010000</codigoPrincipal>
+      <descripcion>Llanta 195/50R15 82V FR GENERAL G-MAX RS</descripcion>
+      <cantidad>4.00</cantidad>
+      <precioUnitario>97.90</precioUnitario>
+      <descuento>156.64</descuento>
+      <precioTotalSinImpuesto>234.96</precioTotalSinImpuesto>
+      <detallesAdicionales>
+        <detAdicional nombre="TarifaImpuesto" valor="12.00"/>
+        <detAdicional nombre="UnidadMedida" valor="Manual"/>
+      </detallesAdicionales>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12.00</tarifa>
+          <baseImponible>234.96</baseImponible>
+          <valor>28.20</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+    <detalle>
+      <codigoPrincipal>ECOVALOR</codigoPrincipal>
+      <descripcion>ECOVALOR</descripcion>
+      <cantidad>4.00</cantidad>
+      <precioUnitario>1.00</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>4.00</precioTotalSinImpuesto>
+      <detallesAdicionales>
+        <detAdicional nombre="TarifaImpuesto" valor="12.00"/>
+        <detAdicional nombre="UnidadMedida" valor="Manual"/>
+      </detallesAdicionales>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12.00</tarifa>
+          <baseImponible>4.00</baseImponible>
+          <valor>0.48</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+  </detalles>
+  <infoAdicional>
+    <campoAdicional nombre="emailCliente">sdjsllantas@gmail.com</campoAdicional>
+    <campoAdicional nombre="CodInternoSAP">260043542</campoAdicional>
+    <campoAdicional nombre="CodSociedad">NTE</campoAdicional>
+    <campoAdicional nombre="DireccionFacturacion">JORGE ANASCO Y 24 DE MAYO LAGO AGRIOECUADOR</campoAdicional>
+    <campoAdicional nombre="DireccionEnvio">JORGE ANASCO Y 24 DE MAYON LAGO AGRIOECUADOR</campoAdicional>
+    <campoAdicional nombre="TelefonoCliente">092080715</campoAdicional>
+    <campoAdicional nombre="VendedorFactura">QUISPE OBED</campoAdicional>
+    <campoAdicional nombre="SucursalFactura">GRANADOS 2</campoAdicional>
+    <campoAdicional nombre="FechaVencimientoFactura">30/08/2019</campoAdicional>
+    <campoAdicional nombre="ComentarioFactura">LAGOAGRIO. ALCANCE #43512. WPV</campoAdicional>
+    <campoAdicional nombre="Cuotas">1. Vence:01/06/2019. Valor:66.910000 ;; 2. Vence:01/07/2019. Valor:66.910000 ;; 3. Vence:31/07/2019. Valor:66.910000 ;; 4. Vence:30/08/2019. Valor:66.910000</campoAdicional>
+  </infoAdicional>
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:etsi="http://uri.etsi.org/01903/v1.3.2#" Id="Signature631539">
+<ds:SignedInfo Id="Signature-SignedInfo173999">
+<ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+<ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+<ds:Reference Id="SignedPropertiesID411471" Type="http://uri.etsi.org/01903#SignedProperties" URI="#Signature631539-SignedProperties691232">
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<ds:DigestValue>0sOocGt9WNLIxgNmaBQBAQ3Yex4=</ds:DigestValue>
+</ds:Reference>
+<ds:Reference URI="#Certificate1923809">
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<ds:DigestValue>RbHzBePankEsRvly+nGW5G19iwE=</ds:DigestValue>
+</ds:Reference>
+<ds:Reference Id="Reference-ID-500685" URI="#comprobante">
+<ds:Transforms>
+<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+</ds:Transforms>
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<ds:DigestValue>siftEkdt3jIuHGwsSas4pO6PJLE=</ds:DigestValue>
+</ds:Reference>
+</ds:SignedInfo>
+<ds:SignatureValue Id="SignatureValue637417">
+tzXjun9WTJMd/mYyqVeWrOCYZYZ90urtQMYqEyPjfEbXSrF4QOhvLkZv1OAe0ftMAnd/y7/RI/Hj
+0bJgZk3Tl+sxuDDTWHJ4+6Ly1L6yaRPPBsBWmMKgCbMCQKBXKm1p8guBHzI0ufi62WcoeYlVaHTl
+EIbkNP1iUsK9jBIktKwp5jCUtm1LoYLiclfQtbXMdCyPKzBKeSrvVGkEngFH55We6nbTbOp7wQOU
+zecE3sYBzzv78HFryesu3p8QcTtfAUfKPDVvEX4miArDtinhDFA6b+g12OnKbMK31xWJzMuLtF0x
+uAaan7BfrtZvpMLgdtymlBze2beYzqCQpTswkA==
+</ds:SignatureValue>
+<ds:KeyInfo Id="Certificate1923809">
+<ds:X509Data>
+<ds:X509Certificate>
+MIIJVjCCBz6gAwIBAgIEWH9ZAjANBgkqhkiG9w0BAQsFADCBoTELMAkGA1UEBhMCRUMxIjAgBgNV
+BAoTGUJBTkNPIENFTlRSQUwgREVMIEVDVUFET1IxNzA1BgNVBAsTLkVOVElEQUQgREUgQ0VSVElG
+SUNBQ0lPTiBERSBJTkZPUk1BQ0lPTi1FQ0lCQ0UxDjAMBgNVBAcTBVFVSVRPMSUwIwYDVQQDExxB
+QyBCQU5DTyBDRU5UUkFMIERFTCBFQ1VBRE9SMB4XDTE3MTEyODIxMTczMFoXDTE5MTExNzIxMjkz
+OVowgbUxCzAJBgNVBAYTAkVDMSIwIAYDVQQKExlCQU5DTyBDRU5UUkFMIERFTCBFQ1VBRE9SMTcw
+NQYDVQQLEy5FTlRJREFEIERFIENFUlRJRklDQUNJT04gREUgSU5GT1JNQUNJT04tRUNJQkNFMQ4w
+DAYDVQQHEwVRVUlUTzE5MBEGA1UEBRMKMDAwMDIzOTk5MjAkBgNVBAMTHUZFREVSSUNPIEVOUklR
+VUUgTUFMTyBWRVJHQVJBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuEI3QUrJ6G8v
+5DESR3uzem/UEflYvU28+nTy6ce4/RxBMw1mZe/S79Sz1BxOmmzvCjm1uRIeWY16coxK3SBNhSxf
+9vkn2w1jIIh6aeBZAaWQvV+MKBZ+4jJW1Gt0bblhaHfVGM013SIcEIxGnPSB8pnwJLA4OJxLvTCy
+zDbG1VwgOIoJxU2QwM0IoFzwOiTlorxE5biAKunF0ltc9MAl+uH+m4y6/RdLzaw8yu3YAUdGNK9H
+NtlDfITrfzH4Qo4Avwvc9Djpc4hsXSBSG1gyPbm+cuirfKdXrAungNGgABjBj2TJ4Yi49m2CPXNL
+JM6MaB6S1456jTXVa5YpR6Hn9QIDAQABo4IEfjCCBHowgZEGCCsGAQUFBwEBBIGEMIGBMD4GCCsG
+AQUFBzABhjJodHRwOi8vb2NzcC5lY2kuYmNlLmVjL2VqYmNhL3B1YmxpY3dlYi9zdGF0dXMvb2Nz
+cDA/BggrBgEFBQcwAYYzaHR0cDovL29jc3AxLmVjaS5iY2UuZWMvZWpiY2EvcHVibGljd2ViL3N0
+YXR1cy9vY3NwMCgGCisGAQQBgqg7AwoEGhMYTkFUSU9OQUxUSVJFIEVYUEVSVFMgUyBBMB0GCisG
+AQQBgqg7AwsEDxMNMTc5MDIwMjMyMTAwMTAaBgorBgEEAYKoOwMBBAwTCjA5MDY1Mjc2OTIwIAYK
+KwYBBAGCqDsDAgQSExBGRURFUklDTyBFTlJJUVVFMBQGCisGAQQBgqg7AwMEBhMETUFMTzAXBgor
+BgEEAYKoOwMEBAkTB1ZFUkdBUkEwHwYKKwYBBAGCqDsDBQQREw9HRVJFTlRFIEdFTkVSQUwwJAYK
+KwYBBAGCqDsDBwQWExRBVkRBIERFIExPUyBHUkFOQURPUzAZBgorBgEEAYKoOwMIBAsTCTAyMzcw
+MzY5NjAVBgorBgEEAYKoOwMJBAcTBVF1aXRvMBcGCisGAQQBgqg7AwwECRMHRUNVQURPUjAgBgor
+BgEEAYKoOwMzBBITEFNPRlRXQVJFLUFSQ0hJVk8wJAYDVR0RBB0wG4EZZm1hbG9AdGlyZS1leHBl
+cnRzLmNvbS5lYzCCAd8GA1UdHwSCAdYwggHSMIIBzqCCAcqgggHGhoHVbGRhcDovL2JjZXFsZGFw
+c3VicDEuYmNlLmVjL2NuPUNSTDQ3OSxjbj1BQyUyMEJBTkNPJTIwQ0VOVFJBTCUyMERFTCUyMEVD
+VUFET1IsbD1RVUlUTyxvdT1FTlRJREFEJTIwREUlMjBDRVJUSUZJQ0FDSU9OJTIwREUlMjBJTkZP
+Uk1BQ0lPTi1FQ0lCQ0Usbz1CQU5DTyUyMENFTlRSQUwlMjBERUwlMjBFQ1VBRE9SLGM9RUM/Y2Vy
+dGlmaWNhdGVSZXZvY2F0aW9uTGlzdD9iYXNlhjRodHRwOi8vd3d3LmVjaS5iY2UuZWMvQ1JML2Vj
+aV9iY2VfZWNfY3JsZmlsZWNvbWIuY3JspIG1MIGyMQswCQYDVQQGEwJFQzEiMCAGA1UEChMZQkFO
+Q08gQ0VOVFJBTCBERUwgRUNVQURPUjE3MDUGA1UECxMuRU5USURBRCBERSBDRVJUSUZJQ0FDSU9O
+IERFIElORk9STUFDSU9OLUVDSUJDRTEOMAwGA1UEBxMFUVVJVE8xJTAjBgNVBAMTHEFDIEJBTkNP
+IENFTlRSQUwgREVMIEVDVUFET1IxDzANBgNVBAMTBkNSTDQ3OTALBgNVHQ8EBAMCBSAwHwYDVR0j
+BBgwFoAUGPnw++YyHJlmOSrKi7JpfUknv84wHQYDVR0OBBYEFJF3f6aN4IA6qY6Y3q937GlGx89W
+MAkGA1UdEwQCMAAwGQYJKoZIhvZ9B0EABAwwChsEVjguMQMCBBAwDQYJKoZIhvcNAQELBQADggIB
+AGFUG25loGPbCvcxoO4tHaOBeLERP2G6pN7Sb588P95ANVTaHmWlMh7zpl1Rro3mlh/TJNAHOQca
+9qIMwsclfrGrxWl1bjGwsXaThzoUPd55/UEVdsorUXVwfxy82gIUfvm+tN7vccHuPk69xZ2k+hrF
+pdQYG+OUkIEEygkooHabARKUH0Qes0ZhT3HJhQm6gqxrmusptCjeINf+A98tXfOextQ200pQNMud
+DYvlyD5jjYAGrb05d6P9x8eNvGFdKEo0IyFSndp//WpZv2weOCr3T7oe0YIgJ00Jz4NtwPWT2Opi
+2JbVl7f1wO8vHQ+4AnvvSjNKJQET9EdQVgLta6Kaf5ja0hNhKqSHkFP+H0fxdT2pa55CWFSkI9nG
+yM7JNkpZx4VFntckwr2kiDVeYWra5LIBNIiNvj9qBE7kKT5tg6lGRhtM+ArG4ggStc1yynXyWvq1
+XDQUX1Ojdn/h8zvwpnj//abRjxJoZSxxYKwQs0RJHPfEbIB+zrOvyxh8suvo0zUfqxQSFA4F/BSd
+Z9g61gfMh7HOlqnb6HNVQkj0kyiVgxAcLXj46shmwAIhRhtlh9QoAc80Ke0CTa8jsEkp2e22PjgE
+KwV4djnlVqi+Gtlwhzl4xfxYoRVetuuCMcxiI3B88AKIHmYE4VpU9l65+buGpzw13d6bVem9qn68
+</ds:X509Certificate>
+</ds:X509Data>
+<ds:KeyValue>
+<ds:RSAKeyValue>
+<ds:Modulus>
+uEI3QUrJ6G8v5DESR3uzem/UEflYvU28+nTy6ce4/RxBMw1mZe/S79Sz1BxOmmzvCjm1uRIeWY16
+coxK3SBNhSxf9vkn2w1jIIh6aeBZAaWQvV+MKBZ+4jJW1Gt0bblhaHfVGM013SIcEIxGnPSB8pnw
+JLA4OJxLvTCyzDbG1VwgOIoJxU2QwM0IoFzwOiTlorxE5biAKunF0ltc9MAl+uH+m4y6/RdLzaw8
+yu3YAUdGNK9HNtlDfITrfzH4Qo4Avwvc9Djpc4hsXSBSG1gyPbm+cuirfKdXrAungNGgABjBj2TJ
+4Yi49m2CPXNLJM6MaB6S1456jTXVa5YpR6Hn9Q==
+</ds:Modulus>
+<ds:Exponent>AQAB</ds:Exponent>
+</ds:RSAKeyValue>
+</ds:KeyValue>
+</ds:KeyInfo>
+<ds:Object Id="Signature631539-Object591194"><etsi:QualifyingProperties Target="#Signature631539"><etsi:SignedProperties Id="Signature631539-SignedProperties691232"><etsi:SignedSignatureProperties><etsi:SigningTime>2019-05-02T15:55:34-05:00</etsi:SigningTime><etsi:SigningCertificate><etsi:Cert><etsi:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>ssib6TClXylObSciKypTx3kOt7k=</ds:DigestValue></etsi:CertDigest><etsi:IssuerSerial><ds:X509IssuerName>CN=AC BANCO CENTRAL DEL ECUADOR,L=QUITO,OU=ENTIDAD DE CERTIFICACION DE INFORMACION-ECIBCE,O=BANCO CENTRAL DEL ECUADOR,C=EC</ds:X509IssuerName><ds:X509SerialNumber>1484740866</ds:X509SerialNumber></etsi:IssuerSerial></etsi:Cert></etsi:SigningCertificate></etsi:SignedSignatureProperties><etsi:SignedDataObjectProperties><etsi:DataObjectFormat ObjectReference="#Reference-ID-500685"><etsi:Description>comprobante</etsi:Description><etsi:MimeType>text/xml</etsi:MimeType></etsi:DataObjectFormat></etsi:SignedDataObjectProperties></etsi:SignedProperties></etsi:QualifyingProperties></ds:Object></ds:Signature></factura>]]></comprobante></autorizacion>

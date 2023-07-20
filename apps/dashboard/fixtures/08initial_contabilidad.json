@@ -1,0 +1,212 @@
+[
+    {
+        "model": "contabilidad.EstadoPago",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "situacion": "Confirmado"
+        }
+    },
+    {
+        "model": "contabilidad.EstadoPago",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "situacion": "En Progreso"
+        }
+    },
+    {
+        "model": "contabilidad.EstadoPago",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "situacion": "Rechazado"
+        }
+    },
+    {
+        "model": "contabilidad.FormaPago",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "sri_codigo": "01",
+            "descripcion": "EFECTIVO",
+            "codigo": "EF"
+        }
+    },
+    {
+        "model": "contabilidad.FormaPago",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "sri_codigo": "20",
+            "descripcion": "CHEQUE BANCARIO",
+            "codigo": "CH"
+        }
+    },
+    {
+        "model": "contabilidad.FormaPago",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "sri_codigo": "01",
+            "descripcion": "CRÉDITO COMERCIAL",
+            "codigo": "CC"
+        }
+    },
+    {
+        "model": "contabilidad.FormaPago",
+        "pk": 4,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "sri_codigo": "16",
+            "descripcion": "TARJETA DÉBITO",
+            "codigo": "TD"
+        }
+    },
+    {
+        "model": "contabilidad.FormaPago",
+        "pk": 5,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "sri_codigo": "19",
+            "descripcion": "TARJETA CRÉDITO",
+            "codigo": "TC"
+        }
+    },
+    {
+        "model": "contabilidad.FormaPago",
+        "pk": 6,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "sri_codigo": "20",
+            "descripcion": "TRANSFERENCIA",
+            "codigo": "TB"
+        }
+    },
+    {
+        "model": "contabilidad.EstadoCheque",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "situacion": "CARTERA"
+        }
+    },
+    {
+        "model": "contabilidad.EstadoCheque",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "situacion": "ENDOSADO"
+        }
+    },
+    {
+        "model": "contabilidad.EstadoCheque",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "situacion": "DEPOSITADO"
+        }
+    },
+    {
+        "model": "contabilidad.EstadoCheque",
+        "pk": 4,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "situacion": "COBRADO"
+        }
+    },
+    {
+        "model": "contabilidad.EstadoCheque",
+        "pk": 5,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "situacion": "PROTESTADO"
+        }
+    },
+    {
+        "model": "contabilidad.EstadoCheque",
+        "pk": 6,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "situacion": "GIRADO"
+        }
+    },
+    {
+        "model": "contabilidad.EstadoCredito",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "situacion": "Vigente"
+        }
+    },
+    {
+        "model": "contabilidad.EstadoCredito",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "situacion": "Vencido"
+        }
+    },
+    {
+        "model": "contabilidad.EstadoCredito",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "situacion": "Saldado"
+        }
+    }
+]

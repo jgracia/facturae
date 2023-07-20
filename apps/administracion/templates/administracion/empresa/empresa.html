@@ -1,0 +1,269 @@
+{% extends "base.html" %}
+
+{% block title %} {% if object %} Editar Empresa {% else %} Crear Empresa {% endif %} {% endblock title %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-12">
+      <div class="linebreak"></div>
+      {% if object %}
+      <h3>Editar Empresa</h3>
+      {% else %}
+      <h3>Crear Empresa</h3>
+      {% endif %}
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-sm-12 col-lx-12">
+
+      {% if object %}
+      <form action="{% url 'administracion:modificar_empresa' object.pk %}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+      {% else %}
+      <form action="{% url 'administracion:crear_empresa' %}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+      {% endif %}
+        {% csrf_token %}
+        {% load widget_tweaks %}
+        <div class="row">
+            <div class="col-lg-3">
+              {{ form.ruc.errors }}
+              {{ form.ruc.label_tag }}
+              {{ form.ruc }}
+            </div>
+            <div class="col-lg-5">
+              {{ form.razon_social.errors }}
+              {{ form.razon_social.label_tag }}
+              {{ form.razon_social }}
+            </div>
+            <div class="col-lg-4">
+              {{ form.nombre_comercial.errors }}
+              {{ form.nombre_comercial.label_tag }}
+              {{ form.nombre_comercial }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+              {{ form.codigo_contribuyente_especial.errors }}
+              {{ form.codigo_contribuyente_especial.label_tag }}
+              {{ form.codigo_contribuyente_especial }}
+            </div>
+            <!--
+            <div class="col-lg-5">
+              {{ form.nombre_logo.errors }}
+              {{ form.nombre_logo.label_tag }}
+              {{ form.nombre_logo }}
+            </div>
+            -->
+            <div class="col-lg-9">
+              <label for="myfile">Ruta logo</label>
+              <input type="file" class="form-control" name="myfile" id="myfile">
+            </div>
+            {% if uploaded_file_url %}
+              <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+            {% endif %}
+        </div>
+        <div class="row">
+          <div class="col-lg-3">
+            {{ form.telefono.errors }}
+            {{ form.telefono.label_tag }}
+            {{ form.telefono }}
+          </div>
+          <div class="col-lg-5">
+            {{ form.pagina_web.errors }}
+            {{ form.pagina_web.label_tag }}
+            {{ form.pagina_web }}
+          </div>
+          <div class="col-lg-4">
+            {{ form.email.errors }}
+            {{ form.email.label_tag }}
+            {{ form.email }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            {{ form.direccion_matriz.errors }}
+            {{ form.direccion_matriz.label_tag }}
+            {{ form.direccion_matriz }}
+          </div>
+        </div>
+        <!--
+        <div class="row">
+            <div class="col-lg-6">
+                {% if object %}
+                    <fieldset disabled="disabled">
+                        {{ form.metodo_costo.errors }}
+                        {{ form.metodo_costo.label_tag }}
+                        {{ form.metodo_costo }}
+                    </fieldset>
+                {% else %}
+                    {{ form.metodo_costo.errors }}
+                    {{ form.metodo_costo.label_tag }}
+                    {{ form.metodo_costo }}
+                {% endif %}
+            </div>
+        </div>
+        -->
+        <br>
+        <div class="row">
+          <div class="col-lg-3">
+            {{ form.activo }} {{ form.activo.label_tag }}
+          </div>
+          <div class="col-lg-3">
+            {{ form.factel }} {{ form.factel.label_tag }}
+          </div>
+          <div class="col-lg-6">
+            {{ form.obligado_llevar_contabilidad }} {{ form.obligado_llevar_contabilidad.label_tag }}
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">Configuración certificado</div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3">
+                      {{ form.tipo_ambiente.errors }}
+                      {{ form.tipo_ambiente.label_tag }}
+                      {{ form.tipo_ambiente }}
+                  </div>
+                  <div class="col-lg-5">
+                      {{ form.nombre_token.errors }}
+                      {{ form.nombre_token.label_tag }}
+                      {{ form.nombre_token }}
+                  </div>
+                  <div class="col-lg-4">
+                      {{ form.pin_token.errors }}
+                      {{ form.pin_token.label_tag }}
+                      {{ form.pin_token }}
+                  </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">Configuración SMTP</div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-3">
+                        {{ form.smtp_servidor.errors }}
+                        {{ form.smtp_servidor.label_tag }}
+                        {{ form.smtp_servidor }}
+                    </div>
+                    <div class="col-lg-2">
+                        {{ form.smtp_puerto.errors }}
+                        {{ form.smtp_puerto.label_tag }}
+                        {{ form.smtp_puerto }}
+                    </div>
+                    <div class="col-lg-2">
+                        {{ form.smtp_seguridad.errors }}
+                        {{ form.smtp_seguridad.label_tag }}
+                        {{ form.smtp_seguridad }}
+                    </div>
+                    <div class="col-lg-3">
+                        {{ form.smtp_usuario.errors }}
+                        {{ form.smtp_usuario.label_tag }}
+                        {{ form.smtp_usuario }}
+                    </div>
+                    <div class="col-lg-2">
+                        {{ form.smtp_clave.errors }}
+                        {{ form.smtp_clave.label_tag }}
+                        {{ form.smtp_clave }}
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ln_solid"></div>
+
+        <div class="form-group row">
+          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+            <button class="btn btn-secondary" type="button" onclick="location.href='{% url 'administracion:listado_empresas' %}';">Cancelar</button>
+            <button type="submit" class="btn btn-primary"><span class="fa fa-save"></span> Guardar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- /.row -->
+</div>
+{% endblock content %}
+
+{% block extra_script %}
+  <script type="text/javascript">
+    $(document).ready(function() {
+      if ($("#factel").is(':checked')) {
+        // activar controles para facturación electrónica
+        $('[name="tipo_ambiente"]').prop('disabled', false);
+        $('input[name="nombre_token"]').prop('disabled', false);
+        $('input[name="pin_token"]').prop('disabled', false);
+        $('input[name="smtp_servidor"]').prop('disabled', false);
+        $('input[name="smtp_puerto"]').prop('disabled', false);
+        $('[name="smtp_seguridad"]').prop('disabled', false);
+        $('input[name="smtp_usuario"]').prop('disabled', false);
+        $('input[name="smtp_clave"]').prop('disabled', false);
+      } else {
+        // desactivar controles para facturación electrónica
+        $('[name="tipo_ambiente"]').prop('disabled', true);
+        $('input[name="nombre_token"]').prop('disabled', true);
+        $('input[name="pin_token"]').prop('disabled', true);
+        $('input[name="smtp_servidor"]').prop('disabled', true);
+        $('input[name="smtp_puerto"]').prop('disabled', true);
+        $('[name="smtp_seguridad"]').prop('disabled', true);
+        $('input[name="smtp_usuario"]').prop('disabled', true);
+        $('input[name="smtp_clave"]').prop('disabled', true);
+      }
+
+      $('#factel').change(function() {
+        if (!$(this).is(':checked')) {
+          console.log("desactivando controles...");
+          //$("input[type=text]").attr('disabled', true);
+          //$("#nombre_token").prop("disabled", true);
+
+          //select ambiente
+          $('[name="tipo_ambiente"]').prop('disabled', true);
+          $('input[name="nombre_token"]').prop('disabled', true);
+          $('input[name="pin_token"]').prop('disabled', true);
+          $('input[name="smtp_servidor"]').prop('disabled', true);
+          $('input[name="smtp_puerto"]').prop('disabled', true);
+          //select seguridad
+          $('[name="smtp_seguridad"]').prop('disabled', true);
+          $('[name="smtp_usuario"]').prop('disabled', true);
+          $('input[name="smtp_clave"]').prop('disabled', true);
+
+          // colocar en cero los controles de ingreso
+          $('[name="tipo_ambiente"]').val("");
+          $('input[name="nombre_token"]').val("");
+          $('input[name="pin_token"]').val("");
+          $('input[name="smtp_servidor"]').val("");
+          $('input[name="smtp_puerto"]').val("");
+          //select seguridad
+          $('[name="smtp_seguridad"]').val("");
+          $('input[name="smtp_usuario"]').val("");
+          $('input[name="smtp_clave"]').val("");
+        } else {
+          console.log("activando controles...");
+          //select ambiente
+          $('[name="tipo_ambiente"]').prop('disabled', false);
+          $('input[name="nombre_token"]').prop('disabled', false);
+          $('input[name="pin_token"]').prop('disabled', false);
+          $('input[name="smtp_servidor"]').prop('disabled', false);
+          $('input[name="smtp_puerto"]').prop('disabled', false);
+          //select seguridad
+          $('[name="smtp_seguridad"]').prop('disabled', false);
+          $('[name="smtp_usuario"]').prop('disabled', false);
+          $('input[name="smtp_clave"]').prop('disabled', false);
+        }
+      });
+    });
+  </script>
+{% endblock extra_script %}

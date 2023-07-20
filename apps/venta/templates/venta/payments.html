@@ -1,0 +1,787 @@
+<!-- Modal: modalPaymentView -->
+
+<!--
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
+-->
+
+<style media="screen">
+
+#border-btm {
+    padding-bottom: 20px;
+    margin-bottom: 0px;
+    box-shadow: 0px 35px 2px -35px lightgray
+}
+
+#detail_label {
+    margin-top: 0px;
+    margin-bottom: 40px;
+    border: 1px solid #FFE082;
+    border-radius: 0.25rem;
+    width: 60px;
+    height: 30px;
+    background-color: #FFECB3
+}
+
+.active1 {
+    color: #00C853 !important;
+    font-weight: bold
+}
+
+.bar4 {
+    width: 35px;
+    height: 5px;
+    background-color: #ffffff;
+    margin: 6px 0
+}
+
+.list-group .tabs {
+    color: #000000
+}
+
+#menu-toggle {
+    height: 50px
+}
+
+#new-label {
+    padding: 2px;
+    font-size: 10px;
+    font-weight: bold;
+    background-color: red;
+    color: #ffffff;
+    border-radius: 5px;
+    margin-left: 5px
+}
+
+#hotkey {
+  font-weight: bold;
+  color: red;
+}
+
+#sidebar-wrapper {
+    /*min-height: 100vh;*/
+    margin-left: -15rem;
+    -webkit-transition: margin .25s ease-out;
+    -moz-transition: margin .25s ease-out;
+    -o-transition: margin .25s ease-out;
+    transition: margin .25s ease-out
+}
+
+#sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem
+}
+
+#sidebar-wrapper .list-group {
+    width: 15rem
+}
+
+#page-content-wrapper {
+    min-width: 100vw;
+    padding-left: 20px;
+    padding-right: 20px
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: 0
+}
+
+.list-group-item.active {
+    z-index: 2;
+    color: #fff;
+    background-color: #fff !important;
+    border-color: #fff !important
+}
+
+@media (min-width: 768px) {
+    #sidebar-wrapper {
+        margin-left: 0
+    }
+
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: -15rem;
+        display: none
+    }
+}
+
+.card0 {
+    margin-top: 10px;
+    margin-bottom: 10px
+}
+
+.top-highlight {
+    color: #00C853;
+    font-weight: bold;
+    font-size: 20px
+}
+
+.form-card input,
+.form-card textarea {
+    padding: 10px 15px 5px 15px;
+    border: none;
+    border: 1px solid lightgrey;
+    border-radius: 6px;
+    margin-bottom: 25px;
+    margin-top: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: arial;
+    color: #2C3E50;
+    font-size: 14px;
+    letter-spacing: 1px
+}
+
+.form-card input:focus,
+.form-card textarea:focus {
+    -moz-box-shadow: 0px 0px 0px 1.5px skyblue !important;
+    -webkit-box-shadow: 0px 0px 0px 1.5px skyblue !important;
+    box-shadow: 0px 0px 0px 1.5px skyblue !important;
+    font-weight: bold;
+    border: 1px solid skyblue;
+    outline-width: 0
+}
+
+input.btn-success {
+    height: 50px;
+    color: #ffffff;
+    opacity: 0.9
+}
+
+#below-btn a {
+    font-weight: bold;
+    color: #000000
+}
+
+.input-group {
+    position: relative;
+    width: 100%;
+    overflow: hidden
+}
+
+.input-group input {
+    position: relative;
+    height: 90px;
+    margin-left: 1px;
+    margin-right: 1px;
+    border-radius: 6px;
+    padding-top: 30px;
+    padding-left: 25px
+}
+
+.input-group label {
+    position: absolute;
+    height: 24px;
+    background: none;
+    border-radius: 6px;
+    line-height: 48px;
+    font-size: 15px;
+    color: gray;
+    width: 100%;
+    font-weight: 100;
+    padding-left: 25px
+}
+
+input:focus+label {
+    color: #1E88E5
+}
+
+#qr {
+    margin-bottom: 150px;
+    margin-top: 50px
+}
+</style>
+
+<div class="modal fade" id="modalPaymentView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <!--
+      <div class="modal-header bg-success text-white">
+    		<h4 class="modal-title">Pagos</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    			<span aria-hidden="true">&times;</span>
+    		</button>
+    	</div>
+      -->
+      <div class="modal-body">
+
+
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <div class="card card0">
+                <div class="d-flex" id="wrapper">
+                  <!-- Sidebar -->
+                  <div class="bg-light border-right" id="sidebar-wrapper">
+                    <div class="sidebar-heading pt-5 pb-4"><strong>PAGAR CON</strong></div>
+                    <div class="list-group list-group-flush">
+                      <a data-toggle="tab" href="#menu1" id="tab1" class="tabs list-group-item bg-light" accesskey="Q">
+                        <i class="fas fa-money-check"></i> Che<span id="hotkey">q</span>ue
+                      </a>
+                      <a data-toggle="tab" href="#menu2" id="tab2" class="tabs list-group-item active1" accesskey="V">
+                        <i class="fas fa-wallet"></i> Efecti<span id="hotkey">v</span>o
+                      </a>
+                      <a data-toggle="tab" href="#menu3" id="tab3" class="tabs list-group-item bg-light" accesskey="T">
+                        <i class="fas fa-exchange-alt"></i> <span id="hotkey">T</span>ransferencia Bancaria
+                      </a>
+                      <a data-toggle="tab" href="#menu4" id="tab4" class="tabs list-group-item bg-light" accesskey="C">
+                        <i class="fas fa-calendar"></i> <span id="hotkey">C</span>rédito Comercial
+                      </a>
+                      <a data-toggle="tab" href="#menu5" id="tab5" class="tabs list-group-item bg-light" accesskey="J">
+                        <i class="fa fa-credit-card"></i> Tar<span id="hotkey">j</span>eta de Crédito
+                      </a>
+                      <a data-toggle="tab" href="#menu6" id="tab6" class="tabs list-group-item bg-light" accesskey="S">
+                        <i class="fa fa-qrcode"></i> Vi<span id="hotkey">s</span>a QR <span id="new-label">NUEVO</span>
+                      </a>
+                    </div>
+                  </div> <!-- Page Content -->
+
+                  <div id="page-content-wrapper">
+                    <div class="row pt-3" id="border-btm">
+                      <div class="col-4">
+                        <button class="btn btn-success mt-4 ml-3 mb-3" id="menu-toggle">
+                          <div class="bar4"></div>
+                          <div class="bar4"></div>
+                          <div class="bar4"></div>
+                        </button>
+                      </div>
+                      <div class="col-8">
+                        <div class="row justify-content-right">
+                          <input type="hidden" name="dlg_cliente_id" id="dlg_cliente_id" value="0">
+                          <input type="hidden" name="dlg_fecha_emision" id="dlg_fecha_emision" value="">
+                          <div class="col-12">
+                            <p id="nombre_cliente" class="mb-0 mr-4 mt-4 text-right">cliente@email.com</p>
+                          </div>
+                        </div>
+                        <div class="row justify-content-right">
+                          <div class="col-12">
+                            <p class="mb-0 mr-4 text-right">Pagar <span id="valor_factura" class="top-highlight">$ 0</span> </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                      <div class="text-center" id="detail_label">Detalle</div>
+                    </div>
+
+                    <div class="tab-content">
+                      <div id="menu1" class="tab-pane">
+                        <div class="row justify-content-center">
+                          <div class="col-11">
+                            <!--
+                            <div class="form-card">
+                              <h3 class="mt-0 mb-4 text-center">Enter bank details to pay</h3>
+                              <form>
+                                <div class="row">
+                                  <div class="col-12">
+                                    <div class="input-group"> <input type="text" id="bk_nm" placeholder="BBB Bank"> <label>BANK NAME</label> </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-12">
+                                    <div class="input-group"> <input type="text" name="ben_nm" id="ben-nm" placeholder="John Smith"> <label>BENEFICIARY NAME</label> </div>
+                                  </div>
+                                  <div class="col-12">
+                                    <div class="input-group"> <input type="text" name="scode" placeholder="ABCDAB1S" class="placeicon" minlength="8" maxlength="11"> <label>SWIFT CODE</label> </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-12"> <input type="submit" value="Pay $ 100" class="btn btn-success placeicon"> </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <p class="text-center mb-5" id="below-btn"><a href="#">Use a test card</a></p>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                            -->
+
+                            <form id="chequeForm" method="post" autocomplete="off">
+                              {% csrf_token %}
+                              <div class="form-row">
+                                <div class="form-group col-md-6">
+                                  <label for="dlgcheque_bank_name">Banco</label>
+                                  <select class="form-control" name="dlgcheque_bank_name" id="dlgcheque_bank_name">
+                                    <option value="">-- Seleccione --</option>
+                                    {% for banco in bancos %}
+                                    <option value={{ banco.entidad_id }}>{{ banco.nombre }}</option>
+                                    {% endfor %}
+                                  </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label for="dlgcheque_account">Cta. Número</label>
+                                  <input type="text" name="dlgcheque_account" id="dlgcheque_account" class="form-control">
+                                </div>
+                              </div>
+
+                              <div class="form-row">
+                                <div class="form-group col-md-4">
+                                  <label for="dlgcheque_cheque_number">Chq. Número</label>
+                                  <input type="text" name="dlgcheque_cheque_number" id="dlgcheque_cheque_number" class="form-control">
+                                </div>
+                                <div class="form-group col-md-5">
+                                  <label for="dlgcheque_date">Fecha Cheque</label>
+                                  <input type="date" name="dlgcheque_date" id="dlgcheque_date" value={{ fecha_emision }} class="form-control">
+                                </div>
+                                <div class="form-group col-md-3">
+                                  <label for="dlgcheque_amount">Monto $</label>
+                                  <input type="text" min="0" placeholder="0.00" name="dlgcheque_amount" id="dlgcheque_amount" class="form-control" data-fv-greaterthan-inclusive="false" data-fv-greaterthan-message="Valor debe ser mayor a cero"/>
+                                </div>
+                              </div>
+
+                              <div class="form-row">
+                                <div class="form-group col-md-12">
+                                  <div class="float-right">
+                                    <a id="addCheque" href="#" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Agregar</a>
+                                  </div>
+                                  <section id="no-more-tables">
+                                    <table id="tbl_cheque" class="table table-bordered table-condensed cf">
+                                      <thead class="cf">
+                                        <tr>
+                                          <th>Banco</th>
+                                          <th>Cta.</th>
+                                          <th>Chq.</th>
+                                          <th>Fecha</th>
+                                          <th class="numeric">Monto</th>
+                                          <th class="text-center"></th>
+                                        </tr>
+                                      </thead>
+                                      <tbody id="tbody_transfer_data">
+                                      </tbody>
+                                    </table>
+                                  </section>
+                                </div>
+                              </div>
+                              <div class="row mb-3">
+                                <div class="col-md-12">
+                                  <input type="submit" value="Pay $ 100" class="btn btn-success btn-sm btn-block">
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div id="menu2" class="tab-pane in active">
+                        <div class="row justify-content-center">
+                          <div class="col-11">
+                            <!--
+                            <div class="form-card">
+                                <h3 class="mt-0 mb-4 text-center">Enter your card details to pay</h3>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="input-group"> <input type="text" id="cr_no" placeholder="0000 0000 0000 0000" minlength="19" maxlength="19"> <label>CARD NUMBER</label> </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="input-group"> <input type="text" name="exp" id="exp" placeholder="MM/YY" minlength="5" maxlength="5"> <label>CARD EXPIRY</label> </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="input-group"> <input type="password" name="cvcpwd" placeholder="&#9679;&#9679;&#9679;" class="placeicon" minlength="3" maxlength="3"> <label>CVV</label> </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12"> <input type="submit" value="Pay $ 100" class="btn btn-success placeicon"> </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="text-center mb-5" id="below-btn"><a href="#">Use a test card</a></p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            -->
+                            <form id="cashForm" method="post" autocomplete="off">
+                              {% csrf_token %}
+                              <input type="hidden" name="dlg_grand_total" id="dlg_grand_total" value="" />
+                              <div id="cash-mount-group" class="form-group">
+                            		<div class="col-sm-8 offset-sm-2">
+                            			<label for="amount_received">Monto Recibido</label>
+                            			<input type="text" min="0" style="font-size:28pt; font-weight: bold; color:red;" class="form-control" id="amount_received" name="amount_received" data-fv-greaterthan-inclusive="false" data-fv-greaterthan-message="Valor debe ser mayor a cero"/>
+                            		</div>
+                            		<div class="col-sm-8 offset-sm-2">
+                            			<label class="blinking">Cambio o Vuelto</label>
+                            			<label class="col-sm-8 offset-sm-2 control-label"
+                            		   style="text-align: center; font-size: 30pt;" id="lblexchange_money"> 0 </label>
+                            		</div>
+                            	</div>
+                              <div class="row mb-3">
+                                <div class="col-md-12">
+                                  <input type="submit" value="Pay $ 0" class="btn btn-success btn-sm btn-block">
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div id="menu3" class="tab-pane">
+                        <div class="row justify-content-center">
+                          <div class="col-11">
+                            <form id="transferForm" method="post" autocomplete="off">
+                              {% csrf_token %}
+                              <div class="form-row">
+                                <div class="form-group col-md-6">
+                                  <label for="dlgtransfer_bank_name">Banco Origen</label>
+                                  <select class="form-control" name="dlgtransfer_bank_name" id="dlgtransfer_bank_name">
+                                    <option value="">-- Seleccione --</option>
+                                    {% for banco in bancos %}
+                                    <option value={{ banco.entidad_id }}>{{ banco.nombre }}</option>
+                                    {% endfor %}
+                                  </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label for="dlgtransfer_origin_account">Cuenta Origen</label>
+                                  <input type="text" name="dlgtransfer_origin_account" id="dlgtransfer_origin_account" class="form-control">
+                                </div>
+                              </div>
+
+                              <div class="form-row">
+                                <div class="form-group col-md-6">
+                                  <label for="dlgtransfer_destination_bank_name">Banco Destino</label>
+                                  <select class="form-control" name="dlgtransfer_destination_bank_name" id="dlgtransfer_destination_bank_name">
+                                    <option value="">-- Seleccione --</option>
+                                    {% for banco in bancos %}
+                                    <option value={{ banco.entidad_id }}>{{ banco.nombre }}</option>
+                                    {% endfor %}
+                                  </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label for="dlgtransfer_destination_account">Cuenta Destino</label>
+                                  <input type="text" name="dlgtransfer_destination_account" id="dlgtransfer_destination_account" class="form-control">
+                                </div>
+                              </div>
+
+                              <div class="form-row">
+                                <div class="form-group col-md-3">
+                                  <label for="dlgtransfer_comprobante">Nro. Doc.</label>
+                                  <input type="text" name="dlgtransfer_comprobante" id="dlgtransfer_comprobante" class="form-control">
+                                </div>
+                                <div class="form-group col-md-5">
+                                  <label>Fecha Transferencia</label>
+                                  <input type="text" class="form-control" name="dlgtransfer_fecha" id="dlgtransfer_fecha" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                  <label for="dlgtransfer_amount">Monto $</label>
+                                  <input type="text" min="0" placeholder="0" class="form-control" id="dlgtransfer_amount" name="dlgtransfer_amount" data-fv-greaterthan-inclusive="false" data-fv-greaterthan-message="Valor debe ser mayor a cero"/>
+                                </div>
+                              </div>
+
+                              <div class="row mb-3">
+                                <div class="col-md-12">
+                                  <input type="submit" value="Pay $ 100" class="btn btn-success btn-sm btn-block">
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div id="menu4" class="tab-pane">
+                        <div class="row justify-content-center">
+                          <div class="col-11">
+                            <form id="commcreditForm" method="post" autocomplete="off">
+                              {% csrf_token %}
+                              <div class="form-row">
+                                <div class="form-group col-md-6">
+                                  <label for="dlg_commercial_credit_amount">Monto Financiado</label>
+                                  <input type="text" min="0" placeholder="0.00" name="dlg_commercial_credit_amount" id="dlg_commercial_credit_amount" class="form-control"/>
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label for="dlg_commercial_credit_unit_time">Tiempo</label>
+                                  <select class="form-control" name="dlg_commercial_credit_unit_time" id="dlg_commercial_credit_unit_time">
+                                    <option value="">-- Seleccione --</option>
+                                    <option value="DÍAS">DÍAS</option>
+                                    <option value="MESES">MESES</option>
+                                    <option value="AÑOS">AÑOS</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="form-row">
+                                <div class="form-group col-md-4">
+                                  <label for="dlg_commercial_credit_term">Plazo</label>
+                                  <input type="number" placeholder="0" min="1" step="any" name="dlg_commercial_credit_term" id="dlg_commercial_credit_term" class="form-control">
+                                </div>
+                                <div class="form-group col-md-4">
+                                  <label for="dlg_commercial_credit_installments_number">Núm. Cuotas</label>
+                                  <input type="number" placeholder="0" min="1" step="1" name="dlg_commercial_credit_installments_number" id="dlg_commercial_credit_installments_number" class="form-control" data-toggle="tooltip" title="Número de pagos programados.">
+                                </div>
+                                <div class="form-group col-md-4">
+                                  <label for="dlg_commercial_credit_rate">Tasa (% Interés)</label>
+                            			<input type="text" placeholder="0" name="dlg_commercial_credit_rate" id="dlg_commercial_credit_rate" class="form-control">
+                                </div>
+                              </div>
+
+                              <div class="form-row">
+                                <div class="form-group col-md-6">
+                                  <label for="dlg_commercial_credit_cutoff_date">Fecha Corte</label>
+                            			<input type="date" name="dlg_commercial_credit_cutoff_date" id="dlg_commercial_credit_cutoff_date" value={{ fecha_emision }} class="form-control">
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label for="dlg_commercial_credit_installment_amount">$ Valor Cuota</label>
+                            			<input type="text" placeholder="0" name="dlg_commercial_credit_installment_amount" id="dlg_commercial_credit_installment_amount" class="form-control" disabled>
+                                </div>
+                              </div>
+
+                              <div class="row mb-3">
+                                <div class="col-md-12">
+                                  <input type="submit" value="Pay $ 100" class="btn btn-success btn-sm btn-block">
+                                </div>
+                              </div>
+
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div id="menu5" class="tab-pane">
+                        <div class="row justify-content-center">
+                          <div class="col-11">
+                            <form id="cardForm" method="post" autocomplete="off">
+                              {% csrf_token %}
+                              <div class="form-row">
+                                <div class="form-group col-md-6">
+                                  <label for="dlgcard_card_tipo">Tipo Tarjeta</label>
+                                  <select id="dlgcard_card_tipo" autofocus="true" class="form-control">
+                                    <option selected  value="0">---------</option>
+                                    <option value="TD">TARJETA DÉBITO</option>
+                                    <option value="TC">TARJETA CRÉDITO</option>
+                                  </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label for="dlgcard_card_name">Tarjeta</label>
+                                  <select class="form-control" name="dlgcard_card_name" id="dlgcard_card_name">
+                                    <option value="">-- Seleccione --</option>
+                                    {% for tarjeta in tarjetas %}
+                                    <option value={{ tarjeta.tarjeta_id }}>{{ tarjeta.nombre }}</option>
+                                    {% endfor %}
+                                  </select>
+                                </div>
+                              </div>
+
+                              <div class="form-row">
+                                <div class="form-group col-md-4">
+                                  <label for="dlgcard_card_number">Tarjeta Número</label>
+                                  <input type="text" name="dlgcard_card_number" id="dlgcard_card_number" maxlength="16" class="form-control">
+                                </div>
+                                <div class="form-group col-md-4">
+                                  <label for="dlgcard_vaucher_nro">Vaucher Número</label>
+                                  <input type="text" name="dlgcard_vaucher_nro" id="dlgcard_vaucher_nro" maxlength="16" class="form-control">
+                                </div>
+                                <div class="form-group col-md-4">
+                                  <label for="dlgcard_amount">Monto</label>
+                                  <input type="text" min="0" placeholder="0.00" name="dlgcard_amount" id="dlgcard_amount" class="form-control" data-fv-greaterthan-inclusive="false" data-fv-greaterthan-message="Valor debe ser mayor a cero"/>
+                                </div>
+                              </div>
+
+                              <div class="row mb-3">
+                                <div class="col-md-12">
+                                  <input type="submit" value="Pay $ 100" class="btn btn-success btn-sm btn-block">
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div id="menu6" class="tab-pane">
+                        <div class="row justify-content-center">
+                          <div class="col-11">
+                            <h3 class="mt-0 mb-4 text-center">Escanee el código QR para pagar</h3>
+                            <div class="row justify-content-center">
+                              <div id="qr"> <img src="https://i.imgur.com/DD4Npfw.jpg" width="200px" height="200px"> </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      </div>
+      <!-- /.modal-body -->
+    </div>
+  </div>
+</div>
+
+<!-- Fin Modal product detail -->
+
+<script type="text/javascript">
+
+  $('#modalPaymentView').on('shown.bs.modal', function () {
+    $('#amount_received').focus()
+  });
+
+  // función intermitente etiqueta cambio o vuelto|
+  function blinker() {
+    $('.blinking').fadeOut(500);
+    $('.blinking').fadeIn(500);
+  }
+  setInterval(blinker, 2000);
+
+  $('#amount_received').on('input',function(e){
+    var monto = $("#dlg_grand_total").val();
+    //var total = number_format(monto, 2);
+    //var total = Number(monto.replace(/[^0-9.-]+/g,"")).toFixed(2);
+
+    var total = toFloat(monto);
+    var recibido = toFloat(this.value);
+    var cambio = recibido - total;
+
+    //console.log("Total: " + total);
+    //console.log("Recibido: " + recibido);
+    //console.log("Cambio: " + cambio);
+
+    if ($.isNumeric(cambio) || recibido === null) {
+      var simbolo = getCurrencySymbol('en-US', 'USD');
+      if (cambio > 0)
+        $("#lblexchange_money").text(simbolo + ' ' + cambio.toLocaleString());
+      else
+        $("#lblexchange_money").text(simbolo + ' ' + '0'.toLocaleString());
+    }
+  });
+
+
+  $(document).ready(function(){
+    //Menu Toggle Script
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+
+    // For highlighting activated tabs
+    $("#tab1").click(function () {
+      $(".tabs").removeClass("active1");
+      $(".tabs").addClass("bg-light");
+      $("#tab1").addClass("active1");
+      $("#tab1").removeClass("bg-light");
+    });
+
+    $("#tab2").click(function () {
+      $(".tabs").removeClass("active1");
+      $(".tabs").addClass("bg-light");
+      $("#tab2").addClass("active1");
+      $("#tab2").removeClass("bg-light");
+
+      $('#amount_received').focus().select();
+    });
+
+    $("#tab3").click(function () {
+      $(".tabs").removeClass("active1");
+      $(".tabs").addClass("bg-light");
+      $("#tab3").addClass("active1");
+      $("#tab3").removeClass("bg-light");
+    });
+
+    $("#tab4").click(function () {
+      $(".tabs").removeClass("active1");
+      $(".tabs").addClass("bg-light");
+      $("#tab4").addClass("active1");
+      $("#tab4").removeClass("bg-light");
+    });
+
+    $("#tab5").click(function () {
+      $(".tabs").removeClass("active1");
+      $(".tabs").addClass("bg-light");
+      $("#tab5").addClass("active1");
+      $("#tab5").removeClass("bg-light");
+    });
+
+    $("#tab6").click(function () {
+      $(".tabs").removeClass("active1");
+      $(".tabs").addClass("bg-light");
+      $("#tab6").addClass("active1");
+      $("#tab6").removeClass("bg-light");
+    });
+
+
+  });
+
+  $(function() {
+    //vvar url = $("#cashForm").attr("action");
+    var token = jQuery("#cashForm [name=csrfmiddlewaretoken]").val();
+    $("#cashForm").submit(function(e){
+      e.preventDefault();
+      // alert(token);
+      //var formData = $("#cashForm").serializeArray();
+      var formData = $("#cashForm").serialize();
+      console.log("form serialize...");
+      console.log(formData);
+
+      /*
+      TableData = JSON.stringify(TableData);
+      var data = {
+        'cliente_id' : cliente_id,
+        'fecha_emision' : fecha_emision,
+        'firmar' : firmar,
+        'payment_method': payment_method,
+        'pTableData' : TableData
+      };*/
+
+      var cliente_id = $("#dlg_cliente_id").val();
+      var fecha_emision = $("#dlg_fecha_emision").val();
+
+      var data = {
+        'cliente_id': cliente_id,
+        'fecha_emision': fecha_emision,
+        'firmar': true,
+        'payment_method': '01'
+      }
+
+      $.ajax({
+        url: "{% url 'venta:guardar_factura' %}",
+        method: "POST",
+        headers: {'X-CSRFToken': token },
+        data: formData + '&' + $.param(data),
+      })
+      .done(function(r,textStatus,xhr){
+        if(xhr.status=200){
+          //location.reload(true);
+          // imprimir ticket
+
+          
+        }
+        else{
+          mensaje(textStatus);
+        }
+      }).fail(function (error) {
+        mensaje(error.responseText);
+      });
+    });
+
+    $("#chequeForm").submit(function(e){
+      e.preventDefault();
+      alert("formulario cheque")
+    });
+
+    $("#transferForm").submit(function(e){
+      e.preventDefault();
+      alert("formulario transfer")
+    });
+
+    $("#commcreditForm").submit(function(e){
+      e.preventDefault();
+      alert("formulario credito comercial")
+    });
+
+    $("#cardForm").submit(function(e){
+      e.preventDefault();
+      alert("formulario tarjeta credito")
+    });
+
+  });
+</script>

@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <title>Resumen SRI</title>
+  <style type="text/css">
+    @page {
+      size: A4 portrait;
+      margin: 1cm;
+      @frame {
+      }
+      @frame logo_frame {
+          border-radius: 15px;
+          -pdf-frame-content: sri_logo;
+          /*-pdf-frame-border: 1;*/
+          left: 1cm;
+          width: 6.4cm;
+          top: 1cm;
+          height: 4.5cm;
+          /**/
+      }
+      @frame sriinfo_frame {        /* Static Frame */
+          -pdf-frame-content: sriinfo_content;
+          /*-pdf-frame-border: 1;*/
+          padding: 10px 10px;
+          right: 1cm;
+          width: 12.4cm;
+          top: 1cm;
+          height: 4.5cm;
+      }
+      @frame content_frame {          /* Content Frame */
+          right: 1cm;
+          left: 1cm;
+          top: 180pt;
+          /*height: 632pt;
+          -pdf-frame-border: 1;*/
+          /**/
+      }
+    }
+    .table {
+      width: 100%;
+      max-width: 100%;
+      margin-bottom: 5px;
+      background-color: #fff;
+      border: 1px solid black;
+    }
+
+    .table th,
+    .table td {
+      /*padding: 5px;
+      vertical-align: top;
+      border-top: 1px solid #000;
+      text-align: center;*/
+      text-align: center;
+    }
+
+    .table thead th {
+      padding-top: 4px;
+      vertical-align: bottom;
+      /*border-bottom: 1px solid #000;*/
+    }
+
+    .table tfoot td {
+      padding: 2px;
+      /*border-top: 1px solid #000;*/
+    }
+
+    /*.table tbody + tbody {
+      border-top: 1px solid #000;
+    }*/
+
+    /*.table .table {
+      background-color: #fff;
+    }*/
+
+    .list-group {
+      display: block;
+      width: 100%;
+      list-style: none;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+
+    .list-group p {
+      width: 100%;
+      height: 20px;
+      line-height: 20px;
+      list-style: none;
+      font-size: 1.3em;
+    }
+
+    .center {
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+  </style>
+</head>
+
+{% load humanize %}
+{% load filtro_cuentas_tag %}
+
+<body>
+<div class="container">
+  <!-- logotipo SRI -->
+  <div id="sri_logo">
+    <img src="media/logo/sri-logo.png" class="center"/>
+  </div>
+  <!-- contribuyente -->
+  <div id="sriinfo_content">
+    <table>
+      <tr><th><h1>TALÓN RESUMEN</h1></th></tr>
+      <tr><th><h1>SERVICIO DE RENTAS INTERNAS</h1></th></tr>
+      <tr><th><h1>ANEXO TRANSACCIONAL</h1></th></tr>
+      <tr><th><h1>{{ empresa.razon_social }}</h1></th></tr>
+      <tr><th><h1>RUC: {{ empresa.ruc }}</h1></th></tr>
+      <tr><th><h1>Período: {{ periodo }}</h1></th></tr>
+      <tr><th><h1>Fecha de Generación: {{ today | date:"d/m/Y H:i" }}</h1></th></tr>
+    </table>
+  </div>
+
+  <!-- HTML Content -->
+  <div class="list-group">
+    <p style="text-align:justify">Certifico que la información contenida en el
+      medio magnético del Anexo Transaccional para el período {{ periodo}},
+      es fiel reflejo del siguiente reporte:</p>
+  </div>
+  <table class="table">
+    <thead>
+      <tr><th colspan="7">COMPRAS</th></tr>
+      <tr>
+        <th>Cod.</th>
+        <th>Transacción</th>
+        <th style="width:72px;white-space:nowrap;">No. Registros</th>
+        <th style="white-space:nowrap;">BI tarifa 0%</th>
+        <th style="white-space:nowrap;">BI tarifa diferente 0%</th>
+        <th style="white-space:nowrap;">BI No Objeto IVA</th>
+        <th style="white-space:nowrap;">Valor IVA</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="padding-top: 4px;">
+        <td>01</td>
+        <td>FACTURA</td>
+        <td>{{ compras_list.count }}</td>
+        <td>{{ compras_list|running_total0|floatformat:2|intcomma }}</td>
+        <td>{{ compras_list|running_total12|floatformat:2|intcomma }}</td>
+        <td>{{ compras_list|running_total_noiva|floatformat:2|intcomma }}</td>
+        <td>{{ compras_list|running_total_iva|floatformat:2|intcomma }}</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td style="text-align:right;font-weight:bold;" colspan="3">TOTAL:</td>
+        <td style="text-align:center;font-weight:bold;">{{ compras_list|running_total0|floatformat:2|intcomma }}</td>
+        <td style="text-align:center;font-weight:bold;">{{ compras_list|running_total12|floatformat:2|intcomma }}</td>
+        <td style="text-align:center;font-weight:bold;">{{ compras_list|running_total_noiva|floatformat:2|intcomma }}</td>
+        <td style="text-align:center;font-weight:bold;">{{ compras_list|running_total_iva|floatformat:2|intcomma }}</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <br>
+  <table class="table">
+    <tbody>
+      <tr style="padding-top: 4px;"><th colspan="8">COMPROBANTES ANULADOS</th></tr>
+        <tr style="padding-top: 4px;">
+          <td colspan="7">Total de Comprobantes Anulados en el período informado (no incluye los dados de baja)</td>
+          <td>0</td>
+        </tr>
+    </tbody>
+  </table>
+
+  <br>
+
+  <div class="list-group">
+    <p style="text-align:center;font-weight:bold;">RESUMEN DE RETENCIONES - AGENTE DE RETENCIÓN</p>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th colspan="5">RETENCIÓN EN LA FUENTE DE IMPUESTO A LA RENTA</th>
+      </tr>
+      <tr>
+        <th style="width:50px;">Cod.</th>
+        <th>Comprobante de Retención</th>
+        <th style="width:72px;white-space:nowrap;">No. Registros</th>
+        <th style="width:84px;white-space:nowrap;">Base Imponible</th>
+        <th style="width:84px;white-space:nowrap;">Valor Retenido</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if retef_renta_list %}
+      {% for retencion in retef_renta_list %}
+      <tr style="padding-top: 4px;">
+        <td>{{ retencion.sri_tipo_impuesto__codigo }}</td>
+        <td>{{ retencion.descripcion }}</td>
+        <td>{{ retencion.nro_registros }}</td>
+        <td>{{ retencion.sum_base_imponible|floatformat:2|intcomma }}</td>
+        <td>{{ retencion.sum_valor_retenido|floatformat:2|intcomma }}</td>
+      </tr>
+      {% endfor %}
+      {% endif %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td style="text-align:right;font-weight:bold;" colspan="3">TOTAL:</td>
+        <td style="text-align:center;font-weight:bold;">{{ retef_renta_list|running_total_retef_base_imponible|floatformat:2|intcomma }}</td>
+        <td style="text-align:center;font-weight:bold;">{{ retef_renta_list|running_total_retef_valor_retenido|floatformat:2|intcomma }}</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <br>
+  <table class="table">
+    <thead>
+      <tr><th colspan="3">RETENCIÓN EN LA FUENTE DE IVA</th></tr>
+      <tr>
+        <th style="width:20%;">Operación</th>
+        <th>Concepto de Retención</th>
+        <th style="width:20%;white-space:nowrap;">Valor Retenido</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="padding-top: 4px;">
+        <td>COMPRA</td>
+        <td>Retención IVA 10%</td>
+        <td>001</td>
+      </tr>
+      <tr style="padding-top: 4px;">
+        <td>COMPRA</td>
+        <td>Retención IVA 20%</td>
+        <td>001</td>
+      </tr>
+      <tr style="padding-top: 4px;">
+        <td>COMPRA</td>
+        <td>Retención IVA 30%</td>
+        <td>{{ retef_iva_list|running_retef_renta_valor_retenido|floatformat:2|intcomma }}</td>
+      </tr>
+      <tr style="padding-top: 4px;">
+        <td>COMPRA</td>
+        <td>Retención IVA 50%</td>
+        <td>001</td>
+      </tr>
+      <tr style="padding-top: 4px;">
+        <td>COMPRA</td>
+        <td>Retención IVA 70%</td>
+        <td>001</td>
+      </tr>
+      <tr style="padding-top: 4px;">
+        <td>COMPRA</td>
+        <td>Retención IVA 100%</td>
+        <td>00</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td style="text-align:right;font-weight:bold;" colspan="2">TOTAL:</td>
+        <td style="text-align:center;font-weight:bold;">{{ retef_iva_list|running_total_retef_valor_retenido|floatformat:2|intcomma }}</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="list-group">
+    <p style="text-align:justify">Declaro que los datos contenidos en este anexo son verdaderos,
+      por lo que asumo la responsabilidad correspondiente,
+      de acuerdo a lo establecido en el Art. 101 de la Codificación de la Ley de Régimen Tributario Interno.</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% load widget_tweaks %}
+
+<form method="post" action="">
+  {% csrf_token %}
+
+  <!-- Modal Header -->
+  <div class="modal-header bg-danger text-white">
+    <h4 class="modal-title">Eliminar Caja</h4>
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+  </div>
+
+  <div class="modal-body">
+    <p class="font-bold">No podrá recuperar el registro eliminado.</p>
+    <p class="delete-text">¿Estás seguro de que deseas eliminar el turno con ID
+      <strong>{{object.pk}}</strong>?</p>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+    <button type="submit" class="delete-btn btn btn-danger"><span class="fa fa-save"></span> Si, Eliminar</button>
+  </div>
+</form>

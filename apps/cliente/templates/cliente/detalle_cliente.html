@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %} Detalle de Cliente {% endblock title %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="linebreak"></div>
+      <h3>Detalle de Cliente</h3>
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-sm-12 col-lx-12">
+      <table class="table table-striped table-bordered">
+        <tr>
+  				<th>Identificación:</th>
+  				<td>{{ object.identificacion }}</td>
+  			</tr>
+  			<tr>
+  				<th>Razón Social:</th>
+  				<td>{{ object.nombre }}</td>
+  			</tr>
+  			<tr>
+  				<th>Dirección:</th>
+  				<td>{{ object.direccion }}</td>
+  			</tr>
+  			<tr>
+  				<th>Teléfono Fijo:</th>
+  				<td>{{ object.telefono }}</td>
+  			</tr>
+  			<tr>
+  				<th>Teléfono Móvil:</th>
+  				<td>{{ object.celular }}</td>
+  			</tr>
+  			<tr>
+  				<th>Correo:</th>
+  				<td>{{ object.email }}</td>
+  			</tr>
+  			<tr>
+  				<th>Creado por:</th>
+  				<td>{{ object.usuario_creador }}</td>
+  			</tr>
+  			<tr>
+  				<th>Creado el:</th>
+  				<td>{{ object.created_at }}</td>
+  			</tr>
+  			<tr>
+  				<th>Actualizado el:</th>
+  				<td>{{ object.update_at }}</td>
+  			</tr>
+  			<tr>
+  				<th>Estado:</th>
+  				{% if object.activo %}
+  				<td>ACTIVO</td>
+  				{% else %}
+  				<td>INACTIVO</td>
+  				{% endif %}
+  			</tr>
+      </table>
+
+      <div class="ln_solid"></div>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button class="btn btn-secondary" type="button"
+            onclick="location.href='{{ request.META.HTTP_REFERER }}';">
+            <i class="fas fa-undo"></i> Regresar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.row -->
+</div>
+{% endblock content %}

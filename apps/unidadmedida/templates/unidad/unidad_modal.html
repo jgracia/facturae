@@ -1,0 +1,47 @@
+<div class="modal-dialog modals-default">
+    <div class="modal-content">
+        {% if object %}
+		<form role="form" action="{% url 'inventario:modificar_unidad' object.pk %}" method="post">
+		{% else %}
+		<form role="form" action="{% url 'inventario:crear_unidad' %}" method="post">
+		{% endif %}
+            {% csrf_token %}
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+    			{% if object %}
+    				<h2>Modificar Unidad</h2>
+    		    {% else %}
+    		        <h2>Crear Unidad</h2>
+    		    {% endif %}
+
+    			
+                    <div class="form-example-int">
+                        <div class="form-group">
+                            <div class="nk-int-st">
+    							{{ form.abreviatura.errors }}
+                                {{ form.abreviatura.label_tag }}
+    							{{ form.abreviatura }}
+                            </div>
+                        </div>
+                    </div>
+    				<div class="form-example-int">
+                        <div class="form-group">
+                            <div class="nk-int-st">
+    							{{ form.nombre.errors }}
+                                {{ form.nombre.label_tag }}
+    							{{ form.nombre }}
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary" name="submit" value="Guardar cambios">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </form>
+    </div>
+</div>

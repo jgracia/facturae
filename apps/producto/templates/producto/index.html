@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %} Productos {% endblock title %}
+
+{% load static %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'css/_estilo_datatable.css' %}">
+{% endblock extra_head %}
+
+{% block content %}
+<div class="base_container">
+  <div class="col-12">
+    <div class="row">
+      <!-- Mixed: mobile, tablet, and desktop -->
+      <div class="col-12 col-sm-6 col-lx-6">
+        <h3>Listado de Productos</h3>
+      </div>
+      <div class="col-12 col-sm-6 col-lx-6">
+        <div class="btn-group float-right" role="group" aria-label="Acciones">
+          <button type="button" class="btn btn-secondary"
+                  onclick="location.href='{% url 'producto:crear_producto' %}';">
+                  <i class="fa fa-plus"></i> Crear
+          </button>
+          <button type="button" class="btn btn-secondary"
+                  id="ExportReporttoExcel">
+                  <i class="far fa-file-excel"></i> Exportar
+          </button>
+          <button type="button" class="btn btn-secondary"
+                  id="ReporttoPrinter">
+                  <i class="fa fa-print"></i> Imprimir
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr/>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="btn-toolbar float-right">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Bodega / Almacén</label>
+            </div>
+            <select class="custom-select" id="id_almacen">
+              {% for almacen in almacenes %}
+                  <option value={{ almacen.almacen_id }}>{{ almacen.descripcion }}</option>
+              {% endfor %}
+              <option disabled>----------</option>
+              <option value="0">TODO</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="row">
+      <div class="col-12 col-sm-12 col-lx-12">
+        <section id="no-more-tables">
+          <table id="tabla" class="table table-striped table-bordered table-hover dt-responsive nowrap" cellspacing="0" width="100%">
+            <thead class="cf">
+              <tr>
+                <th>Producto</th>
+                <th>Código</th>
+                <th class="text-right">Existencia</th>
+                <th text-center>Unidad</th>
+                <th class="text-right">Costo</th>
+                <th class="text-right">$ PVP</th>
+                <th class="noExport text-center">Acciones</th>
+              </tr>
+            </thead>
+            <!--<tbody>
+            </tbody>-->
+            <tfoot>
+              <tr>
+                <th>Producto</th>
+                <th>Código</th>
+                <th class="text-right">Existencia</th>
+                <th text-center>Unidad</th>
+                <th class="text-right">Costo</th>
+                <th class="text-right">$ PVP</th>
+                <th class="noExport text-center">Acciones</th>
+              </tr>
+            </tfoot>
+          </table>
+        </section>
+      </div>
+    </div>
+    <!-- /.row -->
+  </div>
+</div>
+{% endblock content %}
+
+{% block extra_script %}
+<!-- librerías protección csrftoken -->
+<script src="{% static 'js/proteccion_csrf.js' %}"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+
+    $('#id_almacen').change( function() {
+      var almacen_id = this.value;
+      $('#tabla').dataTable().fnDestroy();
+
+      var csrftoken = getCookie('csrftoken');
+
+      // reinicinializar
+      var table = $('#tabla').dataTable( {
+        /*filterDropDown: {
+  				columns: [
+  					{
+  						idx: 2,
+  						title: "Almacén",
+
+  					}
+  				],
+  				bootstrap: true,
+  				label: "Seleccionar almacén: &nbsp"
+  			},*/
+        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todo"]],
+        processing: true,
+        ajax: {
+          headers: { 'X-CSRFToken': csrftoken },
+          processing: true,
+          url: "{% url 'producto:ajax_producto_resumen' %}",
+          method: 'POST',
+          data: { almacen_id: almacen_id },
+          dataSrc: ""
+        },
+        columns: [
+            { data: "nombre", "width": "30%" },
+            { data: "codigo_principal", },
+            { data: "stock", className: "text-right",
+              render: function ( data, type, row ) {
+                return parseFloat(Math.round(Math.round(data * 1000) / 10) / 100).toFixed(2);
+              }
+            },
+            { data: "unidad", className: 'text-center' },
+            { data: "costo", className: "text-right", render: $.fn.dataTable.render.number( ',', '.', 3, '$' ) },
+            { data: "precio_uno", className: "text-right", render: $.fn.dataTable.render.number( ',', '.', 3, '$' ) },
+            //{ data: "precio_dos", className: "text-right", render: $.fn.dataTable.render.number( ',', '.', 3, '$' ) },
+            //{ data: "precio_tres", className: "text-right", render: $.fn.dataTable.render.number( ',', '.', 3, '$' ) },
+            //{ data: "precio_cuatro", className: "text-right", render: $.fn.dataTable.render.number( ',', '.', 3, '$' ) },
+            { "data": "producto_id", className: 'text-center', "orderable": false,
+              "render": function (data, type, row, meta) {
+                return "<nobr>"+
+                        "<a class='btn btn-secondary btn-sm' href=../producto/detalle_producto/"+data+">"+
+                            "<span class='fa fa-eye'></span> Ver"+
+                        "</a> "+
+                        "<a class='btn btn-warning btn-sm' href=../producto/editar_producto/"+data+">"+
+                          "<span class='far fa-edit'></span> Editar"+
+                        "</a> "+
+                        "<a class='btn btn-danger btn-sm' href=../producto/eliminar_producto/"+data+">"+
+                          "<span class='fa fa-trash'></span> Eliminar"+
+                        "</a>"+
+                      "</nobr>"
+              }
+            }
+        ],
+        //select: true,
+        language: {
+          url: "/static/localizacion/es_ES.json"
+        },
+        responsive: true,
+        buttons: [
+          { extend: 'excel', className: 'btn btn-default', exportOptions: { columns: ':not(:last-child)', }, },
+          { extend: 'print', autoPrint: true, exportOptions: { columns: ':not(:last-child)', }, }
+        ],
+        colReorder: {
+          allowReorder: true
+        },
+      });
+
+    });
+    /* fin select almacen */
+
+    // seleccionar todos los almacenes
+    $("#id_almacen").val(0).change();
+  });
+
+  $("#ExportReporttoExcel").on("click", function() { var table = $('#tabla').DataTable(); table.button( '.buttons-excel' ).trigger(); });
+  $("#ReporttoPrinter").on("click", function() { var table = $('#tabla').DataTable(); table.button( '.buttons-print' ).trigger(); });
+</script>
+{% endblock extra_script %}

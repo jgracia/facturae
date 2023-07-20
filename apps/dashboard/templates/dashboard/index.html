@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Bienvenido
+{% endblock title %}
+
+{% load static %}
+
+{% block navigation %}
+  {% include "includes/_navbar.html" with active_tab='tab_home' %}
+{% endblock navigation %}
+
+{% block content %}
+<div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'img/gallery/Slider1.jpg' %}" class="d-block w-100" alt="...">
+      <div class="container">
+        <div class="carousel-caption text-left">
+          <h1 style="color:#484848;">Comprobantes Electrónicos</h1>
+          <p style="color:#484848;">Crea fácilmente tus comprobantes electrónicos desde tu ¡Dispositivo Móvil!</p>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'img/gallery/Slider2.jpg' %}" class="d-block w-100" alt="...">
+      <div class="carousel-caption">
+        <h1 style="color:#fff;">Software Personalizado</h1>
+        <p style="color:#fff;">Ofrecemos desarrollo de software de acurdo con las necesidades de su empresa.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'img/gallery/Slider3.jpg' %}" class="d-block w-100" alt="...">
+      <div class="carousel-caption text-right">
+        <h1 style="color:#FFD43B;">Contabilidad Integrada</h1>
+        <p style="color:#FFD43B;">Toda la información requerida por la administración tributaria al momento que usted necesite.</p>
+      </div>
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+<!-- Page Content -->
+<div class="container">
+  <div class="col-lg-12">
+
+    <section class="py-5">
+      <div class="container">
+        <h1 class="display-4">FACTURAE</h1>
+        <p class="lead">
+          Sistema de Información integral para manejo de comprobantes electrónicos y gestión de información para la administración tributaria personal o institucional.
+          <br>
+          <br>
+          Antes de adquir esta aplicación es importante que conozca el funcionamiento y desempeño de la misma, para ello inicie sesión en modo de pruebas.
+        </p>
+      </div>
+    </section>
+
+    <!-- START THE FEATURETTES -->
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h2 class="featurette-heading">Factura Electrónica. <span class="text-muted">Simple y fácil.</span></h2>
+        <p class="lead">Gestione sus facturas tradicionales (físicas) como electrónicas cumpliendo todos los requisitos exigidos por el Sistema de Rentas Internas del Ecuador (SRI).</p>
+      </div>
+      <div class="col-md-5">
+        <img class="featurette-image img-fluid mx-auto" src="{% static 'img/gallery/facturacion000001.png' %}" alt="Generic placeholder image">
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7 order-md-2">
+        <h2 class="featurette-heading">Retenciones Electrónicas. <span class="text-muted">Todo al instante.</span></h2>
+        <p class="lead">Realice la retención en la fuente del impuesto a la renta al instante de realizar su tranación de pago o crédito.</p>
+      </div>
+      <div class="col-md-5 order-md-1">
+        <img class="featurette-image img-fluid mx-auto" src="{% static 'img/gallery/facturacion000001.png' %}" alt="Generic placeholder image">
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h2 class="featurette-heading">Liquidación de Compras. <span class="text-muted">Según nueva normativa.</span></h2>
+        <p class="lead">Efectue sus comprobantes siguiendo las nuevas normativas para este tipo de documentos.</p>
+      </div>
+      <div class="col-md-5">
+        <img class="featurette-image img-fluid mx-auto" src="{% static 'img/gallery/facturacion000001.png' %}" alt="Generic placeholder image">
+      </div>
+    </div>
+
+    <!--<hr class="featurette-divider">-->
+
+    <br>
+    <br>
+
+    <!-- /END THE FEATURETTES -->
+
+  </div>
+</div>
+<!-- /.container -->
+{% endblock content %}
+
+{% block footer %}
+  {% include "includes/_footer.html" %}
+{% endblock footer %}

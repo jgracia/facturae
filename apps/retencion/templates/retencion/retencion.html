@@ -1,0 +1,581 @@
+{% extends "base.html" %}
+
+{% block title %} Crear Retención {% endblock title %}
+
+{% block content %}
+<div class="base_container">
+  <div class="col-12">
+    <div class="row">
+      <!-- Mixed: mobile, tablet, and desktop -->
+      <div class="col-12 col-sm-6 col-lx-6">
+        <h4>Formulario Retención <small>ingreso de retenciones</small></h4>
+      </div>
+      <div class="col-12 col-sm-6 col-lx-6">
+        <div class="btn-group float-right" role="group" aria-label="Acciones">
+          <button type="button" class="btn btn-secondary"
+                  onclick="location.href='{{ request.META.HTTP_REFERER }}';">
+                  <i class="fas fa-undo"></i> Regresar
+          </button>
+          <!--
+          <button type="button" class="btn btn-secondary"
+                  id="LoadXML">
+                  <i class="fas fa-file-code"></i> Cargar XML
+          </button>
+          <button type="button" class="btn btn-secondary"
+                  id="LoadXML">
+                  <i class="fas fa-file-pdf"></i> Cargar PDF
+          </button>
+          -->
+        </div>
+      </div>
+    </div>
+    <hr/>
+
+    <div class="row">
+      <div class="col-12 col-sm-12 col-lx-12">
+        <fieldset class="col-12 col-md-12 px-3 pb-2">
+          <legend>Información general:</legend>
+          <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="id_supplier">Sujeto Retenido:</label>
+              <input type="hidden" name="current" value="0" />
+              <div class="input-group">
+                <select class="form-control" id="id_supplier">
+                  <option selected  value="0">---------</option>
+                  {% for proveedor in proveedores %}
+                    <option value={{ proveedor.proveedor_id }}>{{ proveedor.nombre }}</option>
+                  {% endfor %}
+                </select>
+                <span class="input-group-btn">
+                <button type="button" id="addProveedor" class="btn btn-secondary"
+                  onclick="return abrir_modal('{% url 'compra:crear_proveedor_modal' %}')"
+                  data-toggle="tooltip" title="Agregar Proveedor">
+                  <i class="fas fa-plus"></i></button>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-12">
+              <label for="datepicker">Fecha de Emisión</label>
+              <input type="date" name="datepicker" id="datepicker" value={{ fecha_emision }} class="form-control">
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-6">
+              <label for="month">Mes</label>
+              <select class="form-control" name="month" id="month">
+                <option selected  value="1">ENERO</option>
+                <option selected  value="2">FEBRERO</option>
+                <option selected  value="3">MARZO</option>
+                <option selected  value="4">ABRIL</option>
+                <option selected  value="5">MAYO</option>
+                <option selected  value="6">JUNIO</option>
+                <option selected  value="7">JULIO</option>
+                <option selected  value="8">AGOSTO</option>
+                <option selected  value="9">SEPTIEMBRE</option>
+                <option selected  value="10">OCTUBRE</option>
+                <option selected  value="11">NOVIEMBRE</option>
+                <option selected  value="12">DICIEMBRE</option>
+              </select>
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-6">
+              <label for="year">Año</label>
+              <select class="form-control" name="year" id="year">
+                <option selected  value="2019">2020</option>
+                <option selected  value="2019">2021</option>
+                <option selected  value="2019">2022</option>
+                <option selected  value="2019">2023</option>
+                <option selected  value="2019">2024</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+      <div class="col-12 col-sm-12 col-lx-12">
+        <fieldset class="col-12 col-md-12 px-3 pb-2">
+          <legend>Impuestos:</legend>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+              <label for="tipo_documento_codigo">Tipo de Documento:</label>
+              <select class="form-control" id="tipo_documento_codigo">
+                <option selected  value="">---------</option>
+                {% for document in tipo_documentos %}
+                  <option value={{ document.codigo }}>{{ document.descripcion }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-12">
+              <label for="id_comprobante">Nro. Comprobante:</label>
+              <select class="form-control" name="id_comprobante" id="id_comprobante">
+                <option selected  value="">---------</option>
+              </select>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-12">
+              <label for="datepicker_comp_modifica">Fecha (Comp. Mod.)</label>
+              <input type="date" name="datepicker_comp_modifica" id="datepicker_comp_modifica" value={{ fecha_emision }} class="form-control">
+            </div>
+          </div>
+          <!-- /.row -->
+          <br>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-12">
+              <label for="id_tipo_impuesto">Tipo de Impuesto:</label>
+              <select class="form-control" id="id_tipo_impuesto">
+                <option selected  value="0">---------</option>
+                <option value=1>RENTA</option>
+                <option value=2>I.V.A</option>
+              </select>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+              <label for="id_impuesto">Impuesto:</label>
+              <select class="form-control" id="id_impuesto" name="id_impuesto">
+                <option selected  value="">---------</option>
+              </select>
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-12">
+              <label for="base_imponible">Base Imponible</label>
+              <!--<input type="number" id="base_imponible" name="base_imponible" class="form-control" placeholder="0.00">-->
+              <input type="text" class="form-control" name="base_imponible" id="base_imponible" placeholder="0.00">
+
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-12">
+              <label for="porcentaje_retencion">Porcentaje Retención</label>
+              <input type="text" id="porcentaje_retencion" name="porcentaje_retencion" value="0.00" class="form-control" readonly>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-12">
+              <label for="valor_retenido">Valor Retenido</label>
+              <input type="text" id="valor_retenido" name="valor_retenido" value="0.00" class="form-control" readonly>
+            </div>
+          </div>
+          <!-- /.row -->
+        </fieldset>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+      <div class="col-12 col-sm-12 col-lx-12">
+        <fieldset class="col-12 col-md-12 px-3 pb-2">
+          <legend>Detalle del Comprobante de Retención:</legend>
+					<div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="btn-group btn-group-sm float-right" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-primary"
+                  onclick="agregarImpuesto();return false;">
+                  <i class="fas fa-plus"></i> Añadir</button>
+              </div>
+              <section id="no-more-tables">
+                <table class="table table-bordered table-condensed cf">
+                  <thead class="cf">
+                    <tr>
+                      <th>Cod. Reten.</th>
+                      <th>Tipo Imp.</th>
+                      <th>Descripción</th>
+                      <th class="numeric">Base Imponible</th>
+                      <th class="numeric">Porcentaje</th>
+                      <th class="numeric">Total</th>
+                      <th>Documento</th>
+                      <th>Fecha (Comp. Mod.)</th>
+                      <th>Tipo Doc.</th>
+                      <th class="text-center">Acción</th>
+                    </tr>
+                  </thead>
+
+                  <tbody id = "tbody_creditcard_data">
+                    <!-- agregar mensaje NO HAY ITEMS -->
+                    <tr>
+                      <td colspan="10" style = "text-align: center;"
+                        bgcolor="Gainsboro"><font color="OrangeRed" data-title="Retenciones">¡ Ningún registro encontrado !</font></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+            </div>
+					</div>
+        </fieldset>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="ln_solid"></div>
+    <div class="form-group">
+      <div class="col-md-6 col-sm-6 col-sm-12">
+        <button type="button" class="btn btn-secondary"
+          onclick="location.href='{% url 'retencion:listado_retenciones' %}';">Cancelar</button>
+        <button type="reset" class="btn btn-warning" id="empty_table">
+          <i class='fas fa-trash'></i> Vaciar</button>
+        <button type="submit" class="btn btn-success" id="save_retencion">
+          <i class="fas fa-save"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+  <!-- /.col-12 -->
+</div>
+
+	<!-- formulario modal proveedor -->
+	<div id="popup" class="modal fade" role="dialog">
+
+	</div>
+{% endblock content %}
+
+{% block extra_script %}
+  <!-- librerías csrftoken protección csrf  -->
+  <script src="/static/js/proteccion_csrf.js"></script>
+
+  <script>
+	// función para mostrar formulario modal proveedor
+	function abrir_modal(url)
+	{
+    $('#popup').load(url, function()
+    {
+      $(this).modal('show');
+    });
+    return false;
+	}
+
+	function cerrar_modal()
+	{
+    $('#popup').modal('hide');
+    return false;
+	}
+
+	$(document).ready(function() {
+		var d = new Date();
+		n = d.getMonth() + 1;
+		y = d.getFullYear();
+
+		$("#month").val(n).change();
+		$("#year").val(y).change();
+
+    $('[data-toggle="tooltip"]').tooltip();
+	});
+
+	// evento tipo de impuesto
+	$("#id_tipo_impuesto").change(function () {
+		var tipo_impuesto_id = $(this).val();
+		var url = "{% url 'retencion:ajax_load_impuesto' %}";
+		$.ajax({
+			url: url,
+			data: {
+        'impuesto': tipo_impuesto_id
+      },
+			success: function (data) {
+				$("#id_impuesto").html(data);
+				$("#porcentaje_retencion").val('0.00');
+				$("#valor_retenido").val('0.00');
+      }
+		});
+	});
+
+	// evento impuesto
+	$("#id_impuesto").change(function () {
+		var impuesto_codigo = $(this).val();
+		if (impuesto_codigo != '') {
+			$.ajax({
+				url: "{% url 'retencion:ajax_get_porcentaje' %}",
+				data: {
+					'impuesto': impuesto_codigo
+        },
+				success: function (data) {
+					$("#porcentaje_retencion").val(data.porcentaje);
+					var valor_base_imponible = $("#base_imponible").val();
+					var porcentaje_retencion = parseFloat(data.porcentaje);
+					var valor_retenido = parseFloat((valor_base_imponible * porcentaje_retencion) / 100).toFixed(2);
+					$("#valor_retenido").val(valor_retenido);
+        }
+			});
+		}
+	});
+
+	$("#base_imponible").on("keyup mouseup",function (e) {
+    e.preventDefault();
+		var valor_base_imponible = parseFloat($(this).val());
+		var porcentaje_retencion = parseFloat($("#porcentaje_retencion").val());
+		var valor_retenido = parseFloat((valor_base_imponible * porcentaje_retencion) / 100).toFixed(2);
+		$("#valor_retenido").val(valor_retenido);
+	});
+
+	function agregarImpuesto() {
+		var tipo_documento_codigo = $("#tipo_documento_codigo").val();
+		if (tipo_documento_codigo != "") {
+
+			var id_comprobante = $("#id_comprobante").val();
+
+			if (id_comprobante != "") {
+				var tipo_impuesto = $("#id_tipo_impuesto").val();
+				if (tipo_impuesto > 0) {
+					var cod_impuesto = $("#id_impuesto").val();
+					if (cod_impuesto != "") {
+						var base_imponible = parseFloat($("#base_imponible").val()).toFixed(2);
+						var valor_retenido = parseFloat($("#valor_retenido").val()).toFixed(2);
+						if (base_imponible > 0 && valor_retenido > 0) {
+							// agregar datos a tabla detalle
+							var nFilas = $("table tbody tr").length;
+							if (nFilas == 1) {
+								//verifica fila: ¡ No se ha encontrado ningún registro !
+								var childrenId = $("tr td")[0].innerHTML;
+								if (!$.isNumeric(childrenId))
+								{
+									// Quitar Fila: ¡ No se ha encontrado ningún registro !
+									document.querySelectorAll("table tbody tr").forEach(function(e){e.remove();});
+								}
+							}
+							//VERIFICA SI EXISTE LA TABLA TEMPORAL GRID
+							var cad_imp = $("#id_impuesto option:selected").text();
+							var pos_guion = cad_imp.indexOf('- ')
+							var descripcion = cad_imp.substring(pos_guion + 2);
+							if (!isExist(descripcion)) {
+								// agregar item
+								var porcentaje_retencion = parseFloat($("#porcentaje_retencion").val()).toFixed(2);
+								var fecha_comp_modifica = $("#datepicker_comp_modifica").val();
+								var cadena = $("#id_comprobante option:selected").text();
+								var pos = cadena.indexOf(' =>')
+								var documento = cadena.substring(0, pos);
+
+								var markup =  "<tr data-title='Cod. Reten.'><td>" + cod_impuesto + "</td>"
+											+ "<td data-title='Tipo Imp.' class='numeric'>" + tipo_impuesto + "</td>"
+											+ "<td data-title='Descripción'>" + descripcion + "</td>"
+											+ "<td data-title='Base Imponible' class='numeric'>" + base_imponible + "</td>"
+											+ "<td data-title='Porcentaje' class='numeric'>" + porcentaje_retencion + "</td>"
+											+ "<td data-title='Total' class='numeric'>" + valor_retenido + "</td>"
+											+ "<td data-title='Documento'>" + documento + "</td>"
+											+ "<td data-title='Fecha (Comp. Mod.)'>" + fecha_comp_modifica + "</td>"
+											+ "<td data-title='Tipo Doc.'>" + tipo_documento_codigo + "</td>"
+											+ "<td data-title='Acción' class='text-center'>"
+												+ "<div class='btn-group btn-group-sm'>"
+													+ "<button type='button' data-id=" + cod_impuesto
+                          + " class='btn btn-warning deleteButton'><i class='fas fa-trash'></i></button>"
+												+ "</div>"
+											+ "</td>"
+											+ "</tr>";
+								$("table tbody").append(markup);
+							} else {
+								swal("Oops...", "Usted ya ha ingresado este item.", "error");
+							}
+						} else {
+							swal("Oops...", "Ingrese (Base Imponible)", "error");
+						}
+					} else {
+						swal("Oops...", "Seleccione (Impuesto)", "error");
+					}
+				} else {
+					swal("Oops...", "Seleccione (Tipo de Impuesto)", "error");
+				}
+			} else {
+				swal("Oops...", "Seleccione (Nro. Comprobante)", "error");
+			}
+		} else {
+			swal("Oops...", "Seleccione (Tipo de Documento)", "error");
+		}
+	}
+
+	// verifica si el item existe
+	function isExist(strd){
+    // console.log($('tr[id*=output_newrow]').length)
+    testme=false;
+    $('tr').each(function(){
+      //console.log($('td:nth(1)',$(this)).text());
+      //console.log(strd);
+      if($('td:nth(2)',$(this)).text()===strd) {
+        testme=true;
+      }
+    });
+    return testme;
+  }
+
+	//////////////// botones tabla, acción delete ////////////////
+	$("table").on('click','.deleteButton',function(){
+		//var id = $(this).attr('data-id');
+		$(this).closest('tr').remove();
+		//agregar mensaje: ¡ No se ha encontrado ningún registro !
+		var rowCount = $("table td").closest("tr").length;
+		if (rowCount == 0) {
+			var markup = "<tr><td colspan='10' style = 'text-align: center;' bgcolor='Gainsboro'>"
+					+ "<font color='OrangeRed'>¡ Ningún registro encontrado !</font></td></tr>";
+			$("table tbody").append(markup);
+		}
+	});
+
+	// botón vaciar
+  $('#empty_table').click(function(e){
+    e.preventDefault();
+
+    //eliminar tabla
+    document.querySelectorAll("table tbody tr").forEach(function(e){e.remove()});
+
+    // Agregar Fila: ¡ Ningún dato disponible en el carrito !
+    var markup = "<tr><td colspan='10' style = 'text-align: center;' bgcolor='Gainsboro'>"
+            + "<font color='OrangeRed'>¡ Ningún registro encontrado !</font></td></tr>";
+    $("table tbody").append(markup);
+  });
+
+	// función comprobante retención
+	$('#save_retencion').click(function(e){
+		e.preventDefault();
+		var id_proveedor = $("#id_supplier").val();
+		if (id_proveedor > 0) {
+			var id_compra = $("#id_comprobante").val();
+			//console.log("COMPRA=" + id_compra);
+			if (id_compra > 0) {
+				//verifica fila: ¡ Ningún registro encontrado !
+				var childrenId = $("tr td")[0].innerHTML;
+				if (!$.isNumeric(childrenId))
+				{
+					swal("Oops...", "No existe item de retención", "error");
+				} else {
+					// Convert a Javascript Array to JSON Format
+	                var TableData;
+	                TableData = storeTblValues();
+	                TableData = JSON.stringify(TableData);
+
+					var fecha_emision = $("#datepicker").val();
+					var mes = $("#month").val();
+					var anio = $("#year").val();
+
+					// sumatoria de pagos
+					var sumatoria_pagos = 0
+					$('table tr').each(function(row, tr){
+						if (row > 0) {
+							var aux = $.trim($(tr).find('td:eq(5)').text());
+							sumatoria_pagos = sumatoria_pagos + parseFloat(aux);
+						}
+					});
+					sumatoria_pagos = sumatoria_pagos.toFixed(2);
+
+					//console.log("SUMATORIA=" + sumatoria_pagos);
+					var data = {
+						'proveedor_id' : id_proveedor,
+						'compra_id': id_compra,
+						'fecha_emision' : fecha_emision,
+						'mes' : mes,
+						'anio' : anio,
+						'total_retencion' : sumatoria_pagos,
+						'pTableData' : TableData
+					};
+
+					// guardar retención
+					var csrftoken = getCookie('csrftoken');
+          $.ajax({
+            headers: { "X-CSRFToken": csrftoken },
+						url: "{% url 'retencion:guardar_retencion' %}",
+						method: 'POST',
+						data: $.param(data),
+						dataType: 'json',
+            success: function(response, textStatus, xhr) {
+              setZero();
+              mensaje('Retención guardada', 'green');
+            },
+            error : function(xhr, textStatus, errorThrown) {
+              $.alert({
+                icon: 'fas fa-bug',
+                title: 'Error!',
+                theme: 'material',
+                type: 'red',
+                content: errorThrown,
+              });
+            }
+          });
+				}
+			} else {
+        mensaje('Seleccione Nro. Comprobante', 'error');
+			}
+		} else {
+      mensaje('Seleccione (Proveedor)', 'error');
+		}
+	});
+
+	function storeTblValues()
+  {
+    var TableData = new Array();
+    $('table tbody tr').each(function(row, tr){
+        TableData[row]={
+          "cod_reten": $(tr).find('td:eq(0)').text()
+          , "tipo_imp": $.trim($(tr).find('td:eq(1)').text())
+          , "base_imponible": $.trim($(tr).find('td:eq(3)').text())
+          , "porcentaje": $.trim($(tr).find('td:eq(4)').text())
+          , "valor_retenido": $.trim($(tr).find('td:eq(5)').text())
+          , "documento": $.trim($(tr).find('td:eq(6)').text())
+          , "fecha_comp_modifica": $.trim($(tr).find('td:eq(7)').text())
+          , "tipo_doc": $.trim($(tr).find('td:eq(8)').text())
+        }
+    });
+    //TableData.shift();  // first row will be empty - so remove
+    return TableData;
+  }
+
+	// poner a cero factura
+	function setZero() {
+		// Eliminar filas guardadas
+		document.querySelectorAll("table tbody tr").forEach(function(e){e.remove()});
+
+		// Agregar Fila: ¡ No se ha encontrado ningún registro !
+		var markup = "<tr><td colspan='10' style = 'text-align: center;' bgcolor='Gainsboro'>"
+				+ "<font color='OrangeRed'>¡ Ningún registro encontrado !</font></td></tr>";
+
+		$("table tbody").append(markup);
+
+		$("#id_supplier").val("0").change();
+		$("#tipo_documento_codigo").val("").change();
+		$("#id_tipo_impuesto").val("0").change();
+
+		$("#id_comprobante").val("");
+		$("#base_imponible").val('0');
+		$("#porcentaje_retencion").val('0.00');
+		$("#valor_retenido").val('0.00');
+	}
+
+	// permitir solo datos númericos con decimales
+	$("#product_cost").on("keypress keyup blur",function (event) {
+		$(this).val($(this).val().replace(/[^0-9\.]/g,''));
+		if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+			event.preventDefault();
+		}
+	});
+
+	// evento proveedor
+	$("#id_supplier").change(function () {
+		var proveedor_id = $(this).val();
+		$.ajax({
+			url: "{% url 'retencion:ajax_load_comprobantes' %}",
+			data: {
+				'proveedor_id': proveedor_id
+	        },
+			success: function (data) {
+				$("#id_comprobante").html(data);
+	        }
+		});
+	});
+
+	// evento número comprobante
+	$("#id_comprobante").change(function () {
+		var orden_id = $(this).val();
+		if (orden_id > 0) {
+			$.ajax({
+				url: "{% url 'retencion:ajax_get_baseimponible' %}",
+				data: {
+					'orden_id': orden_id
+		        },
+				success: function (data) {
+					$("#base_imponible").val(parseFloat(data.valor_total).toFixed(2));
+
+					var fecha_emision = moment(data.fecha_emision).format('YYYY-MM-DD');
+					$('#datepicker_comp_modifica').val(fecha_emision);
+
+	                // calcular valor retenido
+					var valor_base_imponible=parseFloat(data.valor_total);
+	        		var porcentaje_retencion = parseFloat($("#porcentaje_retencion").val());
+	        		var valor_retenido = parseFloat((valor_base_imponible * porcentaje_retencion) / 100).toFixed(2);
+	        		$("#valor_retenido").val(valor_retenido);
+		        }
+			});
+		}
+	});
+  </script>
+{% endblock extra_script %}

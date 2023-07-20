@@ -1,0 +1,1598 @@
+{% extends "base/base_site.html" %}
+
+{% block title %} Crear Nota de Entrega {% endblock title %}
+
+{% block stylesheets %}
+  {{ block.super }}
+
+  <!-- librerías typeahead -->
+  <link rel="stylesheet" type="text/css" href="/static/vendors/typeahead/css/typeaheadjs.css">
+  <link rel="stylesheet" type="text/css" href="/static/vendors/typeahead/css/typeaheadbundle.css">
+
+  <!-- librerías sweetalert -->
+  <link rel="stylesheet" type="text/css" href="/static/vendors/sweetalert/css/sweetalert.css">
+
+  <!-- librerías FormValidation -->
+  <link rel="stylesheet" type="text/css" href="/static/vendors/formvalidation-0.6.2-dev/css/formValidation.min.css">
+
+  <link rel="stylesheet" type="text/css" href="/static/frontend/css/estilo_pagos.css">
+  <link rel="stylesheet" href="/static/frontend/css/flip_table.css">
+
+  <style>
+  /* scrooll para typeahead */
+  #scrollable-dropdown-menu .tt-menu {
+    max-height: 250px;
+    overflow-y: auto;
+    /*background-color: red;*/
+  }
+
+  #prefetch_customer .tt-menu {
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  /* estilo tabla adaptable */
+  td.numeric, th.numeric { text-align: right; }
+  #resultTable td.red {color: red; font-weight: bold}
+  #resultTable td.coral {color: coral; font-weight: bold}
+
+  /* scroll tabla carrito */
+  .table-wrapper-scroll-y {
+    display: block;
+    max-height: 275px;
+    overflow-y: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
+
+  .imagebacked {
+    padding: 10px 0 2px 40px;
+    background-repeat: no-repeat;
+    background-position: 1px 2px;
+    vertical-align: middle;
+  }
+
+  /* Override to make the feedback icons shown properly */
+  .form-horizontal .has-feedback .form-control-feedback {
+    top: 0;
+    right: -15px;
+  }
+  .form-horizontal .has-feedback .input-group .form-control-feedback {
+    top: 0;
+    right: -30px;
+  }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>Crear Nota de Entrega</h3>
+        </div>
+        <!--
+        <div class="title_right">
+          <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+            </div>
+          </div>
+        </div>
+        -->
+      </div>
+
+      <div class="clearfix"></div>
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+                <h2>Formulario Nota de Entrega <small>elementos del formulario</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a href="{% url 'notaentrega:listado_notasentrega' %}"><i class="fa fa-mail-reply"></i></a>
+                    </li>
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <!--
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Settings 1</a>
+                            </li>
+                            <li><a href="#">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    -->
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div> <!-- fin x-title -->
+
+            <div class="x_content">
+              <br />
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="panel panel-default">
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-md-8">
+                          <div class="row">
+                            <input type="hidden" name="txtRazonSocialID" id="txtRazonSocialID" value="0">
+                            <div class="col-md-10" id="prefetch_customer">
+                              <label for="typeahead_razon_social">Cliente</label>
+                              <div class="input-group">
+                                <input type="text" class="typeahead tt-query form-control" autocomplete="off" spellcheck="false" id="typeahead_razon_social" placeholder="Nombre o RUC">
+                                <span class="input-group-btn">
+                                  <button type="button" id="addUnit" class="btn btn-default" onclick="return abrir_modal('{% url 'venta:crear_cliente_modal' %}')">+</button>
+                                </span>
+                              </div>
+                            </div>
+
+                            <div class="col-md-2">
+                              <label for="id_fuente">Precios $</label>
+                              <select  class="form-control" id="id_precio">
+                                <option value="precio_uno">Precio 1</option>
+                                <option value="precio_dos">Precio 2</option>
+                                <option value="precio_tres">Precio 3</option>
+                                <option value="precio_cuatro">Precio 4</option>
+                              </select>
+                            </div>
+                            <!--<div class="col-md-2">
+                            <label for="datepicker">Emisión</label>
+                            <input type="text" class="form-control" id="datepicker" value={{ fecha_emision }} placeholder="DD/MM/AAAA">
+                            </div>-->
+
+                            <!--
+                            <div class="col-md-4">
+                            <label for="datepicker">Emisión</label>
+                            <input type="text" class="form-control" id="datepicker" value={{ fecha_emision }} placeholder="DD/MM/AAAA">
+                            </div>
+                            -->
+                          </div>
+                        </div>
+                        <!-- /.col-md-12 -->
+
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <label for="datepicker">Fecha Emisión</label>
+                              <input type="date" class="form-control" id="fday" value={{ fecha_emision }} required>
+                            </div>
+                            <div class="col-md-6">
+                              <label for="numero_comprobante">Nro. Comprobante</label>
+                              <input type="text" class="form-control" id="numero_comprobante" data-inputmask="'mask': '999-999-999999999'" data-toggle="tooltip" title="Nro. Comprobante">
+                            </div>
+                            <!--
+                            <div class="col-md-6">
+                            <label for="guia_remision">Guía de Remisión</label>
+                            <input type="text" class="form-control" id="guia_remision" placeholder="001-001-000000001" maxlength="20">
+                            </div>
+                            -->
+                          </div>
+                        </div>
+                      </div>
+                      <!-- /.row -->
+                    </div>
+                    <!-- /.panel-body -->
+                  </div>
+                  <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+              </div>
+              <!-- /.row -->
+
+              <div class="row">
+                <div class="col-lg-8">
+
+                  <div class="form-group">
+                    <div id="scrollable-dropdown-menu">
+                      <input type="text" class="typeahead tt-query form-control" autocomplete="off" spellcheck="false" id="typeahead_producto" placeholder="Buscar por código de barra o nombre del producto">
+                      <!--<input type="text" class="form-control typeahead tt-query" autocomplete="on" spellcheck="false" id="typeahead_producto">-->
+                    </div>
+                  </div>
+
+              		<!-- Begin Table -->
+              		{% load my_filters %}
+                  <div class="table-wrapper-scroll-y">
+                    <section id="no-more-tables">
+                      <table id="tbl_article" class="table table-bordered table-condensed cf">
+                        <thead class="cf">
+                          <tr>
+                            <th style="display:none;">ID</th>
+                            <th>Descripción</th>
+                            <th class="numeric">Cantidad</th>
+                            <th class="text-center">Und</th>
+                            <th class="numeric">Precio</th>
+                            <th class="numeric">Total</th>
+                            <th class="text-center">Acciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% load concat_string %}
+
+                          {% load cesta_tags %}
+                          {% get_cesta "CART-NOTAENTREGA" request.session.company_id as cesta %}
+
+                          {% if cesta.obtener_items %}
+                          {% for item in cesta.obtener_items %}
+                          <tr>
+                            <td style="display:none;">{{ item.id }}</td>
+
+                            {% if item.tipo == 'PROD' %}
+                            <td data-title='Descripción'><a href=/producto/detalle_producto/{{item.producto.producto_id}} target='_blank'>{{ item.producto.nombre }}</a></td>
+                            {% else %}
+                            <td data-title='Descripción'><a href=/servicio/detalle_servicio/{{item.servicio.servicio_id}} target='_blank'>{{ item.servicio.nombre }}</a></td>
+                            {% endif %}
+                            <td data-title='Cantidad' class='numeric'>{{ item.cantidad|floatformat:2 }}</td>
+                            <td data-title="Und" class="text-center">{{ item.unidad_medida.abreviatura }}</td>
+                            <td data-title='Precio' class='numeric'>{{ item.precio|currency }}</td>
+                            <td data-title='Total' class='numeric'>{{ item.valor_subtotal_sin_impuesto|currency }}</td>
+                            <td data-title="Acciones" class="text-center">
+                              {% if item.tipo == 'SERV' %}
+                                <div class="btn-group btn-group-sm">
+                                  <button type="button" data-id="{{ 'SRV-'|concat_string:item.id }}" class="btn btn-primary glyphicon glyphicon-edit editButton"></button>
+                                </div>
+                                <div class="btn-group btn-group-sm">
+                                  <button type="button" class="btn btn-default glyphicon glyphicon-search" disabled></button>
+                                </div>
+                                <div class="btn-group btn-group-sm">
+                                  <button type="button" data-id="{{ 'SRV-'|concat_string:item.id }}" class="btn btn-warning glyphicon glyphicon-trash deleteButton"></button>
+                                </div>
+                              {% else %}
+                                <div class="btn-group btn-group-sm">
+                                  <button type="button" data-id="{{ item.id }}" class="btn btn-primary glyphicon glyphicon-edit editButton"></button>
+                                </div>
+                                {% if item.producto.tiene_vencimiento or item.producto.tiene_serie %}
+                                  <div class="btn-group btn-group-sm">
+                                    <button type="button" data-id="{{ item.pk }}" class="btn btn-info glyphicon glyphicon-search searchButton"></button>
+                                  </div>
+                                {% else %}
+                                  <div class="btn-group btn-group-sm">
+                                    <button type="button" class="btn btn-default glyphicon glyphicon-search" disabled></button>
+                                  </div>
+                                {% endif %}
+                                <div class="btn-group btn-group-sm">
+                                  <button type="button" data-id="{{ item.id }}" class="btn btn-warning glyphicon glyphicon-trash deleteButton"></button>
+                                </div>
+                              {% endif %}
+                            </td>
+                          </tr>
+                          {% endfor %}
+                          {% endif %}
+
+                          <!-- agregar mensaje NO HAY ITEMS -->
+                          {% if cesta.obtener_total_filas == 0 %}
+                          <tr>
+                            <td colspan="6" style = "text-align: center;"
+                            bgcolor="Gainsboro"><font color="OrangeRed">¡ Ningún dato disponible en el carrito !</font></td>
+                          </tr>
+                          {% endif %}
+                        </tbody>
+                      </table>
+                    </section>
+                  </div>
+                  <!-- End Table-->
+                </div>
+                <!-- /.col-lg-8 -->
+
+                <div class="col-lg-4">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <i class="fa fa-bell fa-fw"></i> Resumen
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                      <div class="form-group text-center">
+                        <label class="col-lg-12 control-label" id="lblGrandTotal" align="center"
+                        style="font-size: 40pt;">{{ cesta.obtener_gran_total|currency }}</label>
+                      </div>
+                      <div class="line col-xs-10 col-xs-offset-1" style="border-bottom: 1px solid #ccc;"></div>
+                      <!-- subtoal -->
+                      <div class="col-lg-12">
+                        <br>
+                      </div>
+                      <div class="col-lg-12">
+                        <label class="col-lg-6">Subtotal</label>
+                        <label class="col-lg-3 col-lg-offset-3 pull-right"><span class="pull-right" id="lblSubtotal">{{ cesta.obtener_sub_total|currency }}</span></label>
+                      </div>
+
+                      <div class="col-lg-12">
+                        <label class="col-lg-6">Descuento</label>
+                        <label class="col-lg-3 col-lg-offset-3 pull-right"><span class="pull-right" id="lblLocalDiscount">{{ cesta.obtener_total_descuento|currency }}</span></label>
+                      </div>
+
+                      <div class="col-lg-12">
+                        <label class="col-lg-6">Tarifa 0%</label>
+                        <label class="col-lg-3 col-lg-offset-3 pull-right"><span class="pull-right" id="lblSubtotalFree">{{ cesta.obtener_total_tarifa_cero|currency }}</span></label>
+                      </div>
+
+                      <div class="col-lg-12">
+                        <label class="col-lg-6">Tarifa {{ tarifa }}%</label>
+                        <label class="col-lg-3 col-lg-offset-3 pull-right"><span class="pull-right" id="lblSubtotalBase">{{ cesta.obtener_base_imponible|currency }}</span></label>
+                      </div>
+
+                      <div class="col-lg-12">
+                        <label class="col-lg-6">Iva {{ tarifa }}%</label>
+                        <label class="col-lg-3 col-lg-offset-3 pull-right"><span class="pull-right" id="lblLocalTax">{{ cesta.obtener_total_iva|currency }}</span></label>
+                      </div>
+                      <div class="col-lg-12">
+                        <label class="col-lg-6">TOTAL</label>
+                        <label class="col-lg-3 col-lg-offset-3 pull-right"><span class="pull-right" id="lblTotal">{{ cesta.obtener_gran_total|currency }}</span></label>
+                      </div>
+                    </div>
+                    <!-- /.panel-body -->
+                  </div>
+                  <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-4 -->
+              </div>
+              <!-- /.row -->
+
+              <div class="row">
+                <div class="col-lg-8">
+
+                  <div class="form-group">
+                    <div>
+                      <label>DETALLE PAGO</label>
+                      <div class="pull-right">
+                        <div class="btn-toolbar pull-right">
+                          <a href="#" class="btn btn-xs btn-default js-cash-payment" data-url="/cesta/total_filas_cesta/?key=CART-NOTAENTREGA" data-toggle="tooltip" title="EFECTIVO ALT+1" accesskey="1">
+                            <span class="fa fa-dollar" aria-hidden="true" style="font-size:16px;color:green"></span> EF
+                          </a>
+                          <a href="#" class="btn btn-xs btn-default js-bank-transfer" data-url="/cesta/total_filas_cesta/?key=CART-NOTAENTREGA" data-toggle="tooltip" title="TRANSFERENCIA BANCARIA ALT+2" accesskey="2">
+                            <span class="fa fa-exchange" aria-hidden="true" style="font-size:16px;color:navy"></span> TB
+                          </a>
+                          <a href="#" class="btn btn-xs btn-default js-bank-cheque" data-url="/cesta/total_filas_cesta/?key=CART-NOTAENTREGA" data-toggle="tooltip" title="CHEQUE ALT+3" accesskey="3">
+                            <span class="fa fa-bars" aria-hidden="true" style="font-size:16px;color:#007BA7"></span> CH
+                          </a>
+                          <a href="#" class="btn btn-xs btn-default js-debit-card" data-url="/cesta/total_filas_cesta/?key=CART-NOTAENTREGA" data-toggle="tooltip" title="TARJETA DÉBITO ALT+4" accesskey="4">
+                            <span class="fa fa-credit-card" aria-hidden="true" style="font-size:16px;color:#FF8C00"></span> TD
+                          </a>
+                          <a href="#" class="btn btn-xs btn-default js-credit-card" data-url="/cesta/total_filas_cesta/?key=CART-NOTAENTREGA" data-toggle="tooltip" title="TARJETA CRÉDITO ALT+5" accesskey="5">
+                            <span class="fa fa-credit-card" aria-hidden="true" style="font-size:16px;"></span> TC
+                          </a>
+                          <a href="#" class="btn btn-xs btn-default js-comm-credit" data-url="/cesta/total_filas_cesta/?key=CART-NOTAENTREGA" data-toggle="tooltip" title="CRÉDITO COMERCIAL ALT+6" accesskey="6">
+                            <span class="fa fa-credit-card" aria-hidden="true" style="font-size:16px;color:red"></span> CC
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <section id="flip-scroll">
+                    <table id="tbl_payments" class="table table-bordered table-condensed cf">
+                      <thead class="cf">
+                        <tr>
+                          <th style="display:none;">ID</th>
+                          <th>Descripción</th>
+                          <th class="text-center">Tipo</th>
+                          <th class="numeric">$ Monto</th>
+                          <th class="text-center">Acción</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tbody_payments_data">
+                        <!-- agregar mensaje NO HAY ITEMS -->
+                        <tr>
+                          <td colspan="4" style = "text-align: center;"
+                          bgcolor="Gainsboro"><font color="OrangeRed">¡ Ningún registro encontrado !</font></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </section>
+
+                </div>
+                <!-- /.col-lg-8 -->
+              </div>
+              <!-- /.row -->
+
+              <div class="ln_solid"></div>
+              <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                  <button onclick="location.href='{% url 'notaentrega:listado_notasentrega' %}';" class="btn btn-primary" type="button">Cancelar</button>
+                  <button id="empty_shopping_cart" type="reset" class="btn btn-primary">Vaciar</button>
+                  <button id="saveButton" type="submit" class="btn btn-success">Guardar</button>
+                </div>
+              </div>
+            </div>
+            <!-- /.x_content -->
+          </div>
+          <!-- /.x_panel -->
+        </div>
+        <!-- /.col-md-12 -->
+      </div>
+      <!-- /.row -->
+    </div>
+  </div>
+
+  <!-- FORMULARIO EDITAR ITEM -->
+  {% include 'frontend/includes/parcial_edit_item_form.html' %}
+
+  <!-- FORMULARIO LOTE -->
+  {% include 'frontend/includes/parcial_lote_form_salida.html' %}
+
+  <!-- FORMULARIOS DE PAGO -->
+	{% include 'frontend/includes/parcial_pago_efectivo.html' %}
+
+	{% include 'frontend/includes/parcial_pago_transferencia.html' %}
+
+	{% include 'frontend/includes/parcial_pago_cheque.html' %}
+
+	{% include 'frontend/includes/parcial_pago_tarjeta.html' %}
+
+	{% include 'frontend/includes/parcial_pago_credito_comercial.html' %}
+
+	<!-- formulario modal proveedor -->
+	<div id="popup" class="modal fade" role="dialog">
+
+	</div>
+{% endblock content %}
+
+{% block javascripts %}
+    {{ block.super }}
+
+    <!-- librerías csrftoken protección csrf  -->
+    <script src="/static/frontend/js/proteccion_csrf.js"></script>
+
+    <!-- librerías formato numérico -->
+    <script src="/static/frontend/js/funcion_formatter.js"></script>
+
+    <!-- jquery.inputmask -->
+    <script src="/static/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
+
+    <!-- librerías typeahead -->
+    <script src="/static/vendors/typeahead/js/typeahead.bundle.js"></script>
+
+    <!-- librerías sweetalert -->
+    <script src="/static/vendors/sweetalert/js/sweetalert.min.js"></script>
+
+    <!-- librerías bootstrap-datetimepicker -->
+    <script src="/static/vendors/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
+
+    <!-- librerías FormValidation -->
+    <script src="/static/vendors/formvalidation-0.6.2-dev/js/formValidation.min.js"></script>
+    <script src="/static/vendors/formvalidation-0.6.2-dev/js/framework/bootstrap.min.js"></script>
+
+    <!-- librerías bootbox -->
+    <script src="/static/vendors/bootbox/bootbox.min.js"></script>
+
+    <!-- formularios de pagos -->
+    <script src="/static/frontend/js/payments/cash.js"></script>
+    <script src="/static/frontend/js/payments/bank_transfer.js"></script>
+    <script src="/static/frontend/js/payments/bank_cheque.js"></script>
+    <script src="/static/frontend/js/payments/card.js"></script>
+    <script src="/static/frontend/js/payments/commercial_credit.js"></script>
+
+    <!-- INICIO JAVASCRIPT -->
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+
+      // función para mostrar formulario modal cliente
+      function abrir_modal(url)
+      {
+        $('#popup').load(url, function()
+        {
+          $(this).modal('show');
+        });
+        return false;
+      }
+
+      function cerrar_modal()
+      {
+        $('#popup').modal('hide');
+        return false;
+      }
+
+      var TableData = new Array();
+
+      $(document).ready(function() {
+        var items = new Bloodhound({
+          datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+          queryTokenizer: Bloodhound.tokenizers.whitespace,
+          prefetch: {
+            cache: false, //SIN CACHE
+            //url: "../ajax/product_lookup/",
+            url: "{% url 'almacen:product_lookup' %}",
+            filter: function (items) {
+              return $.map(items, function (producto) {
+                return {
+                  id: producto.producto_id,
+                  name: producto.nombre + ' - ' + producto.codigo_principal,
+                  existencia: producto.existencia
+                };
+              });
+            }
+          }
+        });
+
+        var services = new Bloodhound({
+          datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+          queryTokenizer: Bloodhound.tokenizers.whitespace,
+          prefetch: {
+            cache: false, //SIN CACHE
+            url: "{% url 'servicio:busqueda_servicios' %}",
+            filter: function (services) {
+              return $.map(services, function (service) {
+                return {
+                  id: 'SRV-' + service.servicio_id,
+                  name: service.nombre + ' - SERV' + service.servicio_id
+                };
+              });
+            }
+          }
+        });
+
+        // Initialize the Bloodhound suggestion engine
+        items.initialize();
+
+        $('#scrollable-dropdown-menu .typeahead').typeahead({
+          hint: true,
+          highlight: true, /* Enable substring highlighting */
+          minLength: 1 /* Specify minimum characters required for showing suggestions */
+        },
+        {
+          limit: 50, // This controls the number of suggestions displayed
+          displayKey: 'name',
+          source: items.ttAdapter(),
+          templates: {
+            suggestion: function (data) {
+              //return '<p><strong>' + data.name + '</strong> - '+ data.id +'</p>';
+              return '<p>' + data.name + '<strong style="color:coral;"> <span class="glyphicon glyphicon-hand-right"></span> ' + parseFloat(data.existencia).toFixed(2) + '</strong></p>';
+            }
+          }
+        },
+        {
+          name: 'service-list',
+          display: 'name',
+          source: services.ttAdapter(),
+          templates: {
+            header: '<h4 class="my-list">SERVICIOS</h4>'
+          }
+        }
+        ).on('typeahead:selected', function($e, datum){
+          var dataId = datum["id"];
+          agregarItem(dataId);
+
+          // borrar producto de input text typeahead
+          $(this).typeahead('val', '');
+          $(this).typeahead('close');
+        }).on('typeahead:autocompleted', function(object, datum){
+          $(this).trigger('typeahead:_done', [object, datum]);
+
+          $(this).typeahead('val', '');
+          $(this).typeahead('close');
+        });
+      });
+
+      // función TYPEAHEAD para buscar clientes en db
+      var clientes = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: {
+          cache: false, //SIN CACHE
+          /*url: "<?=$this->basePath('ajax/get-customers')?>",*/
+          url: "{% url 'venta:busquedaClientes' %}",
+          filter: function (clientes) {
+            return $.map(clientes, function (cliente) {
+              return {
+                id: cliente.cliente_id,
+                name: cliente.nombre + ' - ' + cliente.identificacion
+              };
+            });
+          }
+        }
+      });
+
+      clientes.initialize();
+
+      $('#prefetch_customer .typeahead').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1
+      },
+      {
+        displayKey: 'name',
+        source: clientes.ttAdapter(),
+      }).on('typeahead:selected', function(object, datum){
+        $(this).trigger('typeahead:_done', [object, datum]);
+      }).on('typeahead:autocompleted', function(object, datum){
+        $(this).trigger('typeahead:_done', [object, datum]);
+      }).on('typeahead:_done', function(evt, object, datum) {
+        var dataId = datum["id"];
+        $("#txtRazonSocialID").val(dataId);
+
+        var pos = datum["name"].indexOf(" - ");
+        $(this).typeahead('val', datum["name"].substr(0, pos));
+        $(this).typeahead('close');
+
+      }).on('keydown', this, function (event) {
+        if (event.keyCode == 13 || event.keyCode == 9) {
+          const typeahead = $(this).data().ttTypeahead;
+          const hintText = typeahead.input.$hint.val();
+          const menu = typeahead.menu;
+          const sel = menu.getActiveSelectable() || menu.getTopSelectable();
+          if (menu.isOpen()) {
+            menu.trigger('selectableClicked', sel);
+            event.preventDefault();
+          }
+        } else {
+          $("#txtRazonSocialID").val('0');
+        }
+      });
+
+      // función para agregar item al carrito de notas de entrega
+      function agregarItem($param) {
+        $.ajax({
+          url: "{% url 'notaentrega:agregar_item' %}",
+          data: { dataId: $param },
+          dataType: 'json',
+          success: function(response, textStatus, xhr) {
+            //console.log("CARRITO=" + response.totalFilas);
+            //console.log("TOTAL LINEAS=" + response.filas);
+
+            if (response.success == true) {
+              //console.log("TOTAL FILAS CARRITO=" + response.totalFilas);
+              if (response.totalFilas == 1)
+              {
+                // Quitar Fila: ¡ Ningún registro encontrado !
+                document.querySelectorAll("#tbl_article tbody tr").forEach(function(e){e.remove();});
+              }
+              // agregar item a la tabla
+              $("#tbl_article tbody").append(response.markup);
+              $("#lblSubtotal").text(response.subtotal);
+              $("#lblLocalDiscount").text(response.descuento);
+              $("#lblSubtotalBase").text(response.tarifa_base);
+              $("#lblSubtotalFree").text(response.tarifa_cero);
+              $("#lblLocalTax").text(response.impuesto);
+              $("#lblGrandTotal").text(response.total);
+              $("#lblTotal").text(response.total);
+            } else {
+              if (response.stock == 0) {
+                agregarItemSinExistencia(response.dataId);
+              } else {
+                swal("Oops...", response.message, "error");
+              }
+            }
+          },
+          error : function(xhr, textStatus, errorThrown) {
+            swal("Oops...", errorThrown, "error");
+          }
+        });
+      }
+
+      function agregarItemSinExistencia(dataId)
+      {
+        swal({
+          title: "Existencia insuficiente",
+          text: "Desea facturar sin existencia?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: '#DD6B55',
+          confirmButtonClass: "btn-danger",
+          confirmButtonText: "Si, facturar!",
+          cancelButtonText: "No!",
+          closeOnConfirm: true
+        },
+        function(){
+          // VENDER SIN STOCK
+          $.ajax({
+            url: "{% url 'notaentrega:agregar_item_sin_existencia' %}",
+            data: { dataId: dataId },
+            dataType: 'json',
+            success: function(response, textStatus, xhr) {
+              if (response.success == true) {
+                if (response.totalFilas == 1)
+                {
+                  // Quitar Fila: ¡ Ningún registro encontrado !
+                  document.querySelectorAll("#tbl_article tbody tr").forEach(function(e){e.remove();});
+                }
+                // agregar item a la tabla
+                $("#tbl_article tbody").append(response.markup);
+                $("#lblSubtotal").text(formatter.format(response.subtotal));
+                $("#lblLocalDiscount").text(formatter.format(response.descuento));
+                $("#lblSubtotalBase").text(formatter.format(response.tarifa_base));
+                $("#lblSubtotalFree").text(formatter.format(response.tarifa_cero));
+                $("#lblLocalTax").text(formatter.format(response.impuesto));
+                $("#lblGrandTotal").text(formatter.format(response.total));
+                $("#lblTotal").text(formatter.format(response.total));
+              } else {
+                swal("Oops...", response.message, "error");
+              }
+            },
+            error : function(xhr, textStatus, errorThrown) {
+              swal("Oops...", errorThrown, "error");
+            }
+          });
+        });
+      }
+
+      // botones tabla, acción editar
+      $("#tbl_article").on('click','.editButton',function(){
+        var id = $(this).attr('data-id');
+        $.ajax({
+          url: "{% url 'notaentrega:editar_item' %}",
+          method: 'GET',
+          data: { id: id }
+        }).success(function(response) {
+          // eliminar unidades existentes y agrega unidad principal y secundaria
+          $('#editItemForm')
+            .find('[name="unit"]').children().remove().end()
+            .append('<option selected value="' + response.unit_primary + '">* ' + response.unit_primary + '</option>');
+
+          if (response.unit_secondary != null) {
+            $('#editItemForm')
+              .find('[name="unit"]')
+              .append('<option selected value="' + response.unit_secondary + '">' + response.unit_secondary + '</option>');
+          }
+
+          // Populate the form fields with the data returned from server
+          $('#editItemForm')
+          .find('[name="id"]').val(response.id).end()
+          .find('[name="product"]').val(response.product).end()
+          .find('[name="qty"]').val(response.qty).end()
+          .find('[name="unit"]').val(response.unit).end()
+          .find('[name="equivalencia"]').val(response.unit_equivalence).end()
+          .find('[name="price"]').val(response.price).end()
+          .find('[name="discount"]').val(response.discount).end();
+
+          if (response.category == 'PROD') {
+            // producto
+            $('#medida_servicioFields').css('display', 'none');
+            $('#medida_productoFields').css('display', 'block');
+            $('#editItemForm')
+            	.find('[name="unit"]').val(response.unit).end();
+          } else {
+            // servicio
+            $('#medida_productoFields').css('display', 'none');
+            $('#medida_servicioFields').css('display', 'block');
+            $('#editItemForm')
+            	.find('[name="unit_service"]').val(response.unit).end();
+          }
+
+          // Show the dialog
+          bootbox
+          .dialog({
+            title: 'Editar item del pedido',
+            message: $('#editItemForm'),
+            onEscape: true,
+            show: false // We will show it manually later
+          })
+          .on('shown.bs.modal', function() {
+            $('#editItemForm')
+            .show()                       // Show the form
+            .formValidation('resetForm') // Reset form
+            .find("[name='qty']").focus().select();
+
+          })
+          .on('hide.bs.modal', function(e) {
+            // Bootbox will remove the modal (including the body which contains the login form)
+            // after hiding the modal
+            // Therefor, we need to backup the form
+            $('#editItemForm').hide().appendTo('body');
+          })
+          .modal('show');
+        });
+      });
+
+      $('.addButton').on('click', function() {
+      	var index = $(this).data('index');
+        if (!index) {
+            index = 1;
+            $(this).data('index', 1);
+        }
+        index++;
+        $(this).data('index', index);
+
+      	//$el          = $row.find('input').eq(1).attr('name', 'lotebox[]');
+      	//$('select[name="selectionlote[]"]').eq(i).val(lote.lote_numero);
+
+        var template     = $(this).attr('data-template'),
+            $templateEle = $('#' + template + 'Template'),
+            $row         = $templateEle.clone().removeAttr('id').insertBefore($templateEle).removeClass('hide'),
+            //$pk          = $row.find('input').eq(0).attr('name', 'pkbox[]'),
+            $selectList      = $row.find('select').eq(0).attr('name', 'selectionlote[]'),
+            $el_exp          = $row.find('input').eq(1).attr('name', 'expbox[]'),
+            $el_qty          = $row.find('input').eq(2).attr('name', 'qtybox[]');
+
+     		// llenar lotes en select option
+     		var producto_id = $('#loteForm')
+     			.find('[name="producto"]').val();
+
+        $.ajax({
+      	  url: "{% url 'venta:get_lot_list' %}",
+          method: 'GET',
+          data: { producto_id: producto_id },
+          success: function(response, textStatus, xhr) {
+
+          	var lotes = response.list;
+          	for(var i=0;i<lotes.length;i++) {
+          		lote = lotes[i];
+          		//console.log(lote.lote__lote_numero);
+
+          		$selectList
+          			.append('<option value="' + lote.lote__lote_numero + '">' + lote.lote__lote_numero + '</option>');
+          	}
+          },
+          error : function(xhr, textStatus, errorThrown) {
+            swal("Oops...", errorThrown, "error");
+          }
+        });
+
+        //$('#loteForm').formValidation('addField', $pk);
+        //$('#loteForm').formValidation('addField', $el);
+        $('#loteForm').formValidation('addField', $selectList);
+        $('#loteForm').formValidation('addField', $el_exp);
+        $('#loteForm').formValidation('addField', $el_qty);
+
+        $row.on('click', '.removeButton', function(e) {
+          //$('#loteForm').formValidation('removeField', $pk);
+          //$('#loteForm').formValidation('removeField', $el);
+          $('#loteForm').formValidation('removeField', $selectList);
+          $('#loteForm').formValidation('removeField', $el_exp);
+          $('#loteForm').formValidation('removeField', $el_qty);
+          $row.remove();
+        });
+
+      	//$el.attr('placeholder', 'Lote #' + index);
+      	$selectList.attr('data-original-title', 'Lote #' + index)
+      		.tooltip('show');
+        $el_qty.attr('placeholder', 'Cantidad #' + index);
+
+      	// store index for update
+      	$selectList.attr('accessKey', index);
+
+  	    $el_exp.attr('data-original-title', 'Fecha Expira #' + index).tooltip('fixTitle').tooltip('show');
+  	    $el_qty.attr('placeholder', 'Cantidad #' + index);
+      });
+
+      $('#loteForm')
+        .formValidation({
+          message: 'This value is not valid',
+          icon: {
+              valid: 'glyphicon glyphicon-ok',
+              invalid: 'glyphicon glyphicon-remove',
+              validating: 'glyphicon glyphicon-refresh'
+          },
+          fields: {
+            /*'lotebox[]': {
+              validators: {
+                notEmpty: {
+                  message: 'Lote requerido'
+                },
+                stringLength: {
+                  //min: 1,
+                  max: 10,
+                  message: 'El lote debe tener menos de 10 caractere.'
+                },
+              }
+            },*/
+            'selectionlote[]': {
+              validators: {
+                //notEmpty: {
+                //	message: 'El lote es obligatorio y no puede estar vacío'
+                //},
+                callback: {
+                	message: 'Por favor especifique un lote.',
+                	callback: function(value, validator, $field) {
+                		//var object = $('.addButton').data('index') // indice del botón
+                		//var text = $('#loteForm').find('[name="unit"] option:selected').text();
+                		//var lote_num = $(this).find("option:selected").attr('value');
+
+                		var lote_num = value;
+  						    	$.ajax({
+  						        url: "{% url 'venta:buscar_lote_seleccionado' %}",
+  						        method: 'GET',
+  						        data: { lote_num: lote_num },
+  						        success: function(response, textStatus, xhr) {
+  						        	//console.log(response);
+  						        	var index = $field.context.accessKey;
+  						        	if (!index) {
+  						        		index = 1;
+  						        	}
+  						        	//console.log("indice=" + (index - 1));
+
+  						        	$('input[name="expbox[]"]').eq(index - 1).val(response.fecha_caducidad);
+  						        },
+  						        error : function(xhr, textStatus, errorThrown) {
+  						          swal("Oops...", errorThrown, "error");
+  						        }
+  						      });
+
+                		return true;
+                	}
+                }
+              }
+            },
+            'expbox[]': {
+              validators: {
+                notEmpty: {
+                  message: 'Fecha requerida'
+                }
+              }
+            },
+            'qtybox[]': {
+              validators: {
+                notEmpty: {
+                  message: 'Cantidad requerida'
+                },
+                greaterThan: {
+                  value: 0,
+                  inclusive: false,
+                  message: 'La cantidad tiene que ser mayor a cero.'
+                }
+              }
+            },
+          }
+        })
+        .on('err.field.fv', function(e, data) {
+            //console.log('err.field.fv -->', data.element);
+        })
+        .on('success.field.fv', function(e, data) {
+            //console.log('success.field.fv -->', data.element);
+        })
+        .on('added.field.fv', function(e, data) {
+            //console.log('Added element -->', data.field, data.element);
+        })
+        .on('removed.field.fv', function(e, data) {
+            //console.log('Removed element -->', data.field, data.element);
+        })
+        .on('success.form.fv', function(e) {
+          // Prevent form submission
+          e.preventDefault();
+
+          // Get the form instance
+          var $form = $(e.target);
+          //var values_pk = $("input[name='pkbox[]']")
+          //  .map(function(){return $(this).val();}).get();
+          var values_lote = $("select[name='selectionlote[]']")
+            .map(function(){return $(this).val();}).get();
+          var values_expire = $("input[name='expbox[]']")
+            .map(function(){return $(this).val();}).get();
+          var values_cantidad = $("input[name='qtybox[]']")
+            .map(function(){return $(this).val();}).get();
+
+          var data = {
+            'array_error': [''],
+            //'pkArray': values_pk,
+            'loteArray' : values_lote,
+            'expiraArray' : values_expire,
+            'qtyArray': values_cantidad
+          };
+
+          // The url and method might be different in your application
+          $.ajax({
+            url: "{% url 'venta:seleccionar_lote' %}",
+            method: 'POST',
+            data: $form.serialize() + $.param(data)
+            //data: $form.serialize() + '&id=' + id //funciona ok
+          }).success(function(response) {
+            if (response.success == true) {
+              // Hide the dialog
+              $form.parents('.bootbox').modal('hide');
+
+              // You can inform the user that the data is updated successfully
+              // by highlighting the row or showing a message box
+              //bootbox.alert('Lote actualizado');
+            }
+          });
+        });
+
+        /**
+         * botones tabla, acción search
+         * LOTE DEL PRODUCTO
+         */
+        $("#tbl_article").on('click','.searchButton',function(){
+          // eliminar todos los campos dinamicos
+          $('.removeButton').click();
+
+          // Get the record's ID via attribute
+          var id = $(this).attr('data-id');
+          var csrftoken = getCookie('csrftoken');
+
+          $.ajax({
+            headers: { "X-CSRFToken": csrftoken },
+            url: "{% url 'venta:seleccionar_lote' %}",
+            method: 'GET',
+            data: { id: id },
+            success: function(response, textStatus, xhr) {
+  	          // llenar lotes en select option
+  		     		/*var lotes = response.lista_lotes;
+  		     		for(var i=0;i<lotes.length;i++) {
+  		     			lote = lotes[i];
+  		     			//console.log("lote nro=" + lote.lote__lote_numero);
+  		     		}*/
+              if (response.success == true) {
+                // Populate the form fields with the data returned from server
+                $('#loteForm')
+                  .find('[name="id"]').val(response.id).end()
+                  .find('[name="producto"]').val(response.producto).end();
+
+                // crea array input para posterior llenado
+                var cesta_lote = JSON.parse(response.lotejson);
+                for(var i=0;i<cesta_lote.length;i++) {
+                  // crear nuevo indice
+                  if (i > 0) {
+                    $('.addButton').click();
+                  }
+                }
+                /*var lotes = JSON.parse(response.lotejson);
+                for(var i=0;i<lotes.length;i++){
+                  lote = lotes[i];
+                  console.log("lote nro=" + lote.lote_numero);
+                  //console.log("expira=" + lote.fecha_caducidad);
+                  //console.log("cantidad=" + lote.cantidad);
+
+                    //$('#loteForm').find('input[name="lotebox[]"]').val(lote.lote_numero).end();
+                    //$( '[name = "lotebox[]"]' ).eq( 0 ).val( lote.lote_numero );
+                }*/
+
+                // Show the dialog
+                bootbox
+                  .dialog({
+                    title: 'Agregar Lote',
+                    message: $('#loteForm'),
+                    size: 'large',
+                    show: false // We will show it manually later
+                  })
+                  .on('shown.bs.modal', function() {
+                    $('#loteForm')
+                      .show()                       // Show the form
+                      .formValidation('resetForm', true); // Reset form
+
+                      //$('input[name="pkbox[]"]').eq(0).val("00");
+                      //$('input[name="lotebox[]"]').eq(0).val("111");
+                      //$('input[name="expbox[]"]').eq(0).val('2019-12-31');
+                      //$('input[name="qtybox[]"]').eq(0).val("666");
+
+                      // eliminar unidades existentes y agrega unidad principal y secundaria
+    			            //$('#loteForm')
+    			            //  .find('[name="selectionlote[]"]').children().remove().end()
+    			            //  .append('<option selected value="123456">123456</option>');
+
+                      $('#loteForm')
+                      	.find('[name="selectionlote[]"]').children().remove().end()
+                      	.append('<option value="">-- Seleccione un lote --</option>');
+
+                      // llena select option predeterminado
+    		              var lista_cmb = response.lista_lotes;
+    					     		for(var i=0;i<lista_cmb.length;i++) {
+    					     			lote_item = lista_cmb[i];
+    					     			//console.log("lote nro=" + lote.lote__lote_numero);
+    					     			$('#loteForm')
+    					     				.find('[name="selectionlote[]"]')
+    					     				.append('<option selected value="' + lote_item.lote__lote_numero + '">' + lote_item.lote__lote_numero + '</option>');
+    					     		}
+
+                      //var cesta_lote = JSON.parse(response.lotejson);
+                      for(var i=0;i<cesta_lote.length;i++) {
+                        lote_item = cesta_lote[i];
+
+                        $('input[name="pkbox[]"]').eq(i).val(lote_item.cart_pk);
+                        $('select[name="selectionlote[]"]').eq(i).val(lote_item.lote_numero).attr("selected", "selected");
+                        $('input[name="expbox[]"]').eq(i).val(lote_item.fecha_caducidad);
+                        $('input[name="qtybox[]"]').eq(i).val(lote_item.cantidad);
+                      }
+                  })
+                  .on('hide.bs.modal', function(e) {
+                    // Bootbox will remove the modal (including the body which contains the login form)
+                    // after hiding the modal
+                    // Therefor, we need to backup the form
+                    $('#loteForm').hide().appendTo('body');
+                  })
+                  .modal('show');
+              } else {
+                swal("No existe lote")
+              }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+              swal("Oops...", errorThrown, "error");
+            }
+          });
+        });
+
+      // cambiar precio si cambia unidad de medida
+      $('#selectId').on('change', function () {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+        var text = $(this).find(":selected").text();
+
+        var precio_actual = $('input[name="price"]').val();
+        var equivalencia = $('input[name="equivalencia"]').val();
+
+        if (text.substring(0, 2) == '* ') {
+          // unidad principal
+          var nuevo_precio = precio_actual * equivalencia;
+          $('input[name="price"]').val(nuevo_precio.toFixed(5));
+
+        } else {
+          // unidad secundaria
+          var nuevo_precio = precio_actual / equivalencia;
+          $('input[name="price"]').val(nuevo_precio.toFixed(5));
+        }
+      });
+
+      // botones tabla, acción eliminar
+      $("#tbl_article").on('click','.deleteButton',function(){
+        var id = $(this).attr('data-id');
+        $(this).closest('tr').remove();
+        //agregar mensaje: ¡ No se ha encontrado ningún registro en el carrito !
+        var rowCount = $("#tbl_article td").closest("tr").length;
+        if (rowCount == 0) {
+          var markup = "<tr><td colspan='6' style = 'text-align: center;' bgcolor='Gainsboro'>"
+          + "<font color='OrangeRed'>¡ Ningún registro encontrado !</font></td></tr>";
+          $("#tbl_article tbody").append(markup);
+        }
+
+        var csrftoken = getCookie('csrftoken');
+        $.ajax({
+          headers: { "X-CSRFToken": csrftoken },
+          url: "{% url 'notaentrega:eliminar_item' %}",
+          method: 'POST',
+          data: { itemId: id },
+          dataType: 'json',
+        }).success(function(response) {
+          // elimina item de la tabla
+          $(this).closest('tr').remove();
+
+          $("#lblSubtotal").text(response.subtotal);
+          $("#lblLocalDiscount").text(response.descuento);
+          $("#lblSubtotalBase").text(response.tarifa_base);
+          $("#lblSubtotalFree").text(response.tarifa_cero);
+          $("#lblLocalTax").text(response.impuesto);
+          $("#lblGrandTotal").text(response.total);
+          $("#lblTotal").text(response.total);
+        });
+      });
+
+      // formulario modal editItemForm
+      $('#editItemForm')
+      .formValidation({
+        framework: 'bootstrap',
+        icon: {
+          valid: 'glyphicon glyphicon-ok',
+          invalid: 'glyphicon glyphicon-remove',
+          validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+          qty: {
+            validators: {
+              /*notEmpty: {
+                message: 'Cantidad requerida'
+              },
+              numeric: {
+                message: 'El valor no es un número',
+              }*/
+              callback: {
+                message: 'Por favor especifique una cantidad válida.',
+                callback: function(value, validator, $field) {
+                  //var channel = $('#surveyForm').find('[name="channel"]:checked').val();
+                  var cantidad = $('#editItemForm').find('[name="qty"]').val();
+                  var equivalencia = $('#editItemForm').find('[name="equivalencia"]').val();
+                  var unidad = $('#editItemForm').find('[name="unit"] option:selected').text();
+
+                  //console.log(unidad);
+                  if (unidad.substring(0, 2) != '* ') {
+                    if ((parseFloat(cantidad) < parseFloat(equivalencia)) && (parseFloat(cantidad) > 0)) {
+                      return true;
+                    } else {
+                      return false;
+                    }
+                  } else {
+                    return (parseFloat(cantidad) > 0)
+                          ? true
+                          : false;
+                  }
+                }
+              }
+            }
+          },
+          unit: {
+            validators: {
+              notEmpty: {
+                message: 'Por favor seleccione una unidad'
+              },
+            }
+          },
+          price: {
+            validators: {
+              notEmpty: {
+                message: 'El precio es requerido'
+              },
+              numeric: {
+                message: 'El precio debe ser un número',
+                // The default separators
+                thousandsSeparator: '',
+                decimalSeparator: '.'
+              }
+            }
+          },
+          discount: {
+            validators: {
+              notEmpty: {
+                message: 'Porcentaje requerida'
+              },
+              numeric: {
+                message: 'El porcentaje debe ser un número',
+                // The default separators
+                thousandsSeparator: '',
+                decimalSeparator: '.'
+              }
+            }
+          }
+        }
+      })
+      .on('success.form.fv', function(e) {
+        // Save the form data via an Ajax request
+        e.preventDefault();
+
+        var $form = $(e.target),
+        id    = $form.find('[name="id"]').val();
+
+        var data = {
+          'id' : id
+        };
+
+        $.ajax({
+          url: "{% url 'notaentrega:editar_item' %}",
+          method: 'POST',
+          data: $form.serialize() + '&' + $.param(data)
+        }).success(function(response) {
+          if (response.success == true) {
+            // Get the cells
+            var $button = $('button[data-id="' + response.id + '"]'),
+            $tr     = $button.closest('tr'),
+            $cells  = $tr.find('td');
+
+            // Update the cell data
+            $cells
+            .eq(2).html(response.cantidad).end()
+            .eq(3).html(response.unidad).end()
+            .eq(4).html(response.precio).end()
+            .eq(5).html(response.total_linea).end();
+
+            // Hide the dialog
+            $form.parents('.bootbox').modal('hide');
+            $("#lblSubtotal").text(response.subtotal);
+            $("#lblLocalDiscount").text(response.descuento);
+            $("#lblSubtotalBase").text(response.tarifa_base);
+            $("#lblSubtotalFree").text(response.tarifa_cero);
+            $("#lblLocalTax").text(response.impuesto);
+            $("#lblGrandTotal").text(response.total);
+            $("#lblTotal").text(response.total);
+          } else {
+            // Ocultar el diálogo
+            $form.parents('.bootbox').modal('hide');
+            var exchange_cart_id = response.exchange_cart_id;
+            var exchange_qty = response.exchange_qty;
+            var exchange_unit = response.exchange_unit;
+            var exchange_price = response.exchange_price;
+            var exchange_discount_percent = response.exchange_discount_percent;
+
+            modifyItemWithoutStock(exchange_cart_id, exchange_qty, exchange_unit, exchange_price, exchange_discount_percent);
+          }
+        });
+      });
+
+      // función modificar item sin existencia
+      function modifyItemWithoutStock(exchange_cart_id, exchange_qty, exchange_unit, exchange_price, exchange_discount_percent)
+      {
+        swal({
+          title: "Existencia insuficiente",
+          text: "Desea facturar sin existencia?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: '#DD6B55',
+          confirmButtonClass: "btn-danger",
+          confirmButtonText: "Si, facturar!",
+          cancelButtonText: "No!",
+          closeOnConfirm: true
+        },
+        function(){
+          // VENDER SIN STOCK
+          var csrftoken = getCookie('csrftoken');
+          $.ajax({
+            headers: { "X-CSRFToken": csrftoken },
+            url: "{% url 'notaentrega:editar_item_sin_existencia' %}",
+            method: 'POST',
+            data: { exchange_cart_id: exchange_cart_id, exchange_qty: exchange_qty, exchange_unit: exchange_unit, exchange_price: exchange_price, exchange_discount_percent: exchange_discount_percent },
+            dataType: 'json',
+            success: function(response, textStatus, xhr) {
+              if (response.success == true) {
+                // Get the cells
+                var $button = $('button[data-id="' + response.id + '"]'),
+                $tr     = $button.closest('tr'),
+                $cells  = $tr.find('td');
+
+                // Update the cell data
+                $cells
+                .eq(2).html(response.cantidad).end()
+                .eq(3).html(response.unidad).end()
+                .eq(4).html(response.precio).end()
+                .eq(5).html(response.total_linea).end();
+
+                // update cells
+                $("#lblSubtotal").text(response.subtotal);
+                $("#lblLocalDiscount").text(response.descuento);
+                $("#lblSubtotalBase").text(response.tarifa_base);
+                $("#lblSubtotalFree").text(response.tarifa_cero);
+                $("#lblLocalTax").text(response.impuesto);
+                $("#lblGrandTotal").text(response.total);
+                $("#lblTotal").text(response.total);
+              } else {
+                swal("Oops...", response.message, "error");
+              }
+            },
+            error : function(xhr, textStatus, errorThrown) {
+              swal("Oops...", errorThrown, "error");
+            }
+          });
+        });
+      }
+
+      // botón vaciar carrito
+      $('#empty_shopping_cart').click(function(e){
+        e.preventDefault();
+        $.ajax({
+          url: "/cesta/vaciar_cesta/?key=CART-NOTAENTREGA",
+          success: function(response, textStatus, xhr) {
+            //poner a cero subtotales
+            setZero();
+          },
+          error: function(xhr, textStatus, errorThrown) {
+            swal("Oops...", errorThrown, "error");
+          }
+        });
+        return false;
+      });
+
+      // poner a cero factura
+      function setZero() {
+        $("#lblSubtotal").text(formatter.format(0));
+        $("#lblLocalDiscount").text(formatter.format(0));
+        $("#lblSubtotalBase").text(formatter.format(0));
+        $("#lblSubtotalFree").text(formatter.format(0));
+        $("#lblLocalTax").text(formatter.format(0));
+        $("#lblGrandTotal").text(formatter.format(0));
+        $("#lblTotal").text(formatter.format(0));
+
+        //eliminar ref y razon social
+        $("#typeahead_razon_social").val('');
+        $("#txtRazonSocialID").val('0');
+        var today = moment().format('YYYY-MM-DD');
+        $('#fday').val(today);
+
+        //eliminar pagos
+        TableData = [];
+
+        // eliminar tabla articulos
+        document.querySelectorAll("#tbl_article tbody tr").forEach(function(e){e.remove()});
+
+        // Agregar Fila: ¡ Ningún registro encontrado !
+        var markup = "<tr><td colspan='6' style = 'text-align: center;' bgcolor='Gainsboro'>"
+        + "<font color='OrangeRed'>¡ Ningún registro encontrado !</font></td></tr>";
+
+        $("#tbl_article tbody").append(markup);
+
+        // eliminar pagos
+        document.querySelectorAll("#tbl_payments tbody tr").forEach(function(e){e.remove()});
+
+        // Agregar Fila: ¡ Ningún registro encontrado !
+        var markup = "<tr><td colspan='4' style = 'text-align: center;' bgcolor='Gainsboro'>"
+        + "<font color='OrangeRed'>¡ Ningún registro encontrado !</font></td></tr>";
+
+        $("#tbl_payments tbody").append(markup);
+
+        //$('#paymentForm')
+        //	.formValidation('resetForm'); // Reset form
+      }
+
+      // obtener total de filas
+      function rowCount(tabla) {
+        var nFilas = $("#" + tabla + " tbody tr").length;
+        if (nFilas == 1) {
+          //verifica fila: ¡ Ningún registro encontrado !
+          var childrenId = $("#" + tabla + " tr td")[0].innerHTML;
+          var texto =  $("#" + tabla + " tr td:nth(0)").text();
+          if (texto == "¡ Ningún registro encontrado !")
+          {
+            nFilas = 0;
+          }
+        }
+        return nFilas;
+      }
+
+      // verifica si existe el item en la tabla
+      function isExist(strd){
+        // console.log($('tr[id*=output_newrow]').length)
+        testme=false;
+        $('#tbl_payments tr').each(function(){
+          //console.log($('td:nth(1)',$(this)).text());
+          //console.log(strd);
+          if($('td:nth(1)',$(this)).text()===strd) {
+            testme=true;
+          }
+        });
+        return testme;
+      }
+
+      // borrar item tbl_payments
+      $("#tbl_payments").on('click','.deleteButton',function(){
+        //var id = $(this).attr('data-id');
+        var codigo_tipo = $(this).closest('tr').find('td:nth-child(3)').text();
+        $(this).closest('tr').remove();
+
+        // eliminar pago del diccionario
+        var vc = -1;
+        var n = TableData.length;
+        for (i = 0; i < n; i++) {
+          vc = vc + 1;
+          if (TableData[vc]['ptype'] == codigo_tipo) {
+            TableData.splice(vc, 1);
+            vc = vc - 1;
+          }
+        }
+
+        //agregar mensaje: ¡ No se ha encontrado ningún registro !
+        var rowCount = $("#tbl_payments td").closest("tr").length;
+        if (rowCount == 0) {
+          var markup = "<tr><td colspan='4' style = 'text-align: center;' bgcolor='Gainsboro'>"
+          + "<font color='OrangeRed'>¡ Ningún registro encontrado !</font></td></tr>";
+          $("#tbl_payments tbody").append(markup);
+        }
+      });
+
+      // función guardar factura
+      $('#saveButton').click(function(e){
+        e.preventDefault();
+
+        $.ajax({
+          url: "/cesta/total_filas_cesta/?key=CART-NOTAENTREGA",
+        }).success(function(response) {
+          if (response.total_filas > 0) {
+            if (rowCount('tbl_payments') > 0) {
+              // sumatoria de pagos
+              var sumatoria_pagos = 0
+              $('#tbl_payments tr').each(function(row, tr){
+                if (row > 0) {
+                  var aux = $.trim($(tr).find('td:eq(3)').text());
+                  sumatoria_pagos = sumatoria_pagos + parseFloat(aux);
+                }
+              });
+              sumatoria_pagos = sumatoria_pagos.toFixed(2);
+              var grand_total_str = $("#lblTotal").text();
+              var grand_total = Number(grand_total_str.replace(/[^0-9.-]+/g,"")).toFixed(2);
+
+              //console.log("TOTAL A SUMATORIA = " + sumatoria_pagos)
+              //console.log("TOTAL COMPROBANTE = " + grand_total)
+
+              if (sumatoria_pagos == grand_total) {
+                var fecha_emision = $("#fday").val();
+                //var fecha_vencimiento = $("#fvencimiento").val();
+                var cliente_id = $("#txtRazonSocialID").val();
+                if (cliente_id == 0) {
+                  cliente_id = 1
+                }
+
+                TableData = JSON.stringify(TableData);
+                var data = {
+                  'cliente_id' : cliente_id,
+                  'fecha_emision' : fecha_emision,
+                  //'fecha_vencimiento': fecha_vencimiento,
+                  'pTableData' : TableData
+                };
+
+                var csrftoken = getCookie('csrftoken');
+                $.ajax({
+                  headers: { "X-CSRFToken": csrftoken },
+                  url: "{% url 'notaentrega:guardar_notaentrega' %}",
+                  method: 'POST',
+                  data: $.param(data),
+                  dataType: 'json',
+                }).success(function(response) {
+                  //console.log("respuesta:" + response);
+                  if (!response.success)
+                    bootbox.alert('El ticket recibido no es válido');
+                  else {
+                    swal({
+                      title: "Venta exitosa",
+                      text: "Desea imprimir recibo?",
+                      type: "info",
+                      showCancelButton: true,
+                      confirmButtonClass: "btn-danger",
+                      confirmButtonText: "Si, imprimirlo!",
+                      cancelButtonText: "No, cancelar!",
+                      closeOnConfirm: true
+                    },
+                    function(){
+                      // IMPRIMIR FACTURA
+                      var notaentregaId = response.notaentregaId; //numero de nota entrega
+
+                      var accion = "../render/pdf/" + notaentregaId
+                      $('#my_form').attr('action', accion);
+                      $('#my_form').submit();
+
+                    });
+                    // poner a cero subtotales
+                    setZero();
+                  }
+                }).fail(function(xhr, textStatus, errorThrown) {
+                  swal("Oops... Error al guardar comprobante", errorThrown, "error");
+                });
+              } else {
+                swal("Oops...", "El total del comprobante no coincide con la forma de pago.", "error");
+              }
+            } else {
+              // ==================================
+              // NOTA ENTREGA SIN PAGO => SIN TRANSACCIÓN EN INVENTARIO
+              // ==================================
+              var fecha_emision = $("#fday").val();
+              //var fecha_vencimiento = $("#fvencimiento").val();
+              var cliente_id = $("#txtRazonSocialID").val();
+              if (cliente_id == 0) {
+                cliente_id = 1
+              }
+
+              //TableData = JSON.stringify(TableData);
+              var data = {
+                'cliente_id' : cliente_id,
+                'fecha_emision' : fecha_emision,
+                //'fecha_vencimiento': fecha_vencimiento,
+                //'pTableData' : TableData
+              };
+
+              var csrftoken = getCookie('csrftoken');
+              $.ajax({
+                headers: { "X-CSRFToken": csrftoken },
+                url: "{% url 'notaentrega:guardar_notaentrega' %}",
+                method: 'POST',
+                data: $.param(data),
+                dataType: 'json',
+              }).success(function(response) {
+                //console.log(response);
+
+                if (!response.success)
+                  bootbox.alert('El ticket recibido no es válido');
+                else {
+                  swal({
+                    title: "Venta exitosa",
+                    text: "Desea imprimir recibo?",
+                    type: "info",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Si, imprimirlo!",
+                    cancelButtonText: "No, cancelar!",
+                    closeOnConfirm: true
+                  },
+                  function(){
+                    // IMPRIMIR FACTURA
+                    var notaentregaId = response.notaentregaId;
+                    //var accion = "../imprimir_notaentrega/" + notaentregaId + "/"
+                    //notasentrega/render/pdf/125
+                    var accion = "../render/pdf/" + notaentregaId
+                    //var accion = "../render/pdf/"
+                    $('#my_form').attr('action', accion);
+                    //$("#my_form_data").val(notaentregaId);
+                    $('#my_form').submit();
+                  });
+                  // poner a cero subtotales
+                  setZero();
+                }
+              }).fail(function(xhr, textStatus, errorThrown) {
+                swal("Oops... Error al guardar comprobante", errorThrown, "error");
+              });
+
+            }
+          } else {
+            swal("Oops...", "¡ Ningún registro encontrado !", "error");
+          }
+        }).fail(function(xhr, textStatus, errorThrown) {
+          swal("Oops... Error al totalizar items", errorThrown, "error");
+        });
+      });
+    </script>
+{% endblock javascripts %}

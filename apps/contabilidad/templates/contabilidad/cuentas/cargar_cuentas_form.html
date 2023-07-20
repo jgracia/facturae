@@ -1,0 +1,38 @@
+<div class="modal-dialog">
+	<div class="modal-content">
+        <form action="{% url 'contabilidad:cargar_plan_cuenta' %}" method="post" id='theform'>
+            {% csrf_token %}
+
+    		<div class="modal-header">
+    			<button type="button" class="close" data-dismiss="modal">x</button>
+    			<h4>Cargar Plan de Cuenta Predefinido</h4>
+                <small class="font-bold">Se eliminará el plan actual, No podrá recuperar los registros eliminados.</small>
+    		</div>
+    		<div class="modal-body">
+    			<div class="row">
+    				<div class="col-lg-12">
+                        <h3>¿Desea cargar el plan de cuentas predefinido? </h3>
+    				</div>
+    			</div>
+    		</div>
+    		<div class="modal-footer">
+    			<div class="col-lg-12 text-right">
+
+                    <!--<button class="btn btn-danger" type="submit">Sí cargar</button>-->
+					<input class='btn btn-danger' type="submit" value="Sí cargar" id='btnsubmit' />
+                    <a class="btn btn-default" onclick="return cerrar_modal()">Cancelar</a>
+    			</div>
+    		</div>
+        </form>
+	</div>
+</div>
+
+<!-- desactivar botón enviar -->
+<script type="text/javascript">
+	$('#theform').submit(function(){
+		$("input[type='submit']", this)
+		  .val("Por favor espere...")
+		  .attr('disabled', 'disabled');
+		return true;
+	});
+</script>

@@ -1,0 +1,369 @@
+{% extends "base.html" %}
+
+{% block title %} Resumen S.R.I {% endblock title %}
+
+{% block content %}
+  <div class="base_container">
+    <div class="col-12">
+
+      <div class="row">
+        <div class="col-12 col-sm-6 col-lx-6">
+          <h3>Resumen S.R.I <small>Filtro por fechas</small></h3>
+        </div>
+        <div class="col-12 col-sm-6 col-lx-6">
+          <div class="btn-group float-right" role="group" aria-label="Acciones">
+            <button type="button" class="btn btn-secondary"
+                    onclick="location.href='{{ url('contabilidad:resumen_sri_xls') }}';">
+                    <i class="far fa-file-excel"></i> Exportar
+            </button>
+            <button type="button" class="btn btn-secondary"
+                    onClick="window.open('{{ url('contabilidad:resumen_sri_pdf') }}')">
+                    <i class="fa fa-print"></i> Imprimir
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr/>
+
+      <form method="GET">
+      <div class="row">
+        <div class="col-12">
+          <div class="btn-toolbar float-right">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Fecha / Rango</label>
+              </div>
+              <input type="text" class="form-control" name="range" value="{{ request.GET.range }}" />
+              <div class="input-group-append">
+                <button class="btn btn-success" type="submit">Filtrar!</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </form>
+
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-list fa-fw"></i> FACTURAS ELECTRÓNICAS
+            </div>
+            <div class="card-body">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th># Comprobante</th>
+                    <th class="text-right">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% set totalFactElectronicas = [0] %}
+                  {% for factura in object_list.facturas_set %}
+                    {% if totalFactElectronicas.append(totalFactElectronicas.pop() + factura.valor_total|float) %}{% endif %}
+                    <tr>
+                      {% if factura.clave_acceso|length > 30 %}
+                        <td>{{ factura.clave_acceso }}</td>
+                      {% else %}
+                        <td>{{ factura.factura_id }}</td>
+                      {% endif %}
+                      <td class="text-right">{{ totalFactElectronicas }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td><strong>Gran Total</strong></td>
+                    <td class="text-right" data-title="Débito $" id="1001"><strong>$137.75</strong></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- /.col-md-4 -->
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-list fa-fw"></i> RETENCIONES ELECTRÓNICAS
+            </div>
+            <div class="card-body">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th># Comprobante</th>
+                    <th class="text-right">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>654321987</td>
+                    <td class="text-right">$1.20</td>
+                  </tr>
+                  <tr>
+                    <td>456789123</td>
+                    <td class="text-right">$2.75</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td><strong>Gran Total</strong></td>
+                    <td class="text-right" data-title="Débito $" id="1001"><strong>$3.95</strong></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col-md-4 -->
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-list fa-fw"></i> FACTURAS FÍSICAS
+            </div>
+            <div class="card-body">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th># Comprobante</th>
+                    <th class="text-right">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>123</td>
+                    <td class="text-right">$34.80</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td><strong>Gran Total</strong></td>
+                    <td class="text-right" data-title="Débito $" id="1001"><strong>$34.80</strong></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col-md-4 -->
+      </div>
+      <!-- /.row -->
+
+      <br>
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-list fa-fw"></i> COMPRAS
+            </div>
+            <div class="card-body">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th># Comprobante</th>
+                    <th class="text-right">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>987</td>
+                    <td class="text-right">$66.00</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td><strong>Gran Total</strong></td>
+                    <td class="text-right" data-title="Débito $" id="1001"><strong>$66.00</strong></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- /.col-md-6 -->
+
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-list fa-fw"></i> VENTAS
+            </div>
+            <div class="card-body">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th># Comprobante</th>
+                    <th class="text-right">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>123456789</td>
+                    <td class="text-right">$64.50</td>
+                  </tr>
+                  <tr>
+                    <td>987654321</td>
+                    <td class="text-right">$70.25</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td><strong>Gran Total</strong></td>
+                    <td class="text-right" data-title="Débito $" id="1001"><strong>$137.75</strong></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- /.col-md-6 -->
+      </div>
+      <!-- /.row -->
+
+      <br>
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-list fa-fw"></i> IVA
+            </div>
+            <div class="card-body">
+              <table id='table_iva' class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Porcentaje</th>
+                    <th class="text-right">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>30%</td>
+                    <td class="text-right">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td>70%</td>
+                    <td class="text-right">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td>100%</td>
+                    <td class="text-right">$0.00</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td><strong>Valor a Pagar</strong></td>
+                    <td class="text-right"><strong>$0.00</strong></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- /.col-md-6 -->
+
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-list fa-fw"></i> RETENCIÓN
+            </div>
+            <div class="card-body">
+              <table id='table_rentas' class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Porcentaje</th>
+                    <th class="text-right">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1%</td>
+                    <td class="text-right">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td>2%</td>
+                    <td class="text-right">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td>5%</td>
+                    <td class="text-right">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td>8%</td>
+                    <td class="text-right">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td>10%</td>
+                    <td class="text-right">$0.00</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td><strong>Valor a Pagar</strong></td>
+                    <td class="text-right"><strong>$0.00</strong></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.col-12 -->
+  </div>
+  <!-- /.base_container -->
+{% endblock content %}
+
+{% block extra_script %}
+  <script type="text/javascript">
+    $('input[name="range"]').daterangepicker({
+      opens: 'left',
+      ranges: {
+        'Hoy': [moment(), moment()],
+        'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'La semana pasada': [moment().subtract(6, 'days'), moment()],
+        'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
+        'Este mes': [moment().startOf('month'), moment().endOf('month')],
+        'El mes pasado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      },
+      locale: {
+        "format": "DD/MM/YYYY",
+        "separator": " - ",
+        "applyLabel": "Aplicar",
+        "cancelLabel": "Cancelar",
+        "fromLabel": "From",
+        "toLabel": "To",
+        "customRangeLabel": "Rango personalizado...",
+        "daysOfWeek": [
+          "Do",
+          "Lu",
+          "Ma",
+          "Mi",
+          "Ju",
+          "Vi",
+          "Sa"
+        ],
+        monthNames: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre"
+        ],
+        firstDay: 1
+      },
+    });
+
+  </script>
+{% endblock extra_script %}

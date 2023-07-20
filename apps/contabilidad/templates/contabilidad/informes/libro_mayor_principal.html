@@ -1,0 +1,83 @@
+<html>
+<head>
+  <title>LIBRO MAYOR PRINCIPAL</title>
+
+<style>
+    @page {
+        size: a4 portrait;
+        /*size: a4 landscape;*/
+        @frame header_frame {           /* Static Frame */
+            /*-pdf-frame-border: 1;*/
+            -pdf-frame-content: header_content;
+            left: 50pt; width: 512pt; top: 50pt; height: 25pt;
+        }
+        @frame content_frame {          /* Content Frame */
+            /*-pdf-frame-border: 1;*/
+            left: 50pt; width: 512pt; top: 80pt; height: 685pt;
+        }
+        @frame footer_frame {           /* Another static Frame */
+            /*-pdf-frame-border: 1;*/
+            -pdf-frame-content: footer_content;
+            left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+        }
+    }
+
+    table { -pdf-keep-with-next: true; }
+    p { margin: 0; -pdf-keep-with-next: true; }
+    p.separator { -pdf-keep-with-next: false; font-size: 6pt; }
+
+</style>
+</head>
+
+<body>
+    {# Content for Static Frame 'header_frame' #}
+    <div id="header_content">
+      <strong>{{ empresa.razon_social }} - {{ empresa.nombre_comercial }}</strong><br>
+      <strong>LIBRO MAYOR PRINCIPAL</strong>
+    </div>
+
+    {# Content for Static Frame 'footer_frame' #}
+    <div id="footer_content">(c) - página <pdf:pagenumber>
+        de <pdf:pagecount>
+    </div>
+
+    {% load define_action %}
+
+    {# HTML Content #}
+    {% for cta in libro_mayor %}
+      <p>
+        <strong>Cuenta: {{ cta.nombre }}</strong><br>
+        <strong>Código: {{ cta.codigo }}</strong>
+        <strong>ID: {{ cta.id }}</strong>
+      </p>
+
+      {# NO FILTRA BIEN #}
+      <!--
+      {% filtro_data libro_diario cuenta_id=cta.id as cuentas_filtradas %}
+      {% for cuenta in cuentas_filtradas %}
+        {{ cuenta.cuenta_id }}
+      {% endfor %}
+      -->
+
+
+      {% get_cuentas_filtradas empresa.empresa_id cta.id as entries_list %}
+
+      {% for entry in entries_list %}
+        {% if entry.cuenta.tipo == 'SUBCUENTA' %}
+          {% if entry.cuenta.parent.id == cta.id%}
+            {{ entry.cuenta.parent.id }}
+
+          {% endif %}
+        {% else %}
+          {# cuenta principal #}
+          {% if cuenta.cuenta_id == cta.id %}
+            {{ entry.cuenta_id }}<br />
+          {% endif %}
+        {% endif %}
+
+      {% endfor %}
+
+
+    {% endfor %}
+</body>
+</html>

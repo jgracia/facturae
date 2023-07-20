@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Sobre Nosotros
+{% endblock title %}
+
+{% load static %}
+
+{% block navigation %}
+  {% include "includes/_navbar.html" with active_tab='tab_portfolio' %}
+{% endblock navigation %}
+
+{% block content %}
+<!-- Page Content -->
+<div class="container py-4 mt-4">
+  <!-- Page Heading -->
+  <h1 class="my-4 text-info display-4">Clientes VIP,<BR/>
+    <small class="text-secondary">Felices con FACTURAE</small>
+  </h1>
+</div>
+
+<!-- Start Testimonial Section -->
+<div id="testimonial" class="testimonial-section">
+  <div class="container">
+    <!-- Start Testimonials Carousel -->
+    <div id="testimonial-carousel" class="testimonials-carousel">
+      <!-- Testimonial 1 -->
+      <div class="testimonials item">
+          <div class="testimonial-content">
+            <img src="{% static 'img/testimonial/face_1.png' %}" alt="" >
+            <div class="testimonial-author">
+              <div class="author">Patricia Perez</div>
+              <div class="designation">Farmacia Gabrielito - Lago Agrio</div>
+            </div>
+            <p>Este sotware a solucionado las dificuldades que presentaba nuestro negocio en la atención al clientes.<br> Su uso es sumamente sencillo y práctico facilitando nuestro trabajo de manera significativa.</p>
+          </div>
+      </div>
+      <!-- Testimonial 2 -->
+      <div class="testimonials item">
+        <div class="testimonial-content">
+          <img src="{% static 'img/testimonial/face_1.png' %}" alt="" >
+          <div class="testimonial-author">
+            <div class="author">Martha Vasconez</div>
+            <div class="designation">Cyber Galactico - Lago Agrio</div>
+          </div>
+          <p>Nuestra Librería ahora funciona con la fluidez que siempre desee.<br> Me parece increible la manera de obtener los datos procesados de una manera amigable.</p>
+        </div>
+      </div>
+      <!-- Testimonial 3 -->
+      <div class="testimonials item">
+        <div class="testimonial-content">
+          <img src="{% static 'img/testimonial/face_1.png' %}" alt="" >
+          <div class="testimonial-author">
+            <div class="author">Cesar Rea</div>
+            <div class="designation">Comercial Rea - Joya de Los Shachas</div>
+          </div>
+          <p>Ahora en nuestro Comisariato se atiende con gusto y a la brevedad posible a nuestros clientes.<br> Trabajamos confiados en este sotware por su eficiencia al procesar la información.</p>
+        </div>
+      </div>
+    </div>
+    <!-- End Testimonials Carousel -->
+  </div>
+</div>
+<!-- End Testimonial Section -->
+
+<!-- Clients Aside -->
+<section id="partner" style="background: white">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="section-title text-center">
+          <h3>Nuestros Horables Clientes</h3>
+          <p>Estos son algunos de los clientes satisfechos con nuestro software</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="clients">
+        <div class="col-md-12">
+          <img src="{% static 'img/logos/themeforest.jpg' %}" class="img-responsive" alt="...">
+        </div>
+        <div class="col-md-12">
+          <img src="{% static 'img/logos/creative-market.jpg' %}" class="img-responsive" alt="...">
+        </div>
+        <div class="col-md-12">
+          <img src="{% static 'img/logos/designmodo.jpg' %}" class="img-responsive" alt="...">
+        </div>
+        <div class="col-md-12">
+          <img src="{% static 'img/logos/creative-market.jpg' %}" class="img-responsive" alt="...">
+        </div>
+        <div class="col-md-12">
+          <img src="{% static 'img/logos/microlancer.jpg' %}" class="img-responsive" alt="...">
+        </div>
+        <div class="col-md-12">
+          <img src="{% static 'img/logos/themeforest.jpg' %}" class="img-responsive" alt="...">
+        </div>
+        <div class="col-md-12">
+          <img src="{% static 'img/logos/microlancer.jpg' %}" class="img-responsive" alt="...">
+        </div>
+        <div class="col-md-12">
+          <img src="{% static 'img/logos/designmodo.jpg' %}" class="img-responsive" alt="...">
+        </div>
+        <div class="col-md-12">
+          <img src="{% static 'img/logos/creative-market.jpg' %}" class="img-responsive" alt="...">
+        </div>
+        <div class="col-md-12">
+          <img src="{% static 'img/logos/designmodo.jpg' %}" class="img-responsive" alt="...">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
+
+{% block footer %}
+  {% include "includes/_footer.html" %}
+{% endblock footer %}
+
+{% block extra_script %}
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.owl-carousel').owlCarousel();
+    });
+
+    ////------- Partner/CLients
+    $(document).ready(function() {
+      $(".clients").owlCarousel({
+            pagination: false,
+            navigation : true,
+            slideSpeed : 2500,
+    		stopOnHover: true,
+        	autoPlay: 3000,
+        	singleItem:false,
+            itemsMobile : [550,1],
+            itemsDesktopSmall : [991,2],
+            items: 5,
+    		transitionStyle : "fade",
+    		navigationText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>']
+      });
+    });
+
+    ////------- Testimonials Carousel
+
+    var testimonial = $("#testimonial-carousel");
+    testimonial.owlCarousel({
+    	navigation : true,
+    	pagination: true,
+    	slideSpeed : 2500,
+    	stopOnHover: true,
+    	autoPlay: 3000,
+    	singleItem: true,
+    	transitionStyle : "fade",
+    	navigationText: ['<i class="fa fa-chevron-left"></i>', '<i class="fa fa-chevron-right"></i>']
+    });
+  </script>
+{% endblock extra_script %}

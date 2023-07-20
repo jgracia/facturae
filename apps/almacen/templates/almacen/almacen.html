@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %} {% if object %} Editar Almacén {% else %} Crear Almacén {% endif %} {% endblock title %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="linebreak"></div>
+      {% if object %}
+      <h3>Editar Almacén</h3>
+      {% else %}
+      <h3>Crear Almacén</h3>
+      {% endif %}
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-sm-12 col-lx-12">
+      {% if object %}
+      <form action="{% url 'almacen:editar_almacen' object.pk %}" method="post" data-parsley-validate>
+      {% else %}
+      <form action="{% url 'almacen:crear_almacen' %}" method="post" data-parsley-validate>
+      {% endif %}
+        {% csrf_token %}
+        {% load widget_tweaks %}
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label" for="codigo">Código <span class="required">*</span>
+          </label>
+          <div class="col-sm-10">
+            {{ form.codigo |add_class:"required" |add_class:'form-control' }}
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label" for="descripcion">Descripción <span class="required">*</span>
+          </label>
+          <div class="col-sm-10">
+            {{ form.descripcion |add_class:"required" |add_class:'form-control' }}
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label" for="first-name">Es principal? <span class="required">*</span>
+          </label>
+          <div class="col-sm-10">
+            <div id="es_principal" class="btn-group" data-toggle="buttons">
+              {{ form.es_principal }}
+            </div>
+          </div>
+        </div>
+
+        <fieldset class="form-group">
+          <div class="row">
+            <legend class="col-form-label col-sm-2 pt-0"></legend>
+            <div class="col-sm-10">
+              <div class="custom-control custom-checkbox mr-sm-2">
+                {{ form.activo|attr:"class:custom-control-input" }}
+                <label class="custom-control-label" for="es_activo">Almacén activo?</label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="ln_solid"></div>
+
+        <div class="form-group row">
+          <div class="col-sm-10 offset-sm-2">
+            <button class="btn btn-secondary" type="button" onclick="location.href='{% url 'almacen:listado_almacenes' %}';">Cancelar</button>
+            <button type="submit" class="btn btn-primary"><span class="fa fa-save"></span> Guardar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- /.row -->
+</div>
+{% endblock content %}

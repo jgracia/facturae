@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+    Retenciones por Ventas - Hacienda.ec
+{% endblock title %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/table_style.css' %}">
+
+    <style>
+        td.numeric, th.numeric { text-align: right; }
+        #resultTable td.red {color: red; font-weight: bold}
+        #resultTable td.coral {color: coral; font-weight: bold}
+        /*.my-group .form-control{
+        width:50%;
+        }*/
+    </style>
+
+    <!-- formulario modal de pagos -->
+    <!--<script src="{% static 'frontend/js/payment.js' %}"></script>-->
+
+
+    <!-- librerías FormValidation -->
+	<link rel="stylesheet" type="text/css" href="{% static 'formvalidation/css/formValidation.min.css' %}">
+	<script src="{% static 'js/bootbox.min.js' %}"></script>
+	<script src="{% static 'formvalidation/js/formValidation.min.js' %}"></script>
+	<script src="{% static 'formvalidation/js/framework/bootstrap.min.js' %}"></script>
+
+    <!-- libreria sweetalert -->
+    <link rel="stylesheet" href="{% static 'css/sweetalert.css' %}">
+    <script src="{% static 'js/sweetalert.min.js' %}"></script>
+
+    <!-- librerías formato numérico -->
+	<script src="{% static 'js/funcion_formatter.js' %}"></script>
+
+{% endblock extra_head %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb my-4">
+        <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Inicio</a></li>
+		<li class="breadcrumb-item active">Retenciones por Ventas</li>
+    </ol>
+{% endblock breadcrumb %}
+
+{% block content %}
+
+<h3>Retención en la fuente por ventas</h3>
+
+<p>
+<div class="row">
+    <div class="col-md-2">
+        <a href="#" class="btn btn-primary">
+            <span class="glyphicon glyphicon-shopping-cart"></span> Añadir Retención
+        </a>
+    </div>
+
+    <div class="col-md-5 col-md-offset-3">
+        <form method="GET" >
+            <div class="input-group">
+                <input type="text" class="form-control" name="q" value="{{ request.GET.q }}" placeholder="Cliente..."/>
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" type="submit" name="action">
+                    <span class="glyphicon glyphicon-search"></span> Buscar!
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-2">
+        <div class="btn-toolbar pull-right">
+            <a href="#" class="btn btn-default">
+                <span class="fa fa-file-excel-o" aria-hidden="true" style="font-size:16px;color:green"></span>
+            </a>
+            <a href="#" class="btn btn-default">
+                <span class="fa fa-file-pdf-o" aria-hidden="true" style="font-size:16px;color:red"></span>
+            </a>
+            <a href="#" class="btn btn-default">
+                <span class="fa fa-print" aria-hidden="true" style="font-size:16px;"></span>
+            </a>
+        </div>
+    </div>
+</div>
+</p>
+<hr/>
+
+{% load my_filters %}
+{% load humanize %}
+
+<div class="row">
+    <div class="col-md-12">
+        <section id="no-more-tables">
+            <table class="table table-hover table-striped table-condensed cf">
+                <thead class="cf">
+                    <tr>
+                        <th>FECHA</th>
+                        <th>CLIENTE</th>
+                        <th>COMPROBANTE</th>
+                        <th class="text-center">MES</th>
+                        <th class="text-center">AÑO</th>
+                        <th class="text-center">COD. RETEN.</th>
+                        <th class="numeric">BASE IMP.</th>
+                        <th class="numeric">PORCENTAJE</th>
+                        <th class="numeric">TOTAL</th>
+        				<th class="text-center">ACCIONES</th>
+                    </tr>
+                </thead>
+        		<tbody>
+                    {% if all_retefuente %}
+                    {% for rete in all_retefuente %}
+        			<tr>
+                        <td data-title="Fecha">{{ rete.pago.created_at|naturalday }}</td>
+                        <td data-title="Cliente">{{ rete.pago.compra.proveedor.nombre }}</td>
+                        <td data-title="Comprobante">{{ rete.pago.compra.numero_comprobante }}</td>
+                        <td data-title="L/Número" class="text-center">{{ rete.cuota_nro }}</td>
+                        <td data-title="Vence">{{ rete.vence|naturalday }}</td>
+                        <td data-title="Estado" class="text-center">{{ rete.estado.situacion }}</td>
+                        <td data-title="Total" class="numeric">{{ rete.valor_cuota|currency }}</td>
+                        <td data-title="Abono" class="numeric">{{ rete.abono|currency }}</td>
+                        <td data-title="Saldo" class="numeric">{{ rete.saldo|currency }}</td>
+        				<td data-title="Acciones" class="text-center">
+                            <nobr>
+                                <a class="btn btn-info btn-sm" href="#">
+                                    <span class="glyphicon glyphicon-search" ></span> Ver
+                                </a>
+                            </nobr>
+                        </td>
+                    </tr>
+        			{% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="10" style = "text-align: center;"
+                        bgcolor="Gainsboro"><font color="OrangeRed">¡ Ninguna cuenta encontrada !</font></td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+        	</table>
+        </section>
+
+        {% if all_retefuente.has_other_pages %}
+            <div class="result pull-lef"><strong>Mostrando de {{ all_retefuente.start_index }} a {{ all_retefuente.end_index }} de un total de {{ all_retefuente.paginator.count }} registros</strong></div>
+            <ul class="pagination">
+                {% if all_retefuente.has_previous %}
+                    <li class="waves-effect"><a
+                            href="?page={{ all_retefuente.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i
+                            class="material-icons">&laquo</i></a></li>
+                {% else %}
+                    <li class="disabled"><a href="#!"><i class="material-icons">&laquo</i></a></li>
+                {% endif %}
+                {% for num in all_retefuente.paginator.page_range %}
+                    {% if all_retefuente.number == num %}
+                        <li class="active"><a href="#!">{{ num }}</a></li>
+                    {% else %}
+                        <li class="waves-effect"><a
+                                href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if all_retefuente.has_next %}
+                    <li class="waves-effect"><a
+                            href="?page={{ all_retefuente.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i
+                            class="material-icons">&raquo;</i></a></li>
+                {% else %}
+                    <li class="disabled"><a href="#!"><i class="material-icons">&raquo;</i></a></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<factura id="comprobante" version="1.0.0">
+  <infoTributaria>
+    <ambiente>1</ambiente>
+    <tipoEmision>1</tipoEmision>
+    <razonSocial>GRACIA MOREIRA JAVIER ISAÍAS</razonSocial>
+    <nombreComercial>INTIC</nombreComercial>
+    <ruc>2100184254001</ruc>
+    <claveAcceso>2612201801210018425400110010010000000841234567819</claveAcceso>
+    <codDoc>01</codDoc>
+    <estab>001</estab>
+    <ptoEmi>001</ptoEmi>
+    <secuencial>000000084</secuencial>
+    <dirMatriz>CALLE PANAMÁ Y PUERTO RICO</dirMatriz>
+  </infoTributaria>
+  <infoFactura>
+    <fechaEmision>26/12/2018</fechaEmision>
+    <dirEstablecimiento>CALLE PANAMÁ Y PUERTO RICO</dirEstablecimiento>
+    <obligadoContabilidad>NO</obligadoContabilidad>
+    <tipoIdentificacionComprador>04</tipoIdentificacionComprador>
+    <razonSocialComprador>NOLE CEDEÑO INÉS ALEJANDRINA</razonSocialComprador>
+    <identificacionComprador>2100527098001</identificacionComprador>
+    <direccionComprador>CALLE PANAMÁ Y PUERTO RICO</direccionComprador>
+    <totalSinImpuestos>75.00</totalSinImpuestos>
+    <totalDescuento>0</totalDescuento>
+    <totalConImpuestos>
+      <totalImpuesto>
+        <codigo>2</codigo>
+        <codigoPorcentaje>2</codigoPorcentaje>
+        <baseImponible>75.00</baseImponible>
+        <tarifa>12</tarifa>
+        <valor>9.00</valor>
+      </totalImpuesto>
+    </totalConImpuestos>
+    <propina>0.00</propina>
+    <importeTotal>84.00</importeTotal>
+    <moneda>DOLAR</moneda>
+    <pagos>
+      <pago>
+        <formaPago>01</formaPago>
+        <total>84.00</total>
+      </pago>
+    </pagos>
+  </infoFactura>
+  <detalles>
+    <detalle>
+      <codigoPrincipal>R13025</codigoPrincipal>
+      <descripcion>185-70R13   APOLLO AMANZER</descripcion>
+      <cantidad>1.00</cantidad>
+      <precioUnitario>75.00</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>75.00</precioTotalSinImpuesto>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12</tarifa>
+          <baseImponible>75.00</baseImponible>
+          <valor>9.00</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+  </detalles>
+  <infoAdicional>
+    <campoAdicional nombre="Dirección">CALLE PANAMÁ Y PUERTO RICO</campoAdicional>
+    <campoAdicional nombre="Teléfono">062362966 / 0985644870</campoAdicional>
+    <campoAdicional nombre="Email">nolealejandrina@gmail.com</campoAdicional>
+  </infoAdicional>
+</factura>

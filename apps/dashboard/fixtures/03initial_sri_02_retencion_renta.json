@@ -1,0 +1,1038 @@
+[
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 11,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "303",
+            "descripcion": "Honorarios profesionales y demás pagos por servicios relacionados con el título profesional",
+            "porcentaje": "10.00"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 12,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "304",
+            "descripcion": "Servicios predomina el intelecto no relacionados con el título profesional",
+            "porcentaje": "8.00"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 13,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "304A",
+            "descripcion": "Comisiones y demás pagos por servicios predomina intelecto no relacionados con el título profesional",
+            "porcentaje": "8.00"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 14,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "304B",
+            "descripcion": "Pagos a notarios y registradores de la propiedad y mercantil por sus actividades ejercidas como tales",
+            "porcentaje": "8.00"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 15,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "304C",
+            "descripcion": "Pagos a deportistas, entrenadores, árbitros, miembros del cuerpo técnico por sus actividades ejercidas como tales",
+            "porcentaje": "8.00"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 16,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "304D",
+            "descripcion": "Pagos a artistas por sus actividades ejercidas como tales",
+            "porcentaje": "8.00"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 17,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "304E",
+            "descripcion": "Honorarios y demás pagos por servicios de docencia",
+            "porcentaje": "8.00"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 18,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "307",
+            "descripcion": "Servicios predomina la mano de obra",
+            "porcentaje": "2.00"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 19,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "308",
+            "descripcion": "Utilización o aprovechamiento de la imagen o renombre",
+            "porcentaje": "10.00"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 19,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "309",
+            "descripcion": "Servicios prestados por medios de comunicación y agencias de publicidad",
+            "porcentaje": "1.75"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 20,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "310",
+            "descripcion": "Servicio de transporte privado de pasajeros o transporte público o privado de carga",
+            "porcentaje": "1"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 21,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "311",
+            "descripcion": "Pagos a través de liquidación de compra (nivel cultural o rusticidad)",
+            "porcentaje": "2"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 22,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "312",
+            "descripcion": "Transferencia de bienes muebles de naturaleza corporal",
+            "porcentaje": "1.75"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 23,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "312A",
+            "descripcion": "Compra de bienes de origen agrícola, avícola, pecuario, apícola, cunícula, bioacuático, forestal y carnes en estado natural",
+            "porcentaje": "1"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 24,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "312B",
+            "descripcion": "Impuesto a la Renta único para la actividad de producción y cultivo de palma aceitera",
+            "porcentaje": "1"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 25,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "314A",
+            "descripcion": "Regalías por concepto de franquicias de acuerdo a Ley de Propiedad Intelectual - pago a personas naturales",
+            "porcentaje": "8"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 26,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "314B",
+            "descripcion": "Cánones, derechos de autor,  marcas, patentes y similares de acuerdo a Ley de Propiedad Intelectual – pago a personas naturales",
+            "porcentaje": "8"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 27,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "314C",
+            "descripcion": "Regalías por concepto de franquicias de acuerdo a Ley de Propiedad Intelectual  - pago a sociedades",
+            "porcentaje": "8"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 28,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "314D",
+            "descripcion": "Cánones, derechos de autor,  marcas, patentes y similares de acuerdo a Ley de Propiedad Intelectual – pago a sociedades",
+            "porcentaje": "8"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 29,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "319",
+            "descripcion": "Cuotas de arrendamiento mercantil (prestado por sociedades), inclusive la de opción de compra",
+            "porcentaje": "1.75"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 30,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "320",
+            "descripcion": "Arrendamiento bienes inmuebles",
+            "porcentaje": "8"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 31,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "322",
+            "descripcion": "Seguros y reaseguros (primas y cesiones)",
+            "porcentaje": "1.75"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 32,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323",
+            "descripcion": "Rendimientos financieros pagados a naturales y sociedades  (No a IFIs)",
+            "porcentaje": "2"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 33,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323A",
+            "descripcion": "Rendimientos financieros: depósitos Cta. Corriente",
+            "porcentaje": "2"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 33,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323B1",
+            "descripcion": "Rendimientos financieros:  depósitos Cta. Ahorros Sociedades",
+            "porcentaje": "2"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 34,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323E",
+            "descripcion": "Rendimientos financieros: depósito a plazo fijo  gravados",
+            "porcentaje": "2"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 35,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323E2",
+            "descripcion": "Rendimientos financieros: depósito a plazo fijo exentos",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 36,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323F",
+            "descripcion": "Rendimientos financieros: operaciones de reporto - repos",
+            "porcentaje": "2"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 37,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323G",
+            "descripcion": "Inversiones (captaciones) rendimientos distintos de aquellos pagados a IFIs",
+            "porcentaje": "2"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 38,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323H",
+            "descripcion": "Rendimientos financieros: obligaciones",
+            "porcentaje": "2"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 39,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323I",
+            "descripcion": "Rendimientos financieros: bonos convertible en acciones",
+            "porcentaje": "2"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 40,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323M",
+            "descripcion": "Rendimientos financieros: Inversiones en títulos valores en renta fija gravados",
+            "porcentaje": "2"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 40,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323N",
+            "descripcion": "Rendimientos financieros: Inversiones en títulos valores en renta fija exentos",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 41,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323O",
+            "descripcion": "Intereses y demás rendimientos financieros pagados a bancos y otras entidades sometidas al control de la Superintendencia de Bancos y de la Economía Popular y Solidaria",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 42,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323P",
+            "descripcion": "Intereses pagados por entidades del sector público a favor de sujetos pasivos",
+            "porcentaje": "2"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 43,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323Q",
+            "descripcion": "Otros intereses y rendimientos financieros gravados",
+            "porcentaje": "2"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 44,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323R",
+            "descripcion": "Otros intereses y rendimientos financieros exentos",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 45,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323S",
+            "descripcion": "Pagos y créditos en cuenta efectuados por el BCE y los depósitos centralizados de valores, en calidad de intermediarios, a instituciones del sistema financiero por cuenta de otras personas naturales y sociedades",
+            "porcentaje": "2"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 46,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323T",
+            "descripcion": "Rendimientos financieros originados en la deuda pública ecuatoriana",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 47,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "323U",
+            "descripcion": "Rendimientos financieros originados en títulos valores de obligaciones de 360 días o más para el financiamiento de proyectos públicos en asociación público-privada",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 48,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "324A",
+            "descripcion": "Intereses y comisiones en operaciones de crédito entre instituciones del sistema financiero y entidades economía popular y solidaria.",
+            "porcentaje": "1"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 49,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "324B",
+            "descripcion": "Inversiones entre instituciones del sistema financiero y entidades economía popular y solidaria",
+            "porcentaje": "1"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 50,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "324C",
+            "descripcion": "Pagos y créditos en cuenta efectuados por el BCE y los depósitos centralizados de valores, en calidad de intermediarios, a instituciones del sistema financiero por cuenta de otras instituciones del sistema financiero",
+            "porcentaje": "1"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 51,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "325",
+            "descripcion": "Anticipo dividendos",
+            "porcentaje": "1"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 52,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "326",
+            "descripcion": "Dividendos distribuidos que correspondan al impuesto a la renta único establecido en el art. 27 de la LRTI",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 53,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "327",
+            "descripcion": "Dividendos distribuidos a personas naturales residentes",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 54,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "328",
+            "descripcion": "Dividendos distribuidos a sociedades residentes",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 55,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "329",
+            "descripcion": "Dividendos distribuidos a fideicomisos residentes",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 56,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "331",
+            "descripcion": "Dividendos en acciones (capitalización de utilidades)",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 57,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "332",
+            "descripcion": "Otras compras de bienes y servicios no sujetas a retención",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 58,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "332B",
+            "descripcion": "Compra de bienes inmuebles",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 59,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "332C",
+            "descripcion": "Transporte público de pasajeros",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 60,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "332D",
+            "descripcion": "Pagos en el país por transporte de pasajeros o transporte internacional de carga, a compañías nacionales o extranjeras de aviación o marítimas",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 61,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "332E",
+            "descripcion": "Valores entregados por las cooperativas de transporte a sus socios",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 62,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "332F",
+            "descripcion": "Compraventa de divisas distintas al dólar de los Estados Unidos de América",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 63,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "332G",
+            "descripcion": "Pagos con tarjeta de crédito",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 64,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "332H",
+            "descripcion": "Pago al exterior tarjeta de crédito reportada por la Emisora de tarjeta de crédito, solo RECAP",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 65,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "332I",
+            "descripcion": "Pago a través de convenio de debito (Clientes IFI`s)",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 66,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "333",
+            "descripcion": "Ganancia en la enajenación de derechos representativos de capital u otros derechos que permitan la exploración, explotación, concesión o similares de sociedades, que se coticen en bolsa de valores del Ecuador",
+            "porcentaje": "10"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 67,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "334",
+            "descripcion": "Contraprestación producida por la enajenación de derechos representativos de capital u otros derechos que permitan la exploración, explotación, concesión o similares de sociedades, no cotizados en bolsa de valores del Ecuador",
+            "porcentaje": "1"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 68,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "335",
+            "descripcion": "Loterías, rifas, apuestas y similares",
+            "porcentaje": "15"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 69,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "338",
+            "descripcion": "Producción y venta local de banano producido o no por el mismo sujeto pasivo",
+            "porcentaje": "2"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 70,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "340",
+            "descripcion": "Impuesto único a la exportación de banano",
+            "porcentaje": "3"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 71,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "343",
+            "descripcion": "Otras retenciones aplicables el 1%",
+            "porcentaje": "1"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 72,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "343A",
+            "descripcion": "Energía eléctrica",
+            "porcentaje": "1"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 73,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "343B",
+            "descripcion": "Actividades de construcción de obra material inmueble, urbanización, lotización o actividades similares",
+            "porcentaje": "1.75"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 74,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "343C",
+            "descripcion": "Impuesto Redimible a las botellas plásticas - IRBP",
+            "porcentaje": "1"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 75,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "3440",
+            "descripcion": "Otras retenciones aplicables el 2,75%",
+            "porcentaje": "2.75"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 76,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "344A",
+            "descripcion": "Pago local tarjeta de crédito /débito reportada por la Emisora de tarjeta de crédito / entidades del sistema financiero",
+            "porcentaje": "2"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 77,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "344B",
+            "descripcion": "Adquisición de sustancias minerales dentro del territorio nacional",
+            "porcentaje": "2"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 78,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "346C",
+            "descripcion": "Retención a cargo del propio sujeto pasivo por la exportación de concentrados y/o elementos metálicos",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 79,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "346D",
+            "descripcion": "Retención a cargo del propio sujeto pasivo por la comercialización de productos forestales",
+            "porcentaje": "0"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 80,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "348",
+            "descripcion": "Impuesto único a ingresos provenientes de actividades agropecuarias en etapa de producción / comercialización local o exportación",
+            "porcentaje": "1"
+        }
+    },
+    {
+        "model": "sri.SriTipoImpuesto",
+        "pk": 81,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": "1",
+            "tipo_impuesto": "1",
+            "codigo": "350",
+            "descripcion": "Otras autoretenciones",
+            "porcentaje": "1.5"
+        }
+    }
+]

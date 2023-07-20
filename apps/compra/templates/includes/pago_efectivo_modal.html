@@ -1,0 +1,54 @@
+<!-- Modal -->
+<div class="modal fade" id="quickViewModalPayment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+  	<div class="modal-content">
+  		<form id="cashForm" role="form" action="#" method="post" autocomplete="off">
+        {% csrf_token %}
+
+        <div class="modal-header bg-primary text-white">
+      		<h4 class="modal-title"><i class="fas fa-dollar-sign"></i> Pago Efectivo</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      			<span aria-hidden="true">&times;</span>
+      		</button>
+      	</div>
+
+  			<div class="modal-body">
+
+          <input type="hidden" name="dlg_grand_total" id="dlg_grand_total" value="" />
+        	<input type="hidden" name="credito_id" value="" />
+
+        	<div class="form-group text-center">
+        		<label class="col-12 control-label" name="lblGrandTotal">Total a pagar: $ 0,00 </label>
+        	</div>
+
+          <!-- LINEA HORIZONTAL -->
+        	<div class="line col-10 offset-1" style="border-bottom: 1px solid #ccc;"></div>
+        	<br>
+
+        	<div id="cash-mount-group" class="form-group">
+        		<div class="col-10 offset-1">
+        			<label for="importe_recibido">★★ Monto Recibido ★★</label>
+
+        			<input type="text" min="0" class="form-control currency"
+                style="font-size:20pt; font-weight: bold; color:red; text-align:center;"
+                id="amount_received" name="importe_recibido" />
+        		</div>
+
+            <br>
+        		<div class="col-10 offset-1">
+        			<label class="blinking" style="color: blue;">Cambio o Vuelto</label>
+        			<label class="col-10 offset-1 control-label"
+        		   style="text-align: center; font-size: 22pt; color: blue;" id="lblexchange_money"> 0 </label>
+        		</div>
+        	</div>
+  			</div>
+
+  			<div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-money-bill"></i> PAGAR</button>
+  			</div>
+  		</form>
+  	</div>
+  </div>
+
+</div>

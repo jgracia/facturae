@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Anular Factura | Hacienda.ec - {{ user.perfil.empresa.nombre_comercial }}
+{% endblock title %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb my-4">
+	<li class="breadcrumb-item"><a href="{% url 'inicio' %}">Inicio</a></li>
+	<li class="breadcrumb-item"><a href="{% url 'venta:listado_ventas' %}">Facturas</a></li>
+	<li class="breadcrumb-item active">Anular Factura</li>
+</ol>
+{% endblock breadcrumb %}
+
+{% block content %}
+<h3>Anular Factura</h3>
+<form method="post">
+    {% csrf_token %}
+    <h3>¿Desea anular el comprobante {{ factura.secuencia.punto_establecimiento }}-{{ factura.secuencia.punto_emision }}-{{ factura.get_numero_secuencia_formateado }}? </h3>
+    <button class="btn btn-danger" type="submit">Sí anular</button>
+    <a class="btn btn-default" href="{% url 'venta:listado_ventas' %}">Cancelar</a>
+</form>
+{% endblock content %}

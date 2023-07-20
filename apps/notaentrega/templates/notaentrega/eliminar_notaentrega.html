@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Eliminar Nota Entrega - Hacienda.ec
+{% endblock title %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb my-4">
+	<li class="breadcrumb-item"><a href="{% url 'inicio' %}">Inicio</a></li>
+	<li class="breadcrumb-item"><a href="{% url 'notaentrega:listado_notasentrega' %}">Notas Entrega</a></li>
+	<li class="breadcrumb-item active">Eliminar Nota Entrega</li>
+</ol>
+{% endblock breadcrumb %}
+
+{% block content %}
+<h3>Eliminar Nota Entrega</h3>
+<form method="post">
+    {% csrf_token %}
+    <h3>¿Desea eliminar el registro ID {{notaentrega.pk}}? </h3>
+    <button class="btn btn-danger" type="submit">Sí eliminar</button>
+    <a class="btn btn-default" href="{% url 'notaentrega:listado_notasentrega' %}">Cancelar</a>
+</form>
+{% endblock content %}

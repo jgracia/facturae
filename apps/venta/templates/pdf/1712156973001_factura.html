@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!--<meta charset="utf-8">-->
+    <title>FACTURA #{{ factura.pk }}</title>
+    <style>
+        body {
+            /*font-weight: 200;*/
+            font-size: 10pt;
+            font-family: "Times New Roman", Times, serif;
+        }
+        @page {
+            /*size: A4 portrait;*/
+            background-image: url({{ plantilla_url }});
+
+            size: 210mm 148.5mm;
+            @frame header_frame {           /* Static Frame */
+                -pdf-frame-content: header_content;
+                /*-pdf-frame-border: 1;*/
+                /*left: 90pt; width: 512pt; top: 120pt; height: 48pt;*/
+                left: 35pt;
+                right: 32pt;
+                top: 112pt;
+                height: 60pt;
+            }
+            @frame content_frame {          /* Content Frame */
+                left: 35pt; width: 528pt; top: 194pt; height: 142pt;
+                /*-pdf-frame-border: 1;*/
+            }
+            @frame footer_frame {           /* Another static Frame */
+                -pdf-frame-content: footer_content;
+                /*-pdf-frame-border: 1;*/
+                left: 35pt; width: 528pt; top: 318pt; height: 60pt;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Content for Static Frame 'header_frame' -->
+    <div id="header_content">
+        <!--<table style="height:20px;border: 1px solid #bbb;">-->
+        <table style="height:20px;">
+            <tbody>
+                <tr>
+                    <td colspan="2" style="margin-left: 1.8cm;">{{ factura.cliente.nombre }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="margin-left: 1.8cm;">{{ factura.cliente.direccion|slice:"0:50" }}</td>
+                </tr>
+                <tr>
+                    <td style="margin-left: 1.8cm">{{ factura.cliente.identificacion }}</td>
+                    <td>{{ factura.cliente.telefono }}</td>
+                </tr>
+                <tr>
+                    <td style="margin-left: 1.8cm;">{{ factura.fecha_emision | date:"d/m/Y" }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Content for Static Frame 'footer_frame' -->
+    <div id="footer_content">
+        <!--<table style="height:26px;border: 1px solid #bbb;">-->
+        <table style="height:21.5px;">
+            <tbody>
+                <tr>
+                    <td style="text-align: right; vertical-align: middle;">{{ factura.valor_subtotal_sin_impuesto|floatformat:2 }} {{ '&nbsp;&nbsp;&nbsp;' }}</td>
+                </tr>
+                <tr>
+                    <td style="text-align: right; vertical-align: middle;">{{ factura.valor_iva|floatformat:2 }} {{ '&nbsp;&nbsp;&nbsp;' }}</td>
+                </tr>
+                <tr>
+                    <td style="text-align: right; vertical-align: middle;">{{ factura.valor_total|floatformat:2 }} {{ '&nbsp;&nbsp;&nbsp;' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- HTML Content -->
+    <!--<table style="height:23.5px;border: 0.5px solid #bbb;">-->
+    <table style="height:21.5px;">
+        <tbody>
+            {% for item in products %}
+            <tr>
+                <td style="width: 2.5cm; text-align: right; vertical-align: middle">{{ item.cantidad|floatformat:2 }} {{ '&nbsp;&nbsp;' }}</td>
+                <td style="width: 12cm; vertical-align: middle;">{{ item.producto.nombre|slice:"0:30" }}</td>
+                <td style="width: 6cm; text-align: right; vertical-align: middle;">{{ item.precio_venta|floatformat:2 }}</td>
+                <!--<td>{{ item.valor_descuento|floatformat:2 }}</td>-->
+                <td style="width: 5cm; text-align: right; vertical-align: middle;">{{ item.valor_subtotal_sin_impuesto|floatformat:2 }} {{ '&nbsp;&nbsp;&nbsp;' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,60 @@
+{% load widget_tweaks %}
+
+<style media="screen">
+  .NEWCLASS {
+    font-family: 'Font Awesome 5 Free';
+  }
+</style>
+
+<form method="post" action="" id='theform'>
+    {% csrf_token %}
+
+    <div class="modal-header bg-primary text-white">
+      <h4 class="modal-title">Abrir caja</h4>
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      {% if not info_shift_active %}
+        <p class="font-bold">Complete el siguiente formulario y haga clic en el botón <i>Guardar</i>.</p>
+
+        <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+          {% for error in form.non_field_errors %}
+            {{ error }}
+          {% endfor %}
+        </div>
+
+        {% for field in form %}
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {% render_field field class="form-control" placeholder=field.label %}
+            <div class="{% if field.errors %} invalid{% endif %}">
+              {% for error in field.errors %}
+                <p class="help-block">{{ error }}</p>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="lead">Lo sentimos, ya existe un turno abierto para el usuario actual.</p>
+      {% endif %}
+    </div>
+
+    <div class="modal-footer">
+
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      {% if not info_shift_active %}
+        <input class='NEWCLASS btn btn-primary' type="submit" value="&#xf0c7; Guardar" id='btnsubmit' />
+      {% endif %}
+    </div>
+</form>
+
+<!-- desactivar botón enviar -->
+<script type="text/javascript">
+	$('#theform').submit(function(){
+		$("input[type='submit']", this)
+		  .val("Por favor espere...")
+		  .attr('disabled', 'disabled');
+		return true;
+	});
+</script>

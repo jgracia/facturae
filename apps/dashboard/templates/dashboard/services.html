@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Sobre Nosotros
+{% endblock title %}
+
+{% block navigation %}
+  {% include "includes/_navbar.html" with active_tab='tab_services' %}
+{% endblock navigation %}
+
+{% block content %}
+
+<div class="row mb-5 justify-content-center">
+  <div class="col-md-7 text-center">
+    <div class="block-heading-1">
+      <h2>What We Offer</h2>
+      <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block footer %}
+  {% include "includes/_footer.html" %}
+{% endblock footer %}

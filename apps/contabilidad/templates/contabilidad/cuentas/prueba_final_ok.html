@@ -1,0 +1,397 @@
+{% extends "base/base_site.html" %}
+
+{% block title %} Plan de Cuentas {% endblock title %}
+
+{% block stylesheets %}
+    {{ block.super }}
+
+    <!-- librerías para daterangepicker -->
+    <link rel="stylesheet" type="text/css" href="/static/vendors/daterangepicker/css/daterangepicker.css">
+
+    <!-- This demo uses an 3rd-party, jQuery UI based context menu -->
+    <link rel="stylesheet" href="/static/vendors/jquery-ui/jquery-ui.css"/>
+
+    <!-- librerías fancytree -->
+    <link href="/static/vendors/fancytree/skin-win8/ui.fancytree.css" rel="stylesheet" />
+
+    <!--<style>
+        tr.odd td:first-child,
+        tr.even td:first-child {
+            padding-left: 4em;
+        }
+    </style>-->
+    <style type="text/css">
+      .ui-menu {
+        width: 220px;
+        /*font-size: 63%;*/
+      }
+      .ui-menu kbd { /* Keyboard shortcuts for ui-contextmenu titles */
+        float: right;
+      }
+      /* custom alignment (set by 'renderColumns'' event) */
+      td.alignRight {
+         text-align: right;
+      }
+      td.alignCenter {
+         text-align: center;
+      }
+      td input[type=input] {
+        width: 40px;
+      }
+    </style>
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Plan de Cuentas</h3>
+                </div>
+
+                <div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <!--<div class="btn-toolbar">-->
+                        <div class="btn-group pull-right">
+                            <button onclick="location.href='{% url 'contabilidad:crear_cuenta' %}';" class="btn btn-sm btn-default" type="button"  data-placement="top" data-toggle="tooltip" data-original-title="Crear"><i class="fa fa-plus"></i></button>
+                            <button id="ExportReporttoExcel" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Exportar"><i class="fa fa-file-excel-o" style="color:green"></i></button>
+                            <button id="ReporttoPrinter" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Imprimir"><i class="fa fa-print"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Lista Plan de Cuentas <small>Gestionar plan de cuentas.</small></h2>
+
+                            <div class="title_right">
+                                <div class="pull-right">
+                                   <a class="btn btn-default btn-xs" onclick="return abrir_modal('{% url 'contabilidad:cargar_plan_cuenta' %}')">Plan Ctas. Predef.</a>
+                                   <a class="btn btn-default btn-xs">Importar Plan Ctas.</a>
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            <table id="tree">
+                              <colgroup>
+                                <col width="0" />
+                                <col width="10%" />
+                                <col width="80%" />
+                                <col width="10%" />
+                              </colgroup>
+                              <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>#</th>
+                                    <th></th>
+                                    <th>Saldo</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <!-- Define a row template for all invariant markup: -->
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              </tbody>
+                            </table>
+
+                            <!--
+                            {% load mptt_tags %}
+                            <ul>
+                                {% recursetree accounts %}
+                                    <li>
+                                        {{ node.codigo }} {{ node.nombre }}
+                                        {% if not node.is_leaf_node %}
+                                            <ul class="children">
+                                                {{ children }}
+                                            </ul>
+                                        {% endif %}
+                                    </li>
+                                {% endrecursetree %}
+                            </ul>
+                            -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup" class="modal fade" role="dialog">
+
+    </div>
+
+{% endblock content %}
+
+{% block javascripts %}
+    {{ block.super }}
+
+    <!-- librerías protección csrftoken -->
+    <script src="/static/frontend/js/proteccion_csrf.js"></script>
+
+    <!-- librerías para daterangepicker -->
+    <script type="text/javascript" src="/static/vendors/daterangepicker/js/moment.min.js"></script>
+    <script type="text/javascript" src="/static/vendors/daterangepicker/js/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/static/vendors/daterangepicker/js/daterangepicker.js"></script>
+
+    <!-- This demo uses an 3rd-party, jQuery UI based context menu -->
+    <!--<script src="/static/vendors/jquery-ui/jquery-3.4.1.min.js"></script>-->
+    <script src="/static/vendors/jquery-ui/jquery-ui.min.js"></script>
+
+    <!-- jquery-contextmenu -->
+	  <script src="/static/vendors/jquery-ui/jquery.ui-contextmenu.min.js"></script>
+
+    <!-- librerías fancytree -->
+    <script src="/static/vendors/fancytree/modules/jquery.fancytree.js"></script>
+    <!--<script src="/static/vendors/fancytree/modules/jquery.fancytree.dnd5.js"></script>
+    <script src="/static/vendors/fancytree/modules/jquery.fancytree.edit.js"></script>-->
+    <script src="/static/vendors/fancytree/modules/jquery.fancytree.gridnav.js"></script>
+    <script src="/static/vendors/fancytree/modules/jquery.fancytree.table.js"></script>
+
+    <script type="text/javascript">
+        function abrir_modal(url)
+        {
+        	$('#popup').load(url, function()
+        	{
+        		$(this).modal('show');
+        	});
+        	return false;
+        }
+
+        function cerrar_modal()
+        {
+        	$('#popup').modal('hide');
+        	return false;
+        }
+        
+      var CLIPBOARD = null;
+
+      $(function(){
+
+        $("#tree").fancytree({
+          //checkbox: true,
+          //checkboxAutoHide: true,
+          titlesTabbable: true,     // Add all node titles to TAB chain
+          quicksearch: true,        // Jump to nodes when pressing first character
+          // source: SOURCE,
+          //source: { url: "ajax-tree-products.json"},
+          source: { url: "../ajax_tree_cuentas" },
+
+          //extensions: ["edit", "dnd5", "table", "gridnav"],
+          extensions: ["table", "gridnav"],
+
+          /*dnd5: {
+            preventVoidMoves: true,
+            preventRecursion: true,
+            autoExpandMS: 400,
+            dragStart: function(node, data) {
+              return true;
+            },
+            dragEnter: function(node, data) {
+              // return ["before", "after"];
+              return true;
+            },
+            dragDrop: function(node, data) {
+              data.otherNode.moveTo(node, data.hitMode);
+            }
+        },*/
+          /*edit: {
+            triggerStart: ["f2", "shift+click", "mac+enter"],
+            close: function(event, data) {
+              if( data.save && data.isNew ){
+                // Quick-enter: add new nodes until we hit [enter] on an empty title
+                $("#tree").trigger("nodeCommand", {cmd: "addSibling"});
+              }
+            }
+        },*/
+          table: {
+            indentation: 20,
+            nodeColumnIdx: 2,
+            checkboxColumnIdx: 0
+          },
+          gridnav: {
+            autofocusInput: false,
+            handleCursorKeys: true
+          },
+
+
+          createNode: function(event, data) {
+            var node = data.node,
+              $tdList = $(node.tr).find(">td");
+
+            // Span the remaining columns if it's a folder.
+            // We can do this in createNode instead of renderColumns, because
+            // the `isFolder` status is unlikely to change later
+            if( node.isFolder() ) {
+              $tdList.eq(2)
+                .prop("colspan", 6)
+                .nextAll().remove();
+            }
+          },
+          renderColumns: function(event, data) {
+            var node = data.node,
+              $tdList = $(node.tr).find(">td");
+
+            // (Index #0 is rendered by fancytree by adding the checkbox)
+            // Set column #1 info from node data:
+            $tdList.eq(1).text(node.getIndexHier());
+            // (Index #2 is rendered by fancytree)
+            // Set column #3 info from node data:
+            //$tdList.eq(3).find("input").val(node.key);
+            //$tdList.eq(4).find("input").val(node.data.foo);
+
+            // Static markup (more efficiently defined as html row template):
+            // $tdList.eq(3).html("<input type='input' value='" + "" + "'>");
+            // ...
+          }
+        }).on("nodeCommand", function(event, data){
+          // Custom event handler that is triggered by keydown-handler and
+          // context menu:
+          var refNode, moveMode,
+            tree = $(this).fancytree("getTree"),
+            node = tree.getActiveNode();
+
+          switch( data.cmd ) {
+          case "moveUp":
+            refNode = node.getPrevSibling();
+            if( refNode ) {
+              node.moveTo(refNode, "before");
+              node.setActive();
+            }
+            break;
+          case "moveDown":
+            refNode = node.getNextSibling();
+            if( refNode ) {
+              node.moveTo(refNode, "after");
+              node.setActive();
+            }
+            break;
+          case "indent":
+            refNode = node.getPrevSibling();
+            if( refNode ) {
+              node.moveTo(refNode, "child");
+              refNode.setExpanded();
+              node.setActive();
+            }
+            break;
+          case "outdent":
+            if( !node.isTopLevel() ) {
+              node.moveTo(node.getParent(), "after");
+              node.setActive();
+            }
+            break;
+          case "rename":
+            //node.editStart();
+            alert("editando...")
+            break;
+          case "remove":
+            //refNode = node.getNextSibling() || node.getPrevSibling() || node.getParent();
+            //node.remove();
+            //if( refNode ) {
+            //  refNode.setActive();
+            //}
+            alert("eliminando...")
+            break;
+          case "addChild":
+            //node.editCreateNode("child", "");
+            alert("agregando hijo...")
+            break;
+          case "addSibling":
+            ///node.editCreateNode("after", "");
+            alert("agregando hermano")
+            break;
+          }
+
+        // }).on("click dblclick", function(e){
+        // 	console.log( e, $.ui.fancytree.eventToString(e) );
+
+        }).on("keydown", function(e){
+          var cmd = null;
+
+          // console.log(e.type, $.ui.fancytree.eventToString(e));
+          switch( $.ui.fancytree.eventToString(e) ) {
+          case "ctrl+shift+1":
+          case "meta+shift+1": // mac: cmd+shift+n
+            cmd = "addChild";
+            break;
+          case "ctrl+1":
+          case "meta+1": // mac
+            cmd = "addSibling";
+            break;
+          case "del":
+          case "meta+backspace": // mac
+            cmd = "remove";
+            break;
+          case "f2":  // already triggered by ext-edit pluging
+           	cmd = "rename";
+           	break;
+          case "ctrl+up":
+            cmd = "moveUp";
+            break;
+          case "ctrl+down":
+            cmd = "moveDown";
+            break;
+          case "ctrl+right":
+          case "ctrl+shift+right": // mac
+            cmd = "indent";
+            break;
+          case "ctrl+left":
+          case "ctrl+shift+left": // mac
+            cmd = "outdent";
+          }
+          if( cmd ){
+            $(this).trigger("nodeCommand", {cmd: cmd});
+            // e.preventDefault();
+            // e.stopPropagation();
+            return false;
+          }
+        });
+
+        /*
+         * Tooltips
+         */
+        // $("#tree").tooltip({
+        // 	content: function () {
+        // 		return $(this).attr("title");
+        // 	}
+        // });
+
+        /*
+         * Context menu (https://github.com/mar10/jquery-ui-contextmenu)
+         */
+        $("#tree").contextmenu({
+          delegate: "span.fancytree-node",
+          menu: [
+            {title: "Editar <kbd>[F2]</kbd>", cmd: "rename", uiIcon: "ui-icon-pencil" },
+            {title: "Eliminar <kbd>[Del]</kbd>", cmd: "remove", uiIcon: "ui-icon-trash" },
+            {title: "----"},
+            {title: "Agregar hermano <kbd>[Ctrl+1]</kbd>", cmd: "addSibling", uiIcon: "ui-icon-plus" },
+            {title: "Agregar hijo <kbd>[Ctrl+Shift+1]</kbd>", cmd: "addChild", uiIcon: "ui-icon-arrowreturn-1-e" },
+          ],
+          beforeOpen: function(event, ui) {
+            var node = $.ui.fancytree.getNode(ui.target);
+            $("#tree").contextmenu("enableEntry", "paste", !!CLIPBOARD);
+            node.setActive();
+          },
+          select: function(event, ui) {
+            var that = this;
+            // delay the event, so the menu can close and the click event does
+            // not interfere with the edit control
+            setTimeout(function(){
+              $(that).trigger("nodeCommand", {cmd: ui.cmd});
+            }, 100);
+          }
+        });
+      });
+      </script>
+{% endblock javascripts %}

@@ -1,0 +1,56 @@
+table.facteldata {
+	margin: auto;
+	width: 600px;
+	border-collapse: collapse;
+	border: 1px solid #fff; /*for older IE*/
+	border-style: hidden;
+}
+
+table.facteldata caption {
+	background-color: #f79646;
+	color: #fff;
+	font-size: x-large;
+	font-weight: bold;
+	letter-spacing: .3em;
+}
+
+table.facteldata thead th {
+	padding: 8px;
+	background-color: #fde9d9;
+	font-size: large;
+}
+
+table.facteldata thead th#thDay {
+	width: 40%;
+}
+
+table.facteldata thead th#thRegular, table.facteldata thead th#thOvertime, table.facteldata thead th#thTotal {
+	width: 20%;
+}
+
+table.facteldata th, table.facteldata td {
+	padding: 3px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #f79646 #ccc;
+}
+
+table.facteldata td {
+	text-align: right;
+}
+
+table.facteldata tbody th {
+	text-align: left;
+	font-weight: normal;
+}
+
+table.facteldata tfoot {
+	font-weight: bold;
+	font-size: large;
+	background-color: #687886;
+	color: #fff;
+}
+
+table.facteldata tr.even {
+	background-color: #fde9d9;
+}

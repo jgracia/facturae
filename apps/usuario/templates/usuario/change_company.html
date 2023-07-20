@@ -1,0 +1,197 @@
+<style>
+    .modal-content {
+        /* 80% of window height */
+        /*height: 60%;*/
+        background-color:#BBD6EC;
+    }
+    .modal-header {
+        background-color: #337AB7;
+        padding:16px 16px;
+        color:#FFF;
+        border-bottom:2px dashed #337AB7;
+    }
+</style>
+
+<div class="modal-dialog">
+	<div class="modal-content">
+        <form role="form" method="post" id="post-form">
+        {% csrf_token %}
+
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">x</button>
+			<h3>Seleccionar Empresa</h3>
+			<small class="font-bold">Seleccione la empresa de la lista y haga clic en el botón <i>Cambiar</i>.</small>
+		</div>
+
+		<div class="modal-body">
+            {% if object_list  %}
+                <label for="id_select"> EMPRESA </label>
+                <select id="id_select" name="company" class="form-control">
+                    <option value="">---------</option>
+                    {% for company in object_list %}
+                        <option value="{{ company.empresa_id }}">{{ company.nombre_comercial }}</option>
+                    {% endfor %}
+                </select>
+
+                <div id="results"></div>
+            {% else %}
+                <h3>NO EXISTEN EMPRESAS CREADAS!</h3>
+            {% endif %}
+		</div>
+
+		<div class="modal-footer">
+            <div class="col-lg-12 text-right">
+				<button type="button" class="btn btn-default" onclick="return cerrar_modal()">
+					Cerrar
+				</button>
+                {% if object_list  %}
+                    <input type="submit" class="btn btn-primary" name="submit" value="Cambiar">
+                {% endif %}
+			</div>
+		</div>
+        </form>
+	</div>
+</div>
+
+<!-- librerías csrftoken protección csrf  -->
+<!--<script src="/static/frontend/js/proteccion_csrf.js"></script>-->
+
+<script type="text/javascript">
+    /*$(document).ready(function()
+    {
+        $(':submit').click( function(){
+            //$(':submit').attr('value', 'Por favor espere...');
+            $(this).attr('value', 'Por favor espere...');
+            $(this).attr('disabled', 'disabled');
+
+            //var nombre_empresa = $( "#id_select option:selected" ).text();
+            //alert("nombre empresa=" + nombre_empresa);
+
+            //var codigo_empresa = $( "#id_select" ).val();
+            //alert("codigo empresa=" + codigo_empresa);
+
+            var csrftoken = getCookie('csrftoken');
+
+            /*$.ajax({
+                headers: { "X-CSRFToken": csrftoken },
+                url: "{% url 'contabilidad:terminar_cierre_caja' %}",
+                type: 'POST',
+                data: { balance: balance, observaciones: observaciones },
+                dataType: 'json',
+                success: function(response) {
+                    // Rediccionar a Administrar Caja
+                    window.location.replace(response.redirect);
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    swal("Oops... Error al cerrar caja", errorThrown, "error");
+                }
+            });*/
+
+        //} );
+    //});
+
+    $(function() {
+        // Submit post on submit
+        $('#post-form').on('submit', function(event){
+            event.preventDefault();
+            console.log("form submitted!")  // sanity check
+
+            $("input[type=submit]").attr('value','Por favor espere...');
+            $("input[type=submit]").attr('disabled','disabled');
+
+            change_post();
+        });
+
+        // AJAX for posting
+        function change_post() {
+            console.log("change company post is working!") // sanity check
+            $.ajax({
+                //url : "create_post/", // the endpoint
+                url : "{% url 'usuario:change_company_ajax' %}",
+                type : "POST", // http method
+                data : { the_post : $( "#id_select" ).val(), the_post_company : $( "#id_select option:selected" ).text() }, // data sent with the post request
+                // handle a successful response
+                success : function(json) {
+                    //$('#post-text').val(''); // remove the value from the input
+                    console.log(json); // log the returned json to the console
+                    /*$("#talk").prepend("<li><strong>"+json.text+"</strong> - <em> "+json.author+"</em> - <span> "+json.created+
+                        "</span> - <a id='delete-post-"+json.postpk+"'>delete me</a></li>");*/
+                    console.log("success"); // another sanity check
+
+                    if (json.result == true) {
+                        cerrar_modal();
+                        //recargar página actual (página de perfil)
+                        window.location.reload(true);
+                    } else {
+                        $('#results').html("<div class='alert-box alert alert-warning radius' data-alert>Oops! Hemos encontrado un error : Seleccione la empresa"+
+                        " </div>"); // add the error to the dom
+
+                        // volver activar botón
+                        $("input[type=submit]").attr('value','Cambiar');
+                        $("input[type=submit]").attr('disabled', false);
+                    }
+
+                },
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+                    $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                        " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                }
+            });
+        };
+
+
+        // This function gets cookie with a given name
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+
+        /*
+        The functions below will create a header with csrftoken
+        */
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        function sameOrigin(url) {
+            // test that a given url is a same-origin URL
+            // url could be relative or scheme relative or absolute
+            var host = document.location.host; // host + port
+            var protocol = document.location.protocol;
+            var sr_origin = '//' + host;
+            var origin = protocol + sr_origin;
+            // Allow absolute or scheme relative URLs to same origin
+            return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+                (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+                // or any other URL that isn't scheme relative or absolute i.e relative.
+                !(/^(\/\/|http:|https:).*/.test(url));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                    // Send the token to same-origin, relative URLs only.
+                    // Send the token only if the method warrants CSRF protection
+                    // Using the CSRFToken value acquired earlier
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+    });
+</script>

@@ -1,0 +1,149 @@
+{% extends "base/base_site.html" %}
+
+{% block title %} {% if object %} Editar Cuenta {% else %} Crear Cuenta {% endif %} {% endblock title %}
+
+{% block content %}
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="page-title">
+                <div class="title_left">
+                    {% if object %}
+                    <h3>Editar Cuenta</h3>
+                    {% else %}
+                    <h3>Crear Cuenta</h3>
+                    {% endif %}
+                </div>
+                <!--
+                <div class="title_right">
+                  <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group">
+                      <input type="text" class="form-control" placeholder="Search for...">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Go!</button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                -->
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Formulario Cuenta <small>elementos del formulario</small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a href="{% url 'contabilidad:listado_cuentas' %}"><i class="fa fa-mail-reply"></i></a>
+                                </li>
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div> <!-- fin x-title -->
+
+                        <div class="x_content">
+                            <br />
+
+                            <!--<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">-->
+                            {% if object %}
+                            <form action="{% url 'contabilidad:editar_cuenta' object.pk %}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+                            {% else %}
+                            <form action="{% url 'contabilidad:crear_cuenta' %}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+                            {% endif %}
+                                {% csrf_token %}
+                                {% load widget_tweaks %}
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Código <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        {{ form.codigo |add_class:"required" |add_class:'form-control' }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nombre">Nombre <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        {{ form.nombre |add_class:"required" |add_class:'form-control' }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="id_clasificacion">Clasificación <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div id="id_clasificacion" class="btn-group" data-toggle="buttons">
+                                            {{ form.clasificacion |add_class:"required" |add_class:'form-control' }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tipo">Tipo <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div id="tipo" class="btn-group" data-toggle="buttons">
+                                            {{ form.tipo |add_class:"required" |add_class:'form-control' }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="id_padre">Cuenta principal <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div id="id_padre" class="btn-group" data-toggle="buttons">
+                                            {{ form.parent |add_class:'form-control' }}
+                                            <!--<select class="form-control" id="id_padre" name="id_padre">
+                                                <option selected  value="">---------</option>
+                                            </select>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <button class="btn btn-primary" type="button" onclick="location.href='{% url 'contabilidad:listado_cuentas' %}';">Cancelar</button>
+                                        <!--<button class="btn btn-primary" type="reset">Reset</button>-->
+                                        <button type="submit" class="btn btn-success">Guardar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+    </div>
+{% endblock content %}
+
+{% block javascripts %}
+    {{ block.super }}
+    <!-- jquery.inputmask -->
+    <script src="/static/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
+
+    <script>
+
+    // evento tipo de impuesto
+		/*$("#id_clasificacion").change(function () {
+            var selectedText = $(this).find('option:selected').text();
+			var url = "{% url 'contabilidad:ajax_load_padre' %}";
+			$.ajax({
+				url: url,
+				data: {
+					'clasificacion_text': selectedText
+		        },
+				success: function (data) {
+					$("#id_padre").html(data);
+		        }
+			});
+		});*/
+    
+    /*
+    $(document).ready(function(){
+      $("#codigo").inputmask("9.9.9.99.999");
+    });*/
+
+    </script>
+
+{% endblock javascripts %}

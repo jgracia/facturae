@@ -1,0 +1,227 @@
+
+/*--------------------------------------------------*/
+/* Main Carousel Zoom                               */
+/*--------------------------------------------------*/
+.carousel-item.active img {
+  transition: transform 5000ms linear 0s;
+  /* This should be based on your carousel setting. For bs, it should be 5second*/
+  transform: scale(1.05, 1.05);
+}
+
+/*************** Testimonials ***************/
+
+.testimonial-section {
+  /*background: Url(../img/parallax/testimonial-bg.jpg) no-repeat;*/
+  background: #eb6b55;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  padding-top: 120px;
+  padding-bottom: 120px;
+  color: #fff;
+	text-align: center;
+	position: relative;
+}
+
+.testimonials .testimonial-content img {
+    width: 150px;
+    height: auto;
+    margin-bottom: 40px;
+}
+
+.testimonials .testimonial-content p {
+	font-size: 20px;
+	line-height: 30px;
+	font-style: italic;
+	font-weight: 400;
+  margin-bottom: 40px;
+	color: #fff;
+}
+
+.testimonials .testimonial-content {
+	position: relative;
+}
+
+.testimonials .testimonial-author {
+	margin-bottom: 40px;
+}
+
+.testimonials .testimonial-author .author {
+  font-family: "Kaushan Script","Helvetica Neue",Helvetica,Arial,cursive;
+  font-size: 18px;
+  padding-bottom: 5px;
+}
+.testimonials .testimonial-author .designation {
+  /*color: #d3d3d3;*/
+  color: #ffd43b;
+}
+
+.touch-slider .owl-controls.clickable .owl-buttons div:hover {
+	background-color: #00afd1;
+}
+
+.touch-carousel .owl-controls.clickable .owl-buttons div:hover {
+	background-color: #00afd1;
+}
+
+.testimonials-carousel .owl-controls.clickable .owl-buttons div{
+    background: none;
+    font-size: 40px;
+}
+
+.testimonials-carousel .owl-controls.clickable .owl-buttons .owl-next {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  z-index: 1000;
+}
+
+.testimonials-carousel .owl-controls.clickable .owl-buttons .owl-prev {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  z-index: 1000;
+}
+
+.owl-theme .owl-controls .owl-page.active{
+  padding: 2px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+.owl-theme .owl-controls .owl-page.active span {
+  background: #fff;
+}
+
+/*--------------------------------------------------*/
+/* Start Clients Section                            */
+/*--------------------------------------------------*/
+
+
+#partner {
+  padding-top: 80px;
+  padding-bottom: 50px;
+  text-align: center !important;
+}
+
+.clients .owl-buttons {
+  padding-top: 50px;
+}
+
+.owl-theme .owl-controls .owl-buttons div {
+	opacity: 1;
+	filter: Alpha(Opacity=100);
+}
+
+
+
+/*--------------------------------------------------*/
+/* scrollUp jQuery plugin                            */
+/*--------------------------------------------------*/
+
+#scrollUp {
+  background: #ff2828;
+  height: 50px;
+  width: 50px;
+  right: 31px;
+  bottom: 18px;
+  color: #fff;
+  font-size: 20px;
+  text-align: center;
+  border-radius: 50%;
+  line-height: 48px;
+  border: 2px solid transparent
+}
+
+@media (max-width: 575px) {
+  #scrollUp {
+    right: 16px
+  }
+}
+
+#scrollUp:hover {
+  color: #fff
+}
+
+/*--------------------------------------------------*/
+/* custom Checkbox                            */
+/*--------------------------------------------------*/
+
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+    background-color: #ff2828 !important;
+}
+
+
+/*--------------------------------------------------*/
+/* custom style                            */
+/*--------------------------------------------------*/
+.btn-primary{color:#fff;background-color:#ff2828;border-color:#ff2828}
+
+.btn-primary:hover{color:#fff;background-color:#da1b1b;border-color:#da1b1b}
+.btn-primary:focus,.btn-primary.focus{box-shadow:0 0 0 .2rem rgba(0,90,90,0.5)}
+.btn-primary.disabled,
+.btn-primary:disabled{color:#fff;background-color:#ff2828;border-color:#ff2828}
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active,
+.show>.btn-primary.dropdown-toggle{color:#fff;background-color:#ff2828;border-color:#ff2828}
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.btn-primary:not(:disabled):not(.disabled).active:focus,
+.show>.btn-primary.dropdown-toggle:focus{box-shadow:0 0 0 .2rem rgba(255,184,98,0.5)}
+
+
+.text-info {
+  color: #eb6b55 !important;
+}
+
+.ln_solid {
+    border-top: 1px solid #e5e5e5;
+    color: #ffffff;
+    background-color: #ffffff;
+    height: 1px;
+    margin: 20px 0
+}
+
+.form-control {
+  /*height: 55px;*/
+  background: #fff !important;
+  font-family: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+.form-control:active, .form-control:focus {
+  border-color: #ff2828;
+}
+.form-control:hover, .form-control:active, .form-control:focus {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.base_container {
+  /*margin: 10px;
+  margin: 0.714285714rem;*/
+  margin-top: 10px;
+  margin-bottom: 10px;
+  /*border: 1px solid black  ;*/
+  padding: 10px;
+  padding: 0.714285714rem;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  /*border-radius: 10px;*/
+}
+
+/* margen superior contendor de formularios */
+.container {
+  margin-top: 30px;
+}
+
+/* Prevent Page Scrolling When a Modal is Open */
+body.modal-open {
+  height: 100vh;
+  overflow-y: hidden;
+}
+
+
+
+.bootstrap-datetimepicker-widget table td.active, .bootstrap-datetimepicker-widget table td.active:hover{
+    background-color: #337ab7;
+    color:#fff;
+}

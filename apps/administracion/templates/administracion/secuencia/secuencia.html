@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %} {% if object %} Editar Secuencia {% else %} Crear Secuencia {% endif %} {% endblock title %}
+
+{% block content %}
+<div class="container">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-12">
+        <div class="linebreak"></div>
+        {% if object %}
+        <h3>Editar Secuencia</h3>
+        {% else %}
+        <h3>Crear Secuencia</h3>
+        {% endif %}
+        <hr>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-sm-12 col-lx-12">
+        {% if object %}
+        <form action="{% url 'administracion:editar_secuencia' object.pk %}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+        {% else %}
+        <form action="{% url 'administracion:crear_secuencia' %}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+        {% endif %}
+          {% csrf_token %}
+          {% load widget_tweaks %}
+
+          <div class="row">
+            <div class="col-lg-6">
+              {{ form.empresa.errors }}
+              {{ form.empresa.label_tag }}
+              {{ form.empresa }}
+            </div>
+            <div class="col-lg-6">
+              {{ form.sri_tipo_comprobante.errors }}
+              {{ form.sri_tipo_comprobante.label_tag }}
+              {{ form.sri_tipo_comprobante }}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-3">
+              {{ form.punto_establecimiento.errors }}
+              {{ form.punto_establecimiento.label_tag }}
+              {{ form.punto_establecimiento }}
+            </div>
+            <div class="col-lg-3">
+              {{ form.punto_emision.errors }}
+              {{ form.punto_emision.label_tag }}
+              {{ form.punto_emision }}
+            </div>
+            <div class="col-lg-3">
+              {{ form.ultima_secuencia.errors }}
+              {{ form.ultima_secuencia.label_tag }}
+              {{ form.ultima_secuencia }}
+            </div>
+            <div class="col-lg-3">
+              {{ form.comprobante_total_filas.errors }}
+              {{ form.comprobante_total_filas.label_tag }}
+              {{ form.comprobante_total_filas }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              {{ form.direccion_establecimiento.errors }}
+              {{ form.direccion_establecimiento.label_tag }}
+              {{ form.direccion_establecimiento }}
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-lg-6">
+              {{ form.activo }} {{ form.activo.label_tag }}
+            </div>
+          </div>
+
+          <br>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">Comprobante Físico</div>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-lg-2">
+                      {{ form.comprobante_fisico_ancho.errors }}
+                      {{ form.comprobante_fisico_ancho.label_tag }}
+                      {{ form.comprobante_fisico_ancho }}
+                    </div>
+                    <div class="col-lg-2">
+                      {{ form.comprobante_fisico_alto.errors }}
+                      {{ form.comprobante_fisico_alto.label_tag }}
+                      {{ form.comprobante_fisico_alto }}
+                    </div>
+                    <div class="col-lg-3">
+                      {{ form.comprobante_fisico_margen_superior.errors }}
+                      {{ form.comprobante_fisico_margen_superior.label_tag }}
+                      {{ form.comprobante_fisico_margen_superior }}
+                    </div>
+                    <div class="col-lg-3">
+                      {{ form.comprobante_fisico_margen_inferior.errors }}
+                      {{ form.comprobante_fisico_margen_inferior.label_tag }}
+                      {{ form.comprobante_fisico_margen_inferior }}
+                    </div>
+                    <div class="col-lg-2">
+                      {{ form.comprobante_fisico_total_copias.errors }}
+                      {{ form.comprobante_fisico_total_copias.label_tag }}
+                      {{ form.comprobante_fisico_total_copias }}
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                      <div class="col-lg-6">
+                        {{ form.comprobante_fisico_tipo_impresora.errors }}
+                        {{ form.comprobante_fisico_tipo_impresora.label_tag }}
+                        {{ form.comprobante_fisico_tipo_impresora }}
+                      </div>
+                      <div class="col-lg-3">
+                        {{ form.comprobante_fisico_tipo_protocolo.errors }}
+                        {{ form.comprobante_fisico_tipo_protocolo.label_tag }}
+                        {{ form.comprobante_fisico_tipo_protocolo }}
+                      </div>
+                      <div class="col-lg-3">
+                        {{ form.comprobante_fisico_nombre_impresora.errors }}
+                        {{ form.comprobante_fisico_nombre_impresora.label_tag }}
+                        {{ form.comprobante_fisico_nombre_impresora }}
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ln_solid"></div>
+
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <button class="btn btn-secondary" type="button" onclick="location.href='{% url 'administracion:listado_secuencias' %}';">Cancelar</button>
+              <button type="submit" class="btn btn-primary"><span class="fa fa-save"></span> Guardar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- /.row -->
+  </div>
+</div>
+{% endblock content %}

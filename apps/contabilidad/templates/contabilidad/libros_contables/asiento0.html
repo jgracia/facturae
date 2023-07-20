@@ -1,0 +1,778 @@
+{% extends "base/base_site.html" %}
+
+{% load staticfiles %}
+
+{% block title %} Crear Asiento {% endblock title %}
+
+{% block extra_head %}
+    <!-- estilo tabla responsive -->
+    <link rel="stylesheet" href="{% static 'frontend/css/table_style.css' %}">
+
+    <!-- librerías sweetalert -->
+    <link rel="stylesheet" href="{% static 'vendors/sweetalert/css/sweetalert.css' %}">
+
+    <!-- librerías typeahead -->
+    <link rel="stylesheet" href="{% static 'vendors/typeahead/css/typeaheadjs.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/typeahead/css/typeaheadbundle.css' %}">
+
+    <!-- librerías FormValidation -->
+    <link rel="stylesheet" href="{% static 'vendors/formvalidation-0.6.2-dev/css/formValidation.min.css' %}">
+
+    <style>
+		/* scrooll para typeahead */
+	    #scrollable-dropdown-menu .tt-menu {
+	        max-height: 250px;
+	        overflow-y: auto;
+	        /*background-color: red;*/
+	    }
+
+		/* scroll tabla carrito */
+		.table-wrapper-scroll-y {
+			display: block;
+			max-height: 275px;
+			overflow-y: auto;
+			-ms-overflow-style: -ms-autohiding-scrollbar;
+		}
+        thead {color:green;}
+        tbody {color:blue;}
+        tfoot {color:red; background: gainsboro; }
+        td, th {text-align: left; white-space: nowrap;}
+        td.numeric, th.numeric { text-align: right; }
+	</style>
+{% endblock extrahead %}
+
+{% block content %}
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Crear Asiento</h3>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Formulario Asiento Contable <small>elementos del formulario</small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a href="{% url 'contabilidad:libro_diario' %}"><i class="fa fa-mail-reply"></i></a>
+                                </li>
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div> <!-- fin x-title -->
+
+                        <div class="x_content">
+                            <br />
+
+                            <!--<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">-->
+                            <!--{% if object %}
+                            <form action="{% url 'contabilidad:editar_cuenta' object.pk %}" method="post" data-parsley-validate>
+                            {% else %}
+                            <form action="{% url 'contabilidad:crear_cuenta' %}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+                            {% endif %}
+                                {% csrf_token %}
+                            -->
+                                {% load widget_tweaks %}
+
+                                <!--<div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fecha">Fecha <span class="required">*</span>
+                                    </label>
+
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class='input-group date' id='myDatepicker2'>
+                                            <input type='text' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>-->
+
+                                <!--<div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fecha">Fecha <span class="required">*</span>
+                                    </label>
+
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            {{ form.fecha }}
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="glosa">Glosa <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        {{ form.comentario |add_class:"required" |add_class:'form-control' }}
+                                    </div>
+                                </div>-->
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <label for="asiento_fecha">Fecha * :</label>
+                                        <input type="date" name="asiento_fecha" id="asiento_fecha" value={{ fecha_asiento }} class="form-control">
+                                    </div>
+                                    <div class="col-md-5 col-sm-5 col-xs-12">
+                                        <label for="glosa">Glosa o Descripción * :</label>
+                                        <input type="text" class="form-control" id="glosa", name="glosa">
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <label for="comprobante">Comprobante * :</label>
+                                        <input type="text" class="form-control" id="comprobante", name="comprobante">
+                                    </div>
+                                </div>
+
+                                <div class="ln_solid"></div>
+
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <input type="hidden" name="id_cuenta" id="id_cuenta" />
+                                        <input type="hidden" name="codigo" id="codigo" />
+                                        <input type="hidden" name="old_codigo" id="old_codigo" />
+                                        <div id="scrollable-dropdown-menu">
+                                            <input type="text" class="typeahead tt-query form-control" autocomplete="off" spellcheck="false" id="typeahead_cuenta" name="typeahead_cuenta" placeholder="Cuenta Contable">
+                                        </div>
+                                        <!--<input type="text" class="form-control" name="typeahead_cuenta" placeholder="Cuenta" />-->
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-6">
+                                        <input type="text" style="text-align: right;" class="form-control" name="debito" id="debito" placeholder="Débito" />
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-6">
+                                        <input type="text" style="text-align: right;" class="form-control" name="credito" id="credito" placeholder="Crédito" />
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-12">
+                                        <button class="btn btn-primary btn-sm" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Añadir</button>
+                                        <button class="btn btn-success btn-sm" id="updateBtn" disabled><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>
+                                    </div>
+                                    <br>
+                                </div>
+
+                                <br>
+                                <div class="row">
+
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="table-wrapper-scroll-y">
+                                        <section id="no-more-tables">
+                                            <!--<input type="text" id="one" placeholder="name">
+                                            <input type="number" id="two" placeholder="age">
+                                            <input type="text" id="three" placeholder="Address">
+                                            <button class="btn btn-primary btn-xs" onclick="add()">Añadir</button>
+                                            <button class="btn btn-warning btn-xs" onclick="update()">Actualizar</button>
+                                            -->
+                                            <table id="tbl_asiento" class="table table-bordered table-condensed cf">
+                                                <thead class="cf">
+                                                    <!--<a id="addAccount" onclick="agregarCuenta();return false;" class="btn btn-primary btn-xs pull-right"><b>+</b> Añadir cuenta</a>-->
+                                                    <tr>
+                                                        <th style="display:none;">ID</th>
+                                                        <th>Código</th>
+                                                        <th>Cuenta</th>
+                                                        <th class="text-right">Débitos</th>
+                                                        <th class="text-right">Créditos</th>
+                                                        <th class="text-center">Acciones</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <tr>
+                                                        <td colspan="5" style = "text-align: center;">
+                                                            <font color="red">¡ Ninguna cuenta asignada !</font>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+
+                                                <tfoot>
+                                                    <tr>
+                                                        <td class="text-right" colspan="2">Balance $</td>
+                                                        <td class="text-right" data-title="Débito $" id="1001">0</td>
+                                                        <td class="text-right" data-title="Crédito $" id="2001">0</td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </section>
+                                        </div>
+                                        <!-- End Table-->
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div class="row">
+                                    <div class="ln_solid"></div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                            <button class="btn btn-primary" type="button" onclick="location.href='{% url 'contabilidad:libro_diario' %}';">Cancelar</button>
+                                            <!--<button class="btn btn-primary" type="reset">Reset</button>-->
+                                            <button type="submit" id="guardar_asiento" class="btn btn-success">Guardar</button>
+                                        </div>
+
+                                </div>
+                            <!--</form>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+    </div>
+
+
+
+
+{% endblock content %}
+
+{% block extra_script %}
+    <!-- librerías sweetalert -->
+    <script src="{% static 'vendors/sweetalert/js/sweetalert.min.js' %}"></script>
+
+    <!-- librerías csrftoken protección csrf  -->
+    <script src="{% static 'frontend/js/proteccion_csrf.js' %}"></script>
+
+    <!-- librerías typeahead -->
+    <script src="{% static 'vendors/typeahead/js/typeahead.bundle.js' %}"></script>
+
+    <!-- librerías FormValidation -->
+    <script src="{% static 'vendors/formvalidation-0.6.2-dev/js/formValidation.min.js' %}"></script>
+    <script src="{% static 'vendors/formvalidation-0.6.2-dev/js/framework/bootstrap.min.js' %}"></script>
+
+    <!-- librerías bootbox -->
+    <script src="{% static 'vendors/bootbox/bootbox.min.js' %}"></script>
+
+    <script>
+        var items = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            prefetch: {
+                cache: false, //SIN CACHE
+    			url: "{% url 'contabilidad:ajax_busqueda_cuentas_typeahead' %}",
+    			dataType: 'json',
+                filter: function (items) {
+                    return $.map(items, function (row) {
+                        return {
+                            id: row.id,
+                            name: row.codigo + ' - ' + row.nombre
+                        };
+                    });
+                }
+            }
+        });
+
+        // Initialize the Bloodhound suggestion engine, SIN CHACHE
+        items.clearRemoteCache();
+        items.initialize();
+
+        $('#typeahead_cuenta').typeahead({
+            hint: true,
+            highlight: true, /* Enable substring highlighting */
+            minLength: 1 /* Specify minimum characters required for showing suggestions */
+        },
+        {
+            limit: 50, // This controls the number of suggestions displayed
+            displayKey: 'name',
+            source: items.ttAdapter(),
+        }).on('typeahead:selected', function($e, datum){
+            var dataId = datum["id"];
+            $("#id_cuenta").val(dataId);
+
+            // borrar cuenta de input text typeahead y coloca el nombre de la cuenta sin el codigo
+            var pos = datum["name"].indexOf(" - ");
+            var codigo = datum["name"].substr(0, pos);
+            var nombre = datum["name"].substr(pos + 3)
+            $("#codigo").val(codigo);
+
+            $(this).typeahead('val', nombre);
+            $(this).typeahead('close');
+            // envia el foco a cantidad
+            $("#debito").focus().select();
+        }).on('typeahead:autocompleted', function(object, datum){
+            var dataId = datum["id"];
+            $("#id_cuenta").val(dataId);
+
+            var pos = datum["name"].indexOf(" - ");
+            var codigo = datum["name"].substr(0, pos);
+            var nombre = datum["name"].substr(pos + 3)
+            $("#codigo").val(codigo);
+
+            $(this).typeahead('val', nombre);
+            $(this).typeahead('close');
+
+        }).on('keydown', this, function (event) {
+            if (event.keyCode == 13) {
+                $(this).typeahead('close');
+
+                // BUSCAR string en db
+                var search_string = $("#typeahead_cuenta").val();
+                $.ajax({
+                    url: "{% url 'contabilidad:buscar_cuentadb' %}",
+                    type: 'GET',
+                    data: { search_string: search_string },
+                    success: function(response, textStatus, xhr) {
+                        //console.log("UNIDAD ID=" + response.unitId);
+                        if (response.success == true) {
+                            //var productId = response.productId;
+                            //var cost = response.cost;
+                            var account = response.account;
+                            var accountId = response.accountId;
+                            var code = response.code;
+                            $("#id_cuenta").val(accountId);
+                            $("#codigo").val(code);
+                            $("#typeahead_cuenta").typeahead('val', account);
+
+                            // envia el foco a cantidad
+                            $("#debito").focus().select();
+                        } else {
+                            swal("Oops...", "La cuenta no existe.", "error");
+                        }
+                    }
+                });
+            } else {
+                // tab key
+                if (event.keyCode != 9) {
+                    $("#id_cuenta").val('');
+                    $("#codigo").val('');
+                }
+            }
+        });
+
+        // permitir solo datos númericos con decimales
+        $("#debito").on("keypress keyup blur",function (event) {
+            $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                event.preventDefault();
+            }
+        });
+
+        // permitir solo datos númericos con decimales
+        $("#credito").on("keypress keyup blur",function (event) {
+            $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                event.preventDefault();
+            }
+        });
+
+        $('#debito').keydown(function (event) {
+            if (event.keyCode == 13) {
+				event.preventDefault();
+
+                if ($("#id_cuenta").val() != '') {
+                    if ($(this).val() != '' && $("#credito").val() == '') {
+                        // programmatically trigger the click
+        				$('#addBtn').click();
+                    } else {
+                        $('#credito').focus().select();
+                    }
+                }
+            }
+        });
+
+        $('#credito').keydown(function (event) {
+            if (event.keyCode == 13) {
+				event.preventDefault();
+                if ($("#id_cuenta").val() != '') {
+                    if ($(this).val() != '' && $("#debito").val() == '') {
+                        // programmatically trigger the click
+        				$('#addBtn').click();
+                        return false;
+                    }
+                }
+            }
+        });
+
+        $('#addBtn').click(function(e){
+            e.preventDefault();
+
+            // desactivar botón actualizar
+            $('#updateBtn').attr('disabled', true);
+
+            if ($("#id_cuenta").val()) {
+                if ($("#debito").val() != '' && $("#credito").val() == ''
+                || ($("#credito").val() != '' && $("#debito").val() == '')) {
+                    var cuentaId = $('#id_cuenta').val();
+                    var cuentaCodigo = $('#codigo').val();
+                    var cuentaNombre = $("#typeahead_cuenta").val();
+                    var debitoValue = $("#debito").val();
+                    var creditoValue = $("#credito").val();
+
+                    // limpiar input text
+    				$('#id_cuenta').val('');
+                    $('#codigo').val('');
+                    $('#old_codigo').val('');
+
+                    $("#typeahead_cuenta").typeahead('val', '');
+    				$("#debito").val('');
+                    $("#credito").val('');
+
+                    // enviar el foco a input cuenta
+    				$("#typeahead_cuenta").focus();
+    				$("#typeahead_cuenta").typeahead('close');
+
+                    //***************************
+                    // AGREGAR ITEM AL GRID
+                    //***************************
+                    //VERIFICA SI EXISTE LA TABLA TEMPORAL GRID
+                    if(!isExist(cuentaNombre)) {
+                        var nFilas = $("table tbody tr").length;
+                        if (nFilas == 1) {
+							//verifica fila: ¡ Ninguna cuenta asignada !
+							var childrenId = $("tr td")[0].innerHTML;
+							if (!$.isNumeric(childrenId))
+							{
+								// Quitar Fila: ¡ Ninguna cuenta asignada !
+								document.querySelectorAll("table tbody tr").forEach(function(e){e.remove();});
+							}
+						}
+
+                        if (debitoValue != '') {
+                            var markup =  "<tr><td style='display:none;'>" + cuentaId + "</td>"
+    										+ "<td data-title='Código'>" + cuentaCodigo + "</a></td>"
+                                            + "<td data-title='Cuenta'>" + cuentaNombre + "</td>"
+    										+ "<td data-title='Débito' class='numeric'>" + debitoValue + "</td>"
+                                            + "<td data-title='Crédito' class='numeric'>" + creditoValue + "</td>"
+    										+ "<td data-title='Acción' class='text-center'>"
+    											+ "<div class='btn-group btn-group-sm'>"
+    												+ "<button type='button' data-id=" + cuentaId + " class='btn btn-default glyphicon glyphicon-edit editButton'></button>"
+    												+ "<button type='button' data-id=" + cuentaId + " class='btn btn-default glyphicon glyphicon-trash deleteButton'></button>"
+    											+ "</div>"
+    										+ "</td>"
+    										+ "</tr>";
+
+                            // modificar balance débito
+                            var aux_debito = $('tfoot td:eq(1)').text(); // output: Balance Débitos
+                            var $balance_debito = 0
+                            $balance_debito = parseFloat(debitoValue) + parseFloat(aux_debito);
+                            $('tfoot td#1001').text($balance_debito);
+                        } else {
+                            var markup =  "<tr><td style='display:none;'>" + cuentaId + "</td>"
+    										+ "<td data-title='Código'>" + cuentaCodigo + "</a></td>"
+                                            + "<td data-title='Cuenta' style='padding-left: 4em;'>" + cuentaNombre + "</td>"
+    										+ "<td data-title='Débito' class='numeric'>" + debitoValue + "</td>"
+                                            + "<td data-title='Crédito' class='numeric'>" + creditoValue + "</td>"
+    										+ "<td data-title='Acción' class='text-center'>"
+    											+ "<div class='btn-group btn-group-sm'>"
+    												+ "<button type='button' data-id=" + cuentaId + " class='btn btn-default glyphicon glyphicon-edit editButton'></button>"
+    												+ "<button type='button' data-id=" + cuentaId + " class='btn btn-default glyphicon glyphicon-trash deleteButton'></button>"
+    											+ "</div>"
+    										+ "</td>"
+    										+ "</tr>";
+
+                            // modificar balance crédito
+                            var aux_credito = $('tfoot td:eq(2)').text(); // output: Balance Créditos
+                            var $balance_credito = 0
+                            $balance_credito = parseFloat(creditoValue) + parseFloat(aux_credito);
+                            $('tfoot td#2001').text($balance_credito);
+                        }
+
+						$("table tbody").append(markup);
+                    } else {
+                        swal("Oops...", "Usted ya ha ingresado esta cuenta.", "error");
+                    }
+                } else {
+                    swal("Oops...", "Monto mal ingresado.", "error");
+                }
+            } else {
+                swal("Oops...", "Cuenta mal ingresada.", "error");
+            }
+        });
+
+        //***************************
+        // FUNCIÓN PARA VERIFICAR EXISTENCIA DE LA CUENTA EN GRID
+        //***************************
+        function isExist(strd){
+            testme=false;
+            $('tr').each(function(){
+                //console.log($('td:nth(1)',$(this)).text());
+                //console.log(strd);
+                if($('td:nth(2)',$(this)).text()===strd) {
+                   testme=true;
+                 }
+            });
+            return testme;
+        }
+
+        // obtener total de filas
+    	function rowCount(tabla) {
+    		var nFilas = $("#" + tabla + " tbody tr").length;
+    		if (nFilas == 1) {
+    			//verifica fila: ¡ Ninguna cuenta asignada !
+    			var childrenId = $("#" + tabla + " tr td")[0].innerHTML;
+    			var texto =  $("#" + tabla + " tr td:nth(0)").text().trim();
+    			if (texto == "¡ Ninguna cuenta asignada !")
+    			{
+    				nFilas = 0;
+    			}
+    		}
+    		return nFilas;
+    	}
+
+        // almacenar tabla en Array
+        function storeTblValues()
+        {
+            var TableData = new Array();
+            $('table tbody tr').each(function(row, tr){
+                TableData[row]={
+                    "id" : $(tr).find('td:eq(0)').text()
+                    , "debito" : $.trim($(tr).find('td:eq(3)').text())
+    				, "credito": $.trim($(tr).find('td:eq(4)').text())
+                }
+            });
+            //TableData.shift();  // first row will be empty - so remove
+            return TableData;
+        }
+
+        // botones actualizar
+        $('#updateBtn').click(function(e){
+            e.preventDefault();
+
+            // desactivar botón actualizar
+            $('#updateBtn').attr('disabled', true);
+
+            if ($("#id_cuenta").val()) {
+                if ($("#debito").val() != '' && $("#credito").val() == ''
+                || ($("#credito").val() != '' && $("#debito").val() == '')) {
+
+                    var old_codigo = $('#old_codigo').val();
+                    if (old_codigo != '') {
+                        var cuentaId = $('#id_cuenta').val();
+                        var cuentaCodigo = $('#codigo').val();
+                        var cuentaNombre = $("#typeahead_cuenta").val();
+                        var debitoValue = $("#debito").val();
+                        var creditoValue = $("#credito").val();
+
+                        // limpiar input text
+        				$('#id_cuenta').val('');
+                        $('#codigo').val('');
+                        $('#old_codigo').val('');
+
+                        $("#typeahead_cuenta").typeahead('val', '');
+        				$("#debito").val('');
+                        $("#credito").val('');
+
+                        // enviar el foco a input cuenta
+        				$("#typeahead_cuenta").focus();
+        				$("#typeahead_cuenta").typeahead('close');
+
+                        //VERIFICA SI EXISTE EN LA TABLA
+                        if (old_codigo == cuentaId) {
+
+                            // ACTUALIZA SOLO DÉBITO O CRÉDITO
+
+                            // Get the cells
+                            var $button = $('button[data-id="' + old_codigo + '"]'),
+                                $tr     = $button.closest('tr'),
+                                $cells  = $tr.find('td');
+
+                            // Update the cell data
+                            $cells
+                                .eq(3).html(debitoValue).end();
+                            $cells
+                                .eq(4).html(creditoValue).end();
+
+                        } else {
+                            //VERIFICA SI EXISTE LA TABLA TEMPORAL GRID
+                            if(!isExist(cuentaNombre)) {
+                                // ACTUALIZA CODIGO, CUENTA, DÉBITO, CRÉDITO, ID, DATA-ID
+
+                                // Get the cells
+                                var $button = $('button[data-id="' + old_codigo + '"]'),
+                                    $tr     = $button.closest('tr'),
+                                    $cells  = $tr.find('td');
+
+                                // Update the cell data
+                                $cells
+                                    .eq(0).html(cuentaId).end();
+                                $cells
+                                    .eq(1).html(cuentaCodigo).end();
+                                $cells
+                                    .eq(2).html(cuentaNombre).end();
+                                $cells
+                                    .eq(3).html(debitoValue).end();
+                    			$cells
+                                    .eq(4).html(creditoValue).end();
+
+                                // actualiza 'data-id'
+                                $('button[data-id="' + old_codigo + '"]').attr('data-id', cuentaId);
+                            } else {
+                                swal("Oops...", "Ya existe esta cuenta.", "error");
+                            }
+                        }
+
+                        // ACTUALIZAR BALANCE
+                        // sumatoria débito y crédito
+                        var sumatoria_debitos = 0;
+                        var sumatoria_creditos = 0;
+                        $('#tbl_asiento tbody tr').each(function(row, tr){
+                            if (row >= 0) {
+                                var aux_debito = $.trim($(tr).find('td:eq(3)').text());
+                                var aux_credito = $.trim($(tr).find('td:eq(4)').text());
+
+                                if (aux_debito != '') {
+                                    sumatoria_debitos = sumatoria_debitos + parseFloat(aux_debito);
+                                } else {
+                                    sumatoria_creditos = sumatoria_creditos + parseFloat(aux_credito);
+                                }
+
+                                $('tfoot td#1001').text(sumatoria_debitos);
+                                $('tfoot td#2001').text(sumatoria_creditos);
+                            }
+                        });
+
+                    } else {
+                        swal("Oops...", "No existe cuenta de modificación.", "error");
+                    }
+                } else {
+                    swal("Oops...", "Monto mal ingresado.", "error");
+                }
+
+            } else {
+                swal("Oops...", "Imposible actualizar.", "error");
+            }
+        });
+
+        // tabla, botón editar
+        $("table").on('click','.editButton',function(){
+            // Get the record's ID via attribute
+            var id = $(this).attr('data-id');
+            var codigo = $(this).closest('tr').find('td:eq(1)').text();
+            var cuenta = $(this).closest('tr').find('td:eq(2)').text();
+            var debito = $(this).closest('tr').find('td:eq(3)').text();
+			var credito = $(this).closest('tr').find('td:eq(4)').text();
+
+            // activar botón actualizar
+            $('#updateBtn').attr('disabled',false);
+
+            //document.getElementById('typeahead_cuenta').value=cuenta
+            //document.getElementById('debito').value=debito
+            //document.getElementById('credito').value=credito
+
+            $("#id_cuenta").val(id);
+            $('#codigo').val(codigo);
+            $('#old_codigo').val(id);
+            $("#typeahead_cuenta").typeahead('val', cuenta);
+            $("#debito").val(debito);
+            $("#credito").val(credito);
+
+            // enviar el foco a input cuenta
+            if (debito !='') {
+                $("#debito").focus().select();
+            } else {
+                $("#credito").focus().select();
+            }
+        });
+
+        // tabla, botón eliminar
+        $("table").on('click','.deleteButton',function(){
+            $(this).closest('tr').remove();
+
+            // actualizar balance
+            // sumatoria débito y crédito
+			var sumatoria_debitos = 0;
+            var sumatoria_creditos = 0;
+			$('#tbl_asiento tbody tr').each(function(row, tr){
+				if (row >= 0) {
+					var aux_debito = $.trim($(tr).find('td:eq(3)').text());
+                    var aux_credito = $.trim($(tr).find('td:eq(4)').text());
+
+                    if (aux_debito != '') {
+                        sumatoria_debitos = sumatoria_debitos + parseFloat(aux_debito);
+                    } else {
+                        sumatoria_creditos = sumatoria_creditos + parseFloat(aux_credito);
+                    }
+
+                    $('tfoot td#1001').text(sumatoria_debitos);
+                    $('tfoot td#2001').text(sumatoria_creditos);
+				}
+	        });
+
+            //agregar mensaje: ¡ No se ha encontrado ningún registro !
+            var total_filas = rowCount('tbl_asiento');
+            if (total_filas == 0) {
+                var markup = "<tr><td colspan='5' style = 'text-align: center;'>"
+                        + "<font color='red'>¡ Ninguna cuenta asignada !</font></td></tr>";
+                $("table tbody").append(markup);
+
+                $('tfoot td#1001').text('0');
+                $('tfoot td#2001').text('0');
+            }
+        });
+
+        $('#guardar_asiento').click(function(e){
+            e.preventDefault();
+
+            var total_filas = rowCount('tbl_asiento');
+            if (total_filas > 0) {
+                // balance
+				var balance_debito = 0
+                var balance_credito = 0
+
+                var aux_debito = $('tfoot td:eq(1)').text(); // output: Balance Débitos
+                var aux_credito = $('tfoot td:eq(2)').text(); // output: Balance Créditos
+
+                balance_debito = parseFloat(aux_debito);
+                balance_credito = parseFloat(aux_credito);
+
+                if (balance_debito == balance_credito) {
+                    if ($('#glosa').val() != '') {
+
+                        var fecha = $('#asiento_fecha').val();
+                        var glosa = $('#glosa').val();
+                        var comprobante = $('#comprobante').val();
+
+                        // Convert a Javascript Array to JSON Format
+                        var TableData;
+                        TableData = storeTblValues();
+                        TableData = JSON.stringify(TableData);
+
+                        var csrftoken = getCookie('csrftoken');
+
+                        // envia el formulario a guardar
+                        $.ajax({
+        					headers: { "X-CSRFToken": csrftoken },
+                            type: "POST",
+                            url: "{% url 'contabilidad:ajax_guardar_asiento' %}",
+        					data: { pTableData: TableData, fecha: fecha, glosa: glosa, comprobante: comprobante },
+                            success: function(response, textStatus, xhr){
+
+                                // limpiar input text
+                				$('#glosa').val('');
+                                $('#comprobante').val('');
+
+                                // Eliminar filas guardadas
+                                document.querySelectorAll("table tbody tr").forEach(function(e){e.remove()});
+
+                                // Agregar Fila: ¡ No se ha encontrado ningún registro !
+                                var markup = "<tr><td colspan='5' style = 'text-align: center;'>"
+                                        + "<font color='red'>¡ Ninguna cuenta asignada !</font></td></tr>";
+
+                                $("table tbody").append(markup);
+
+                                // encerar balance
+                                $('tfoot td#1001').text('0');
+                                $('tfoot td#2001').text('0');
+
+                                swal("Buen trabajo!", "Asiento guardado.", "success");
+                            },
+        					error : function(xhr, textStatus, errorThrown) {
+        						swal("Oops...", errorThrown, "error");
+        					}
+                        });
+                    } else {
+                        swal("Oops...", "Ingrese la glosa o referencia.", "error");
+                    }
+                } else {
+                    swal("Oops...", "Balance incorrecto.", "error");
+                }
+            } else {
+                swal("Oops...", "No existe asiento contable.", "error");
+            }
+        });
+    </script>
+
+{% endblock extrajs %}

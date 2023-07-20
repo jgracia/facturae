@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %} {% if object %} Editar Cliente {% else %} Crear Cliente {% endif %} {% endblock title %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="linebreak"></div>
+      {% if object %}
+      <h3>Editar Cliente</h3>
+      {% else %}
+      <h3>Crear Cliente</h3>
+      {% endif %}
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-sm-12 col-lx-12">
+      {% if object %}
+      <form action="{% url 'cliente:editar_cliente' object.pk %}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+      {% else %}
+      <form action="{% url 'cliente:crear_cliente' %}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+      {% endif %}
+          {% csrf_token %}
+          {% load widget_tweaks %}
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" for="identificacion_tipo">Tipo de Identificación <span class="required">*</span>
+            </label>
+            <div class="col-sm-9">
+              {{ form.identificacion_tipo |add_class:"required" |add_class:'form-control' }}
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" for="identificacion">Número Identificación <span class="required">*</span>
+            </label>
+            <div class="col-sm-9">
+              {{ form.identificacion |add_class:"required" |add_class:'form-control' }}
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" for="nombre">Nombre <span class="required">*</span>
+            </label>
+            <div class="col-sm-9">
+              {{ form.nombre |add_class:"required" |add_class:'form-control' }}
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" for="email">Correo electrónico <span class="required">*</span>
+            </label>
+            <div class="col-sm-9">
+              {{ form.email|add_class:'form-control' }}
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" for="telefono">Teléfono fijo <span class="required">*</span>
+            </label>
+            <div class="col-sm-9">
+              {{ form.telefono|add_class:'form-control' }}
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" for="celular">Teléfono movil <span class="required">*</span>
+            </label>
+            <div class="col-sm-9">
+              {{ form.celular|add_class:'form-control' }}
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" for="direccion">Dirección <span class="required">*</span>
+            </label>
+            <div class="col-sm-9">
+              {{ form.direccion |add_class:"required" |add_class:'form-control' }}
+            </div>
+          </div>
+
+          <fieldset class="form-group">
+            <div class="row">
+              <legend class="col-form-label col-sm-3 pt-0"></legend>
+              <div class="col-sm-9">
+                <div class="custom-control custom-checkbox mr-sm-2">
+                  {{ form.obligado_contabilidad|attr:"class:custom-control-input" }}
+                  <label class="custom-control-label" for="oblig_contab">Obligado Contabilidad?</label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="row">
+              <legend class="col-form-label col-sm-3 pt-0"></legend>
+              <div class="col-sm-9">
+                <div class="custom-control custom-checkbox mr-sm-2">
+                  {{ form.activo|attr:"class:custom-control-input" }}
+                  <label class="custom-control-label" for="es_activo">Proveedor activo?</label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="ln_solid"></div>
+
+          <div class="form-group row">
+            <div class="col-sm-9 offset-sm-3">
+              <button class="btn btn-secondary" type="button" onclick="location.href='{% url 'cliente:listado_clientes' %}';">Cancelar</button>
+              <button type="submit" class="btn btn-primary"><span class="fa fa-save"></span> Guardar</button>
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+  <!-- /.row -->
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+<!--
+    {{ block.super }}
+    <script>
+        $("#id_activo_true").on( 'change', function() {
+            $("#es_activo").prop({checked: true});
+        });
+        $("#id_activo_false").on( 'change', function() {
+            $("#es_activo").prop({checked: false});
+        });
+
+        /*$("#es_activo").on( 'change', function() {
+            alert("hola")
+        });*/
+
+        $(document).ready(function(){
+
+        });
+
+    </script>
+    -->
+{% endblock javascripts %}

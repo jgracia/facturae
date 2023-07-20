@@ -1,0 +1,99 @@
+[
+    {
+        "model": "administracion.Empresa",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "activo": 1,
+            "factel": 0,
+            "razon_social": "EMPRESA",
+            "nombre_comercial": "EMPRESA S.A",
+            "ruc": "9999999999999",
+            "direccion_matriz": "DIRECCIÓN",
+            "obligado_llevar_contabilidad": 0,
+            "usuario_creador": 1
+        }
+    },
+    {
+        "model": "administracion.EntidadFinanciera",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "nombre": "PICHINCHA"
+        }
+    },
+    {
+        "model": "administracion.EntidadFinanciera",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "nombre": "GUAYAQUIL"
+        }
+    },
+    {
+        "model": "administracion.EntidadFinanciera",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "nombre": "INTERNACIONAL"
+        }
+    },
+    {
+        "model": "administracion.EntidadFinanciera",
+        "pk": 4,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "nombre": "BANECUADOR"
+        }
+    },
+    {
+        "model": "administracion.TarjetaBancaria",
+        "pk": 1,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "nombre": "VISA"
+        }
+    },
+    {
+        "model": "administracion.TarjetaBancaria",
+        "pk": 2,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "nombre": "MASTERCARD"
+        }
+    },
+    {
+        "model": "administracion.TarjetaBancaria",
+        "pk": 3,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "nombre": "DINNER CLUB"
+        }
+    },
+    {
+        "model": "administracion.TarjetaBancaria",
+        "pk": 4,
+        "fields": {
+            "usuario_creador": "1",
+            "created_at": "2018-11-10T18:48:20-05:00",
+            "update_at": "2018-11-10T18:48:20-05:00",
+            "nombre": "AMERICAN EXPRESS"
+        }
+    }
+]

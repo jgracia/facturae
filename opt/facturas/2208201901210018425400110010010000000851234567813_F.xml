@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><factura id="comprobante" version="1.0.0">
+  <infoTributaria>
+    <ambiente>1</ambiente>
+    <tipoEmision>1</tipoEmision>
+    <razonSocial>GRACIA MOREIRA JAVIER ISA&#205;AS</razonSocial>
+    <nombreComercial>INTIC</nombreComercial>
+    <ruc>2100184254001</ruc>
+    <claveAcceso>2208201901210018425400110010010000000851234567813</claveAcceso>
+    <codDoc>01</codDoc>
+    <estab>001</estab>
+    <ptoEmi>001</ptoEmi>
+    <secuencial>000000085</secuencial>
+    <dirMatriz>B. JUAN MONTALVO, C. PANAM&#193; Y PUERTO RICO</dirMatriz>
+  </infoTributaria>
+  <infoFactura>
+    <fechaEmision>22/08/2019</fechaEmision>
+    <dirEstablecimiento>B. JUAN MONTALVO, C. PANAM&#193; Y PUERTO RICO</dirEstablecimiento>
+    <obligadoContabilidad>NO</obligadoContabilidad>
+    <tipoIdentificacionComprador>05</tipoIdentificacionComprador>
+    <razonSocialComprador>NOLE CEDE&#209;O IN&#201;S ALEJANDRINA</razonSocialComprador>
+    <identificacionComprador>2100184254</identificacionComprador>
+    <direccionComprador>B. JUAN MONTALVO, C. PANAM&#193; Y PUERTO RICO</direccionComprador>
+    <totalSinImpuestos>70.00</totalSinImpuestos>
+    <totalDescuento>0</totalDescuento>
+    <totalConImpuestos>
+      <totalImpuesto>
+        <codigo>2</codigo>
+        <codigoPorcentaje>2</codigoPorcentaje>
+        <baseImponible>70.00</baseImponible>
+        <tarifa>12</tarifa>
+        <valor>8.40</valor>
+      </totalImpuesto>
+    </totalConImpuestos>
+    <propina>0.00</propina>
+    <importeTotal>78.40</importeTotal>
+    <moneda>DOLAR</moneda>
+    <pagos>
+      <pago>
+        <formaPago>01</formaPago>
+        <total>78.40</total>
+      </pago>
+    </pagos>
+  </infoFactura>
+  <detalles>
+    <detalle>
+      <codigoPrincipal>635753627404</codigoPrincipal>
+      <descripcion>IMPRESORA LASER</descripcion>
+      <cantidad>1.00</cantidad>
+      <precioUnitario>70.00</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>70.00</precioTotalSinImpuesto>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12</tarifa>
+          <baseImponible>70.00</baseImponible>
+          <valor>8.40</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+  </detalles>
+  <infoAdicional>
+    <campoAdicional nombre="Direcci&#243;n">B. JUAN MONTALVO, C. PANAM&#193; Y PUERTO RICO</campoAdicional>
+    <campoAdicional nombre="Tel&#233;fono">062362966 / 0980139638</campoAdicional>
+    <campoAdicional nombre="Email">nolealejandrina@gmail.com</campoAdicional>
+  </infoAdicional>
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:etsi="http://uri.etsi.org/01903/v1.3.2#" Id="Signature">
+<ds:SignedInfo>
+<ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+<ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+<ds:Reference Id="SignedPropertiesID" URI="#id-b2c76a14-9fbb-4f0b-aca6-2f81d830727b" Type="http://uri.etsi.org/01903#SignedProperties">
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<ds:DigestValue>0uPyyt0Fyw3l+Kf9QWlccpbjsKo=</ds:DigestValue>
+</ds:Reference>
+<ds:Reference URI="#KI">
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<ds:DigestValue>XWUjisU7/puosIw3DC3hIVAOmiI=</ds:DigestValue>
+</ds:Reference>
+<ds:Reference Id="REF" URI="#comprobante">
+<ds:Transforms>
+<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+</ds:Transforms>
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<ds:DigestValue>EGOaAAzv9FdbCScdGTQVtSR1/9I=</ds:DigestValue>
+</ds:Reference>
+</ds:SignedInfo>
+<ds:SignatureValue>Uerhs6kj3Hmnrf+QwXTIu7JT8aTv3/c8XWWqs2uxQGAUqT3GL/YsorB0JI/59CaE
+MsTRc2r9h412SdWCOHxMi1KCzxAZESWfcQrA8bd8AhiCqbBK8ei6+IW5WqlgR6zT
+b5LteTQt8qvhScygueQrSuSKhbabW1dpDzwVthyiq5ho7eJdGotKqVgrGd9g6fC9
+1/xCnvNE5tMdimozXVQ94ihPTj09nE6kqfE3MOPagNQsbKhtEgRLdGFDfRv3dFu9
+CWrzul/E2FuB3iAH1TWzvwGY6O5LC7Muk9y2HpShRL5E2tfSOtr9TA7Mj3Wj+6W4
+SqdGUYmG1Ebx2bsp9nl+ZQ==</ds:SignatureValue>
+<ds:KeyInfo Id="KI">
+<ds:X509Data>
+<ds:X509Certificate>MIIJDTCCBvWgAwIBAgIEW11PaDANBgkqhkiG9w0BAQsFADCBoTELMAkGA1UEBhMC
+RUMxIjAgBgNVBAoTGUJBTkNPIENFTlRSQUwgREVMIEVDVUFET1IxNzA1BgNVBAsT
+LkVOVElEQUQgREUgQ0VSVElGSUNBQ0lPTiBERSBJTkZPUk1BQ0lPTi1FQ0lCQ0Ux
+DjAMBgNVBAcTBVFVSVRPMSUwIwYDVQQDExxBQyBCQU5DTyBDRU5UUkFMIERFTCBF
+Q1VBRE9SMB4XDTE4MTAxMTE0MTUwOFoXDTIwMTAxMTE0NDUwOFowgbQxCzAJBgNV
+BAYTAkVDMSIwIAYDVQQKExlCQU5DTyBDRU5UUkFMIERFTCBFQ1VBRE9SMTcwNQYD
+VQQLEy5FTlRJREFEIERFIENFUlRJRklDQUNJT04gREUgSU5GT1JNQUNJT04tRUNJ
+QkNFMQ4wDAYDVQQHEwVRVUlUTzE4MBEGA1UEBRMKMDAwMDMxODQ4MzAjBgNVBAMT
+HEpBVklFUiBJU0FJQVMgR1JBQ0lBIE1PUkVJUkEwggEiMA0GCSqGSIb3DQEBAQUA
+A4IBDwAwggEKAoIBAQCXsiC/ehvxSndGnmUK2y+vxgCwwfAi5iZaA8wNDe9k2mrB
+NxhMmvilQpNg/0w0D97B3waDr+2m/Dmwq/rrsZozYiBpqAVLxl9CYbdsiL+nBomT
+LWNyoOtVekWKwiKrxoa8lCyxtEQtAT0GiQpIUXLUFWCM12NUCMX0u7yNaMvAz1GH
+hnhhxFbHa/uTAg6imfTGEPF1qJdZICLtQMv9kI0U0x9SAG+PS1JGGiTR6ZSywVqQ
+AR1UHYnKVFqFmtCyXcjaoUioIr+xZY3gGt6qGOY6dntWcVaphPlwhoWpNEycUMhs
+GfCRM/d3M9/kQpOH2Ghgi0TALlJY+sZ8kqct8uRLAgMBAAGjggQ2MIIEMjALBgNV
+HQ8EBAMCBSAwgZEGCCsGAQUFBwEBBIGEMIGBMD4GCCsGAQUFBzABhjJodHRwOi8v
+b2NzcC5lY2kuYmNlLmVjL2VqYmNhL3B1YmxpY3dlYi9zdGF0dXMvb2NzcDA/Bggr
+BgEFBQcwAYYzaHR0cDovL29jc3AxLmVjaS5iY2UuZWMvZWpiY2EvcHVibGljd2Vi
+L3N0YXR1cy9vY3NwMBoGCisGAQQBgqg7AwEEDBMKMjEwMDE4NDI1NDAdBgorBgEE
+AYKoOwMCBA8TDUpBVklFUiBJU0FJQVMwFgYKKwYBBAGCqDsDAwQIEwZHUkFDSUEw
+FwYKKwYBBAGCqDsDBAQJEwdNT1JFSVJBMCoGCisGAQQBgqg7AwcEHBMaQ0FMTEUg
+UEFOQU1BIFkgUFVFUlRPIFJJQ08wGQYKKwYBBAGCqDsDCAQLEwkwNjIzNjI5NjYw
+GgYKKwYBBAGCqDsDCQQMEwpMYWdvIEFncmlvMBcGCisGAQQBgqg7AwwECRMHRUNV
+QURPUjAdBgorBgEEAYKoOwMLBA8TDTIxMDAxODQyNTQwMDEwIAYKKwYBBAGCqDsD
+MwQSExBTT0ZUV0FSRS1BUkNISVZPMB0GA1UdEQQWMBSBEmluZm9qYXZvQGdtYWls
+LmNvbTCCAd8GA1UdHwSCAdYwggHSMIIBzqCCAcqgggHGhoHVbGRhcDovL2JjZXFs
+ZGFwc3VicDEuYmNlLmVjL2NuPUNSTDY0MSxjbj1BQyUyMEJBTkNPJTIwQ0VOVFJB
+TCUyMERFTCUyMEVDVUFET1IsbD1RVUlUTyxvdT1FTlRJREFEJTIwREUlMjBDRVJU
+SUZJQ0FDSU9OJTIwREUlMjBJTkZPUk1BQ0lPTi1FQ0lCQ0Usbz1CQU5DTyUyMENF
+TlRSQUwlMjBERUwlMjBFQ1VBRE9SLGM9RUM/Y2VydGlmaWNhdGVSZXZvY2F0aW9u
+TGlzdD9iYXNlhjRodHRwOi8vd3d3LmVjaS5iY2UuZWMvQ1JML2VjaV9iY2VfZWNf
+Y3JsZmlsZWNvbWIuY3JspIG1MIGyMQswCQYDVQQGEwJFQzEiMCAGA1UEChMZQkFO
+Q08gQ0VOVFJBTCBERUwgRUNVQURPUjE3MDUGA1UECxMuRU5USURBRCBERSBDRVJU
+SUZJQ0FDSU9OIERFIElORk9STUFDSU9OLUVDSUJDRTEOMAwGA1UEBxMFUVVJVE8x
+JTAjBgNVBAMTHEFDIEJBTkNPIENFTlRSQUwgREVMIEVDVUFET1IxDzANBgNVBAMT
+BkNSTDY0MTAfBgNVHSMEGDAWgBQY+fD75jIcmWY5KsqLsml9SSe/zjAdBgNVHQ4E
+FgQUxLwRLb0fILJ5Frc2QKzz2iAQMo0wCQYDVR0TBAIwADAZBgkqhkiG9n0HQQAE
+DDAKGwRWOC4xAwIEsDANBgkqhkiG9w0BAQsFAAOCAgEASJoLg9DHqitk0WdxKfpF
+TF9BdO0dCw7gwwP1ULb7MlFTHOjtzE7DC1YpD9xLubRhuQ2HTOxCz2dgw8katmFp
+KdmkliHDUC6m7UM8F/EuZUnfLWwornLSNyIvMey+7hojkjVOu+O4+wLcFkWqz3iR
+r9k3084+eZHN77q4lXqbiClAsQj1qazBMulb3pJj1c8XZ7zaVsyNiquVWh81/ctl
+wR5GjLr4STl8+JSNrJMqczDrUHbJgDNJ5P1ynbBPaaXnieLaHmvv3gJlCsu5yPL7
+tG6qhDgOcX4A2DxPYdiM10nOexO7ztuNr+xXJV1MCWUDSxKNQlvHRHWkVjX0+8tn
+1sMs7LylI/0dfzqS2Dv76AlWfc/LVqPUOsLKI9WjRJcfVlIAFqpLTG5XZn0aEwHR
+fupHjUf7i+eiH5x/0Gy5rGalc4pr2kqq1oPC0odhKQu5urzaJ78leQvGJPAnBhbG
+8JA6XNFzET+jAzTpoy3kU/t3Ha6TXz2dpf8DSccj9h15mKbu5jb2pUEpzVcn7rZe
+DsH+kxHtsPftQ0avFu5qjkMW2pk/hsGGkifogqNfpOTwmqqDgF09MKIE3h+Fv8aC
+flQkHyoPV5JqBKs0lRgO2ryXVT6lJCvvhokoYS0Xy1i2DmfecDndLrbVwaD/lss4
+NuNqFX5usoM9+18uTdUrXf4=</ds:X509Certificate>
+<ds:X509IssuerSerial>
+<ds:X509IssuerName>C=EC,O=BANCO CENTRAL DEL ECUADOR,OU=ENTIDAD DE CERTIFICACION DE INFORMACION-ECIBCE,L=QUITO,CN=AC BANCO CENTRAL DEL ECUADOR</ds:X509IssuerName>
+<ds:X509SerialNumber>1532841832</ds:X509SerialNumber>
+</ds:X509IssuerSerial>
+</ds:X509Data>
+<ds:KeyValue>
+<ds:RSAKeyValue>
+<ds:Modulus>l7Igv3ob8Up3Rp5lCtsvr8YAsMHwIuYmWgPMDQ3vZNpqwTcYTJr4pUKTYP9MNA/e
+wd8Gg6/tpvw5sKv667GaM2IgaagFS8ZfQmG3bIi/pwaJky1jcqDrVXpFisIiq8aG
+vJQssbRELQE9BokKSFFy1BVgjNdjVAjF9Lu8jWjLwM9Rh4Z4YcRWx2v7kwIOopn0
+xhDxdaiXWSAi7UDL/ZCNFNMfUgBvj0tSRhok0emUssFakAEdVB2JylRahZrQsl3I
+2qFIqCK/sWWN4BreqhjmOnZ7VnFWqYT5cIaFqTRMnFDIbBnwkTP3dzPf5EKTh9ho
+YItEwC5SWPrGfJKnLfLkSw==</ds:Modulus>
+<ds:Exponent>AQAB</ds:Exponent>
+</ds:RSAKeyValue>
+</ds:KeyValue>
+</ds:KeyInfo>
+<ds:Object><etsi:QualifyingProperties Target="#Signature" Id="id-3ae03542-c3d9-4f60-9d47-e6ba64c92053"><etsi:SignedProperties Id="id-b2c76a14-9fbb-4f0b-aca6-2f81d830727b"><etsi:SignedSignatureProperties><etsi:SigningTime>2019-08-22T10:03:37+00:00</etsi:SigningTime><etsi:SigningCertificate><etsi:Cert><etsi:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>XtOIR0ervlG/jchYE7SPzni528s=</ds:DigestValue></etsi:CertDigest><etsi:IssuerSerial><ds:X509IssuerName>C=EC,O=BANCO CENTRAL DEL ECUADOR,OU=ENTIDAD DE CERTIFICACION DE INFORMACION-ECIBCE,L=QUITO,CN=AC BANCO CENTRAL DEL ECUADOR</ds:X509IssuerName><ds:X509SerialNumber>1532841832</ds:X509SerialNumber></etsi:IssuerSerial></etsi:Cert></etsi:SigningCertificate><etsi:SignaturePolicyIdentifier><etsi:SignaturePolicyImplied/></etsi:SignaturePolicyIdentifier></etsi:SignedSignatureProperties><etsi:SignedDataObjectProperties><etsi:DataObjectFormat ObjectReference="#RKI"><etsi:Description>Documento Electronico</etsi:Description><etsi:MimeType>text/xml</etsi:MimeType><etsi:Encoding>UTF-8</etsi:Encoding></etsi:DataObjectFormat></etsi:SignedDataObjectProperties></etsi:SignedProperties></etsi:QualifyingProperties></ds:Object></ds:Signature></factura>

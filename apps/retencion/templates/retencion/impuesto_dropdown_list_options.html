@@ -1,0 +1,4 @@
+<option value="">---------</option>
+{% for impuesto in impuestos %}
+<option value="{{ impuesto.codigo }}">{{impuesto.codigo}} - {{ impuesto.descripcion }}</option>
+{% endfor %}

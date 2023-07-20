@@ -1,0 +1,823 @@
+{% extends "base/base_site.html" %}
+
+{% block title %} Salida Manual de Inventario {% endblock title %}
+
+{% block stylesheets %}
+    {{ block.super }}
+
+    <!-- librerías typeahead -->
+    <link rel="stylesheet" type="text/css" href="/static/vendors/typeahead/css/typeaheadjs.css">
+    <link rel="stylesheet" type="text/css" href="/static/vendors/typeahead/css/typeaheadbundle.css">
+
+    <!-- librerías sweetalert -->
+    <link rel="stylesheet" type="text/css" href="/static/vendors/sweetalert/css/sweetalert.css">
+
+    <!-- librerías FormValidation -->
+    <link rel="stylesheet" type="text/css" href="/static/vendors/formvalidation-0.6.2-dev/css/formValidation.min.css">
+
+    <style>
+        table { width: 100%; }
+        td, th {text-align: left; white-space: nowrap;}
+        td.numeric, th.numeric { text-align: right; }
+
+        /* scrooll para typeahead */
+        #scrollable-dropdown-menu .tt-menu {
+            max-height: 250px;
+            overflow-y: auto;
+            /*background-color: red;*/
+        }
+        #prefetch_customer .tt-menu {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="right_col" role="main">
+        <div class="">
+          <div class="page-title">
+            <div class="title_left">
+              <h3>Salida Manual de Inventario</h3>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Formulario de Salida <small>elementos del formulario</small></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a href="{% url 'almacen:listado_salidas' %}"><i class="fa fa-mail-reply"></i></a>
+                    </li>
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div> <!-- fin x-title -->
+
+                <div class="x_content">
+                  <br />
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <i class="fa fa-info fa-fw"></i> General
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                          <div class="row">
+                            <div class="form-group col-md-6">
+                              <label for="id_fuente">Referencia (motivo)</label>
+                              <div class="input-group">
+                                <select  class="form-control" id="id_fuente">
+                                  {% for tipo_mov in object_list %}
+                                  {% if tipo_mov.codigo == 'SAL_FACT' or tipo_mov.codigo == 'SAL_NE' %}
+                                  <option disabled value={{ tipo_mov.tipo_movimiento_id }}>{{ tipo_mov.descripcion }}</option>
+                                  {% else %}
+                                  <option value={{ tipo_mov.tipo_movimiento_id }}>{{ tipo_mov.descripcion }}</option>
+                                  {% endif %}
+                                  {% endfor %}
+                                </select>
+
+                                <span class="input-group-btn">
+                                  <button type="button" id="addOrigen" class="btn btn-default" data-toggle="tooltip" title="Añadir Referencia">+</button>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                              <label for="id_destino">Desde (fuente / origen)</label>
+                              <div class="input-group">
+                                <select  class="form-control" id="id_destino">
+                                  {% for almacen in almacenes %}
+                                  <option value={{ almacen.almacen_id }}>{{ almacen.descripcion }}</option>
+                                  {% endfor %}
+                                </select>
+                                <span class="input-group-btn">
+                                  <button type="button" id="addAlmacen" class="btn btn-default" data-toggle="tooltip" title="Añadir Almacén">+</button>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="col-md-2">
+                              <label for="numero_comprobante">Nro. Comp.</label>
+                              <input type="text" class="form-control" id="numero_comprobante" data-inputmask="'mask': '999-999-999999999'" data-toggle="tooltip" title="Nro. Comprobante">
+                            </div>
+                          </div>
+                          <!-- /.row -->
+
+                          <div class="row">
+                            <input type="hidden" name="id_producto" id="id_producto" />
+                            <div class="form-group col-md-6">
+                              <label for="scrollable-dropdown-menu">Producto</label>
+                              <div class="input-group">
+                                <div id="scrollable-dropdown-menu">
+                                  <input type="text" class="typeahead tt-query form-control" autocomplete="off" spellcheck="false" id="typeahead_producto" placeholder="Buscar por código de barra o nombre del producto">
+                                </div>
+                                <span class="input-group-btn">
+                                  <button type="button" id="addProduct" class="btn btn-default" data-toggle="tooltip" title="Añadir Producto">+</button>
+                                </span>
+                              </div>
+                            </div>
+
+                            <div class="form-group col-md-2">
+                              <label for="id_unidad">Unidad</label>
+                              <div class="input-group">
+                                <select  class="form-control" id="id_unidad">
+                                  <!--
+                                  {% for unidad in unidades %}
+                                  <option value={{ unidad.unidad_id }}>{{ unidad.abreviatura }}</option>
+                                  {% endfor %}
+                                  -->
+                                </select>
+                                <span class="input-group-btn">
+                                  <button type="button" id="addUnit" class="btn btn-default" data-toggle="tooltip" title="Añadir Producto">+</button>
+                                </span>
+                              </div>
+                            </div>
+
+                            <div class="form-group col-md-1">
+                              <label for="qty_producto">Cantidad</label>
+                              <input type="text" class="form-control" id="qty_producto">
+                            </div>
+                            <div class="form-group col-md-2">
+                              <label for="product_cost">Costo</label>
+                              <input type="text" class="form-control" id="product_cost">
+                            </div>
+                            <div class="form-group col-md-1">
+                              <label for="add">Agregar</label>
+                              <button type="submit" id="addBtn" class="btn btn-primary form-control" data-toggle="tooltip" title="Agregar al detalle">
+                                <span class="fa fa-plus"></span> Agre.
+                              </button>
+                            </div>
+                          </div>
+                          <!-- /.row -->
+                        </div>
+                        <!-- /.panel-body -->
+                      </div>
+                      <!-- /.panel -->
+                    </div>
+                    <!-- /.col-lg-12 -->
+                  </div>
+                  <!-- /.row -->
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <i class="fa fa-list fa-fw"></i> Detalle
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <section id="no-more-tables">
+                                <table id="cart" class="table table-bordered table-hover table-striped table-condensed cf">
+                                  <thead class="cf">
+                                    <tr>
+                                      <th style="display:none;">Codigo</th>
+                                      <th>#</th>
+                                      <th>Producto</th>
+                                      <th class="text-center">Unidad</th>
+                                      <th class="numeric">Cantidad</th>
+                                      <th class="numeric">Costo</th>
+                                      <th class="numeric">Total</th>
+                                      <th class="text-center">Acción</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody id="cartBody">
+                                    <tr>
+                                      <td colspan="7" style = "text-align: center;">
+                                        <font color="red">¡ Ningún registro encontrado !</font>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </section>
+                            </div>
+                            <!-- /.col-md-12 -->
+                          </div>
+                          <!-- /.row -->
+                        </div>
+                        <!-- /.panel-body -->
+                      </div>
+                      <!-- /.panel -->
+                    </div>
+                    <!-- /.col-lg-12 -->
+                  </div>
+                  <!-- /.row -->
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <button type="submit" id="save_inventory" class="btn btn-sm btn-primary">
+                        <span class="glyphicon glyphicon-floppy-save"></span> Guardar
+                      </button>
+                      <button type="reset" id="empty_shopping_cart" class="btn btn-sm btn-danger">
+                        <span class="glyphicon glyphicon-trash"></span> Vaciar
+                      </button>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                  </div>
+                  <!-- /.row -->
+                </div>
+                <!-- /.x_content -->
+              </div>
+              <!-- /.x_panel -->
+            </div>
+            <!-- /.col-md-12 -->
+          </div>
+          <!-- /.row -->
+        </div>
+    </div>
+
+    <!-- formularios modales -->
+    <!-- The form which is used to populate the item data -->
+    <form id="editItemForm" method="post" class="form-horizontal" style="display: none;" autocomplete="off">
+      {% csrf_token %}
+      <div class="form-group">
+        <div class="col-xs-4">
+          <input type="hidden" class="form-control" name="id" disabled="disabled" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-xs-3 control-label">Producto</label>
+        <div class="col-xs-9">
+          <input type="text" class="form-control" name="product" disabled="disabled" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input type="hidden" name="equivalencia" />
+        <label class="col-xs-3 control-label">Unidad</label>
+        <div class="col-xs-4">
+          <select class="form-control" name="unit" id="selectId">
+            <!--
+            {% for unidad in unidades %}
+            <option value={{ unidad.abreviatura }}>{{ unidad.abreviatura }}</option>
+            {% endfor %}
+            -->
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-xs-3 control-label">Cantidad</label>
+        <div class="col-xs-4">
+          <input type="text" style="text-align: right;" class="form-control" name="qty" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-xs-3 control-label">Costo</label>
+        <div class="col-xs-4">
+          <input type="text" style="text-align: right;" class="form-control" name="cost" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-xs-6 col-xs-offset-3">
+          <button type="submit" class="btn btn-default">Actualizar</button>
+        </div>
+      </div>
+    </form>
+    <!-- End editItemForm-->
+{% endblock content %}
+
+{% block javascripts %}
+    {{ block.super }}
+
+    <!-- jquery.inputmask -->
+    <script src="/static/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
+
+    <!-- librerías typeahead -->
+    <script src="/static/vendors/typeahead/js/typeahead.bundle.js"></script>
+
+    <!-- librerías sweetalert -->
+    <script src="/static/vendors/sweetalert/js/sweetalert.min.js"></script>
+
+    <!-- librerías FormValidation -->
+    <script src="/static/vendors/formvalidation-0.6.2-dev/js/formValidation.min.js"></script>
+    <script src="/static/vendors/formvalidation-0.6.2-dev/js/framework/bootstrap.min.js"></script>
+
+    <!-- librerías bootbox -->
+    <script src="/static/vendors/bootbox/bootbox.min.js"></script>
+
+    <!-- librerías csrftoken protección csrf  -->
+    <script src="/static/frontend/js/proteccion_csrf.js"></script>
+
+    <!-- librerías formato numérico -->
+    <script src="/static/frontend/js/funcion_formatter.js"></script>
+
+    <!-- librerías moment -->
+    <script type="text/javascript" src="/static/vendors/daterangepicker/js/moment.min.js"></script>
+    <script type="text/javascript" src="/static/vendors/daterangepicker/js/moment-with-locales.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        showCart();
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        // Instantiate the Bloodhound suggestion engine
+        var products = new Bloodhound({
+          datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+          queryTokenizer: Bloodhound.tokenizers.whitespace,
+          prefetch: {
+            cache: false, //SIN CACHE
+            url: "{% url 'almacen:product_lookup' %}",
+            filter: function (products) {
+              return $.map(products, function (product) {
+                return {
+                  id: product.producto_id,
+                  name: product.nombre + ' - ' + product.codigo_principal,
+                  existencia: product.existencia
+                };
+              });
+            }
+          }
+        });
+
+        // Initialize the Bloodhound suggestion engine, SIN CHACHE
+        products.clearRemoteCache();
+        products.initialize(true);
+
+        $('#typeahead_producto').typeahead({
+          hint: true,
+          highlight: true, /* Enable substring highlighting */
+          minLength: 1 /* Specify minimum characters required for showing suggestions */
+        },
+        {
+          limit: 50, // This controls the number of suggestions displayed
+          displayKey: 'name',
+          source: products.ttAdapter(),
+          templates: {
+            suggestion: function (data) {
+              //return '<p><strong>' + data.name + '</strong> - '+ data.id +'</p>';
+              return '<p>' + data.name + '<strong style="color:coral;"> <span class="glyphicon glyphicon-hand-right"></span> ' + parseFloat(data.existencia).toFixed(2) + '</strong></p>';
+            }
+          }
+        }).on('typeahead:selected', function($e, datum){
+          var productId = datum["id"];
+          $("#id_producto").val(productId);
+
+          // borrar producto de input text typeahead y coloca el nombre del producto sin el codigo
+          var pos = datum["name"].indexOf(" - ");
+          $(this).typeahead('val', datum["name"].substr(0, pos));
+          $(this).typeahead('close');
+
+          //colocar precio de costo
+          var almacenId = $("#id_destino").val();
+          $.ajax({
+            url: "{% url 'almacen:get_producto_control' %}",
+            type: 'GET',
+            data: { productoId: productId, almacenId: almacenId },
+            success: function(response, textStatus, xhr) {
+              // eliminar unidades existentes y agrega unidad principal y secundaria
+              $('#id_unidad')
+              .empty()
+              .append('<option selected value="' + response.unit_primary + '">* ' + response.unit_primary + '</option>');
+
+              if (response.unit_secondary != null) {
+                $('#id_unidad')
+                .append('<option selected value="' + response.unit_secondary + '">' + response.unit_secondary + '</option>');
+              }
+
+              // cambiar unidad del producto
+              $("#id_unidad").val(response.unit_primary);
+
+              // cambiar precio de costo
+              $("#product_cost").val(response.precio_costo);
+
+              // envia el foco a cantidad
+              $("#qty_producto").val('1');
+              $("#qty_producto").focus().select();
+            }
+          });
+
+          // envia el foco a cantidad
+          //$("#qty_producto").val('1');
+          //$("#qty_producto").focus().select();
+        }).on('typeahead:autocompleted', function(object, datum){
+          var productId = datum["id"];
+          $("#id_producto").val(productId);
+
+          var pos = datum["name"].indexOf(" - ");
+          $(this).typeahead('val', datum["name"].substr(0, pos));
+          $(this).typeahead('close');
+
+        }).on('keydown', this, function (event) {
+          if (event.keyCode == 13) {
+            $(this).typeahead('close');
+
+            // BUSCAR string en db
+            var search_string = $("#typeahead_producto").val();
+            $.ajax({
+              url: "{% url 'producto:buscar_producto' %}",
+              type: 'GET',
+              data: { search_string: search_string },
+              success: function(response, textStatus, xhr) {
+                //console.log("UNIDAD ID=" + response.unitId);
+                if (response.success == true) {
+                  //var productId = response.productId;
+                  //var cost = response.cost;
+                  var product = response.product;
+                  var productId = response.productId;
+                  $("#id_producto").val(productId);
+                  $("#typeahead_producto").typeahead('val', product);
+                  // cambiar unidad del producto
+                  $("#id_unidad").val(response.unitId);
+
+                  //console.log("AHORA AQUI... COSTO=" + response.cost);
+                  // cambiar precio de costo
+                  $("#product_cost").val(response.cost);
+
+                  // envia el foco a cantidad
+                  $("#qty_producto").val('1');
+                  $("#qty_producto").focus().select();
+                } else {
+                  swal("Oops...", "El producto no existe.", "error");
+                }
+              }
+            });
+          } else {
+            // tab key
+            if (event.keyCode != 9) {
+              $("#id_producto").val('');
+            }
+          }
+        });
+      }); // fin document ready
+
+      function showCart() {
+        $("#cartBody").empty();
+        $.ajax({
+          type: "GET",
+          url: "{% url 'almacen:cartout_show' %}",
+          success: function(response, textStatus, xhr){
+            cart = JSON.parse(response.cart);
+            if (cart.length == 0) {
+              //$("#cart").css("visibility", "hidden");
+              var markup = "<tr><td colspan='7' style = 'text-align: center;'>"
+                + "<font color='red'>¡ Ningún registro encontrado !</font></td></tr>";
+
+              $("table tbody").append(markup);
+              return;
+            }
+
+            for (var i in cart) {
+              var item = cart[i];
+              var row = "<tr><td style='display:none;'>" + item.cesta_pk + "</td>" +
+                "<td data-title='#'>" + (parseInt(i) + 1) + "</td>" +
+                "<td data-title='Producto'>" + item.name + "</td>" +
+                "<td data-title='Unidad' class='text-center'>" + item.unit + "</td>" +
+                "<td data-title='Cantidad' class='numeric'>" + parseFloat(item.quantity).toFixed(2) + "</td>" +
+                "<td data-title='Costo' class='numeric'>" + parseFloat(item.price).toFixed(3) + "</td>" +
+                "<td data-title='Total' class='numeric'>" + parseFloat(item.subtotal).toFixed(3) + "</td>" +
+                "<td data-title='Acción' class='text-center'>" +
+                  "<div class='btn-group btn-group-sm'>" +
+                    "<button type='button' data-id=" + item.cesta_pk + " class='btn btn-default glyphicon glyphicon-edit editButton' data-toggle='tooltip' title='Editar Item'></button>" +
+                    "<button type='button' data-id=" + item.cesta_pk + " class='btn btn-default glyphicon glyphicon-trash deleteButton' data-toggle='tooltip' title='Eliminar Item'></button>" +
+                  "</div>"+
+                "</td>" +
+                "</tr>";
+              $("#cartBody").append(row);
+            }
+          },
+          error : function(xhr, textStatus, errorThrown) {
+            swal("Oops...", errorThrown, "error");
+          }
+        });
+      }
+
+      // permitir solo datos númericos con decimales
+      $("#qty_producto").on("keypress keyup blur",function (event) {
+        $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+          event.preventDefault();
+        }
+      });
+      // permitir solo datos númericos con decimales
+      $("#product_cost").on("keypress keyup blur",function (event) {
+        $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+          event.preventDefault();
+        }
+      });
+
+      $('#qty_producto').keydown(function (event) {
+        if (event.keyCode == 13 && $(this).val() != '') {
+          event.preventDefault();
+          $('#product_cost').focus().select();
+        }
+      });
+
+      $('#product_cost').keydown(function (event) {
+        if (event.keyCode == 13 && $("#id_producto").val() != ''
+        && $("#qty_producto").val() != '' && $(this).val() != '') {
+          event.preventDefault();
+          // programmatically trigger the click
+          $('#addBtn').click();
+          return false;
+        }
+      });
+
+      //////////////// botones tabla, acción delete ////////////////
+      $("table").on('click','.deleteButton',function(){
+        // Get the record's ID via attribute
+        var id = $(this).attr('data-id');
+
+        var csrftoken = getCookie('csrftoken');
+        $.ajax({
+          headers: { "X-CSRFToken": csrftoken },
+          type: "POST",
+          url: "{% url 'almacen:cartout_remove' %}",
+          dataType: 'json',
+          data: { cesta_id: id, },
+          success: function(response, textStatus, xhr){
+            showCart();
+          },
+          error : function(xhr, textStatus, errorThrown) {
+            swal("Oops...", errorThrown, "error");
+          }
+        });
+      });
+
+      //////////////// formulario modal editItemForm ////////////////
+      $('#editItemForm')
+        .formValidation({
+          framework: 'bootstrap',
+          icon: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+          },
+          fields: {
+            qty: {
+              validators: {
+                /*notEmpty: {
+                  message: 'Cantidad requerida'
+                },
+                numeric: {
+                  message: 'El precio debe ser un número',
+                  // The default separators
+                  thousandsSeparator: '',
+                  decimalSeparator: '.'
+                }*/
+                callback: {
+                  message: 'Por favor especifique una cantidad válida.',
+                  callback: function(value, validator, $field) {
+                    //var channel = $('#surveyForm').find('[name="channel"]:checked').val();
+                    var cantidad = $('#editItemForm').find('[name="qty"]').val();
+                    var equivalencia = $('#editItemForm').find('[name="equivalencia"]').val();
+                    var unidad = $('#editItemForm').find('[name="unit"] option:selected').text();
+
+                    //console.log(unidad);
+                    if (unidad.substring(0, 2) != '* ') {
+                      if ((parseFloat(cantidad) < parseFloat(equivalencia)) && (parseFloat(cantidad) > 0)) {
+                        return true;
+                      } else {
+                        return false;
+                      }
+                    } else {
+                      return (parseFloat(cantidad) > 0)
+                            ? true
+                            : false;
+                    }
+                  }
+                }
+              }
+            },
+            unit: {
+              validators: {
+                notEmpty: {
+                  message: 'Por favor seleccione una unidad'
+                },
+              }
+            },
+            cost: {
+              validators: {
+                notEmpty: {
+                  message: 'El precio es requerido'
+                },
+                numeric: {
+                  message: 'El precio debe ser un número',
+                  // The default separators
+                  thousandsSeparator: '',
+                  decimalSeparator: '.'
+                }
+              }
+            }
+          }
+        })
+        .on('success.form.fv', function(e) {
+          // Save the form data via an Ajax request
+          e.preventDefault();
+
+          var $form = $(e.target),
+          id    = $form.find('[name="id"]').val();
+
+          var data = {
+            'id' : id
+          };
+
+          $.ajax({
+            url: "{% url 'almacen:cartout_update' %}",
+            method: 'POST',
+            data: $form.serialize() + '&' + $.param(data),
+            success: function(response, textStatus, xhr) {
+              //console.log(response);
+              showCart();
+
+              // Hide the dialog
+              $form.parents('.bootbox').modal('hide');
+            },
+            error : function(xhr, textStatus, errorThrown) {
+              swal("Oops...", errorThrown, "error");
+            }
+          });
+        });
+
+      //////////////// botones tabla, acción editar ////////////////
+      $("table").on('click','.editButton',function(){
+        // Get the record's ID via attribute
+        var id = $(this).attr('data-id');
+        $.ajax({
+          url: "{% url 'almacen:cartout_update' %}",
+          method: 'GET',
+          data: { id: id },
+          success: function(response, textStatus, xhr){
+            // eliminar unidades existentes y agrega unidad principal y secundaria
+            $('#editItemForm')
+              .find('[name="unit"]').children().remove().end()
+              .append('<option selected value="' + response.unit_primary + '">* ' + response.unit_primary + '</option>');
+
+            if (response.unit_secondary != null) {
+              $('#editItemForm')
+                .find('[name="unit"]')
+                .append('<option selected value="' + response.unit_secondary + '">' + response.unit_secondary + '</option>');
+            }
+
+            // Populate the form fields with the data returned from server
+            $('#editItemForm')
+            .find('[name="id"]').val(response.id).end()
+            .find('[name="product"]').val(response.product).end()
+            .find('[name="unit"]').val(response.unit).end()
+            .find('[name="equivalencia"]').val(response.unit_equivalence).end()
+            .find('[name="qty"]').val(response.qty).end()
+            .find('[name="cost"]').val(response.cost).end();
+
+            // Show the dialog
+            bootbox
+            .dialog({
+              title: 'Editar item',
+              message: $('#editItemForm'),
+              show: false // We will show it manually later
+            })
+            .on('shown.bs.modal', function() {
+              $('#editItemForm')
+              .show()                       // Show the form
+              .formValidation('resetForm') // Reset form
+              .find("[name='qty']").focus().select();
+
+            })
+            .on('hide.bs.modal', function(e) {
+              // Bootbox will remove the modal (including the body which contains the login form)
+              // after hiding the modal
+              // Therefor, we need to backup the form
+              $('#editItemForm').hide().appendTo('body');
+            })
+            .modal('show');
+          },
+          error : function(xhr, textStatus, errorThrown) {
+            swal("Oops...", errorThrown, "error");
+          }
+        });
+      });
+
+      // cambiar precio si cambia unidad de medida
+      $('#selectId').on('change', function () {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+        var text = $(this).find(":selected").text();
+
+        var costo_actual = $('input[name="cost"]').val();
+        var equivalencia = $('input[name="equivalencia"]').val();
+
+        if (text.substring(0, 2) == '* ') {
+          // unidad principal
+          var nuevo_precio = costo_actual * equivalencia;
+          $('input[name="cost"]').val(nuevo_precio.toFixed(5));
+
+        } else {
+          // unidad secundaria
+          var nuevo_precio = costo_actual / equivalencia;
+          $('input[name="cost"]').val(nuevo_precio.toFixed(5));
+
+          // revalidar cantidad
+          $fieldQty = $('#editItemForm').find('input[name="qty"]');
+          $('#editItemForm').formValidation('revalidateField', 'qty');
+
+        }
+      });
+
+      $('#addBtn').click(function(e){
+        e.preventDefault();
+        if ($("#id_producto").val() != '' && $("#qty_producto").val() != ''
+        && $("#product_cost").val() != '') {
+          var referenciaId = $('#id_fuente').val();
+          var productId = $('#id_producto').val();
+          var productName = $("#typeahead_producto").val();
+          var productQty = $("#qty_producto").val();
+          var productCost = $("#product_cost").val();
+          //var productUnit = $("#id_unidad").val();
+          var productUnit = $( "#id_unidad option:selected" ).val();
+
+          // limpiar input text
+          $('#id_producto').val('');
+          //$("#typeahead_producto").val('');  NO FUNCIONA CORRECTAMENTE
+          $("#typeahead_producto").typeahead('val', '');
+          $("#qty_producto").val('');
+          $("#product_cost").val('');
+
+          // enviar el foco a input productos
+          $("#typeahead_producto").focus();
+          $("#typeahead_producto").typeahead('close');
+
+          // enviar al carrito
+          var csrftoken = getCookie('csrftoken');
+          $.ajax({
+            headers: { "X-CSRFToken": csrftoken },
+            type: "POST",
+            //url: "../../carton/add/" + productId,
+            url: "../salida/add/" + productId,
+            dataType: 'json',
+            data: {
+              unit: productUnit,
+              quantity: productQty,
+              cost: productCost,
+            },
+            success: function(response, textStatus, xhr){
+              showCart();
+            },
+            error : function(xhr, textStatus, errorThrown) {
+              swal("Oops...", errorThrown, "error");
+            }
+          });
+        } else {
+          //swal("Oops...", "Producto mal ingresado.", "error");
+          swal("Producto mal ingresado.");
+        }
+      });
+
+      //////////////// botón de acción Recibir Inventario ////////////////
+      $('#save_inventory').click(function(e){
+        e.preventDefault();
+
+        $.ajax({
+          url: "/cesta/total_filas_cesta/?key=CART-INV_SALIDA",
+          success: function(response, textStatus, xhr) {
+            if (!response.is_empty) {
+              var referencia_id = $('#id_fuente').val();
+              var almacen_id = $("#id_destino").val();
+              var nroComprobante = $("#numero_comprobante").val();
+              
+              if (nroComprobante != '' && nroComprobante.length == 17) {
+                $.ajax({
+                  type: "GET",
+                  url: "{% url 'almacen:cartout_save' %}",
+                  data: { referencia_id: referencia_id, almacen_id: almacen_id, nro_comp: nroComprobante },
+                  success: function(response, textStatus, xhr){
+                    // Eliminar filas guardadas
+                    document.querySelectorAll("table tbody tr").forEach(function(e){e.remove()});
+
+                    // Agregar Fila: ¡ Ningún registro encontrado !
+                    var markup = "<tr><td colspan='7' style = 'text-align: center;'>"
+                      + "<font color='red'>¡ Ningún registro encontrado !</font></td></tr>";
+
+                    $("table tbody").append(markup);
+                    $("#motivo").val('');
+
+                    swal("Buen trabajo!", "Entrada Guardada.", "success");
+                  },
+                  error : function(xhr, textStatus, errorThrown) {
+                    swal("Oops...", errorThrown, "error");
+                  }
+                });
+              } else {
+                swal("Oops...", "Revise Nro. Comprobante.", "error");
+              }
+            } else {
+              swal("Oops...", "No existe items.", "error");
+            }
+          },
+          error: function(xhr, textStatus, errorThrown) {
+            swal("Oops...", errorThrown, "error");
+          }
+        });
+      });
+    </script>
+{% endblock javascripts %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Eliminar Proforma - Hacienda.ec
+{% endblock title %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb my-4">
+	<li class="breadcrumb-item"><a href="{% url 'inicio' %}">Inicio</a></li>
+	<li class="breadcrumb-item"><a href="{% url 'proforma:listado_proformas' %}">Facturas Proforma</a></li>
+	<li class="breadcrumb-item active">Eliminar Proforma</li>
+</ol>
+{% endblock breadcrumb %}
+
+{% block content %}
+<h3>Eliminar Proforma</h3>
+<form method="post">
+    {% csrf_token %}
+    <h3>¿Desea eliminar el registro ID {{proforma.pk}}? </h3>
+    <button class="btn btn-danger" type="submit">Sí eliminar</button>
+    <a class="btn btn-default" href="{% url 'proforma:listado_proformas' %}">Cancelar</a>
+</form>
+{% endblock content %}

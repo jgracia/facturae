@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>FACTURA #{{ factura.pk }}</title>
+  <style>
+    body {
+
+    }
+    @page {
+      background-image: url({{ plantilla_url }});
+
+      size: 74mm 215.98mm;
+      @frame header_frame {           /* Static Frame */
+        -pdf-frame-content: header_content;
+        /*-pdf-frame-border: 1;*/
+        left: 10pt;
+        right: 10pt;
+        top: 115pt;
+        height: 47pt;
+      }
+      @frame content_frame {          /* Content Frame */
+        left: 10pt; width: 190pt; top: 166pt; height: 310pt;
+        /*-pdf-frame-border: 1;*/
+      }
+      @frame footer_frame {           /* Another static Frame */
+        -pdf-frame-content: footer_content;
+        /*-pdf-frame-border: 1;*/
+        left: 10pt; width: 190pt; top: 480pt; height: 100pt;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="header_content">
+    <table>
+      <tbody>
+        <tr>
+          <td>FECHA: {{ factura.fecha_emision | date:"d/m/Y" }}</td>
+          <td>HORA: {{ factura.fecha_emision | date:'H:i' }}</td>
+        </tr>
+        <tr>
+          <td colspan="2">SR(ES): {{ factura.cliente.nombre|slice:"0:31" }}</td>
+        </tr>
+        <tr>
+          <td colspan="2">DIR: {{ factura.cliente.direccion|slice:"0:35" }}</td>
+        </tr>
+        <tr>
+          {% if factura.cliente.telefono %}
+          <td>TEL: {{ factura.cliente.telefono }}</td>
+          {% else %}
+          <td>TEL: {{ factura.cliente.celular }}</td>
+          {% endif %}
+
+          <td>RUC: {{ factura.cliente.identificacion }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="footer_content">
+    <table style="height:17px;">
+      <tbody>
+        <tr><td>----------------------------------------------------------------------------</td></tr>
+        <tr>
+          <td>NUM: {{ factura.factura_id }}</td>
+          <td style="text-align: right;">SUBTOTAL:</td>
+          <td style="text-align: right; vertical-align: middle;">{{ factura.valor_subtotal_sin_impuesto|floatformat:2 }}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td style="text-align: right;">* DESC.:</td>
+          <td style="text-align: right; vertical-align: middle;">{{ factura.valor_descuento|floatformat:2 }}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td style="text-align: right;">* BASE 12%:</td>
+          <td style="text-align: right; vertical-align: middle;">{{ factura.valor_subtotal_12|floatformat:2 }}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td style="text-align: right;">BASE 0%:</td>
+          <td style="text-align: right; vertical-align: middle;">{{ factura.valor_subtotal_0|floatformat:2 }}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td style="text-align: right;">IVA 12%:</td>
+          <td style="text-align: right; vertical-align: middle;">{{ factura.valor_iva|floatformat:2 }}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td style="text-align: right;">TOT. FAC:</td>
+          <td style="text-align: right; vertical-align: middle;">{{ factura.valor_total|floatformat:2 }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- HTML Content -->
+  <table>
+    <tbody>
+      <tr><td>----------------------------------------------------------------------------</td></tr>
+      <tr>
+        <td style="width: 1.2cm;">CANT</td>
+        <td style="width: 3cm; text-align: left;">DESCRIPCIÓN</td>
+        <td style="text-align: right;">PRECIO</td>
+        <td style="text-align: right;">TOTAL</td>
+      </tr>
+      <tr><td>----------------------------------------------------------------------------</td></tr>
+      {% for item in items %}
+      <tr>
+        <td style="width: 1.2cm; text-align: right; vertical-align: middle;">{{ item.cantidad|floatformat:2 }} {{ '&nbsp;&nbsp;' }}</td>
+        <td style="width: 3cm; text-align: left; vertical-align: middle;">{{ item.producto.nombre|slice:"0:23" }}</td>
+        <td style="text-align: right; vertical-align: middle;">{{ item.precio_venta|floatformat:2 }}</td>
+        <td style="text-align: right; vertical-align: middle;">{{ item.valor_subtotal_sin_impuesto|floatformat:2 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

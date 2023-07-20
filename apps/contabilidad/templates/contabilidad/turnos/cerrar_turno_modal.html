@@ -1,0 +1,145 @@
+{% load widget_tweaks %}
+
+{% load my_filters %}
+{% load humanize %}
+
+<div class="modal-header bg-success text-white">
+  <h4 class="modal-title">Cierre de caja</h4>
+  <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+
+<div class="modal-body">
+  <div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Detalle</h3>
+        </div>
+        <div class="panel-body">
+          <table>
+            <tbody>
+              <tr>
+                <td align="right">+ Saldo inicial de caja</td>
+                <td align="right">{{ object.importe_apertura|currency }}</td>
+              </tr>
+              <tr>
+                <td align="right">+ Importe de ventas en efectivo</td>
+                <td align="right">{{ ventas_efectivo|currency }}</td>
+              </tr>
+              <tr>
+                <td align="right">+ Importe de ventas con tarjeta débito</td>
+                <td align="right">{{ ventas_tarjeta_debito|currency }}</td>
+              </tr>
+              <tr>
+                <td align="right">+ Importe de ventas con tarjeta crédito</td>
+                <td align="right">{{ ventas_tarjeta_credito|currency }}</td>
+              </tr>
+              <tr>
+                <td align="right">+ Importe de ventas con cheque</td>
+                <td align="right">{{ ventas_cheque|currency }}</td>
+              </tr>
+              <tr>
+                <td align="right">+ Importe de ventas con transferencia</td>
+                <td align="right">{{ ventas_transferencia|currency }}</td>
+              </tr>
+              <tr>
+                <td align="right">+ Cobro de ventas a crédito (efectivo)</td>
+                <td align="right">{{ cobro_ventas_credito|currency }}</td>
+              </tr>
+              <tr>
+                <td align="right">- Importe salida efectivo (compras)</td>
+                <td align="right">{{ compras_efectivo|currency }}</td>
+              </tr>
+              <tr>
+                <td align="right">- Ingresos Bancarios (depósito)</td>
+                <td align="right">{{ 0|currency }}</td>
+              </tr>
+              <tr>
+                <td align="center" style="font-size: 12pt; color: gray; font-weight:bold">= Saldo de caja</td>
+                <td align="right" style="font-size: 12pt; color: gray; font-weight:bold">{{ balance|currency }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div> <!-- end sección detalle -->
+
+    <!-- sección resumen -->
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Resumen</h3>
+        </div>
+        <div class="panel-body">
+          <table>
+            <tbody>
+              <tr>
+                <td>Fecha actual</td>
+                <td align="right">{{ fecha_actual|naturalday }}</td>
+              </tr>
+              <tr>
+                <td>Hora actual</td>
+                <td align="right">{{ hora_actual|naturaltime }}</td>
+              </tr>
+              <tr>
+                <td>Apertura</td>
+                <td align="right">{{ object.created_at|naturaltime }}</td>
+              </tr>
+              <tr>
+                <td>Saldo inicial</td>
+                <td align="right">{{ object.importe_apertura|naturaltime }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold">Arqueo caja</td>
+                <td align="right" style="font-weight:bold">{{ balance|currency }}</td>
+                <input type="hidden" class="form-control" id="balance" value={{ balance }}>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div> <!-- end sección resumen-->
+  </div> <!-- end row -->
+
+  <div class="form-group">
+    <label for="observaciones">Observaciones</label>
+    <textarea class="form-control" rows="2" id="observaciones"></textarea>
+  </div>
+</div> <!-- end modal body-->
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+  <input class='btn btn-success' type="submit" value="Terminar Cierre" id='btnsubmit' />
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function()
+  {
+    $(':submit').click( function(){
+      //$(':submit').attr('value', 'Por favor espere...');
+      $(this).attr('value', 'Por favor espere...');
+      $(this).attr('disabled', 'disabled');
+
+      var observaciones = $("#observaciones").val();
+      var saldo = parseFloat($("#balance").val());
+      var balance = saldo.toFixed(2);
+      //console.log("balance="+balance);
+
+      var csrftoken = getCookie('csrftoken');
+      $.ajax({
+        headers: { "X-CSRFToken": csrftoken },
+        url: "{% url 'contabilidad:terminar_cierre_caja' %}",
+        type: 'POST',
+        data: { balance: balance, observaciones: observaciones },
+        dataType: 'json',
+        success: function(response) {
+          // Rediccionar a Administrar Caja
+          window.location.replace(response.redirect);
+        },
+        error: function(xhr, textStatus, errorThrown) {
+          swal("Oops... Error al cerrar caja", errorThrown, "error");
+        }
+      });
+    });
+  });
+</script>

@@ -1,0 +1,361 @@
+<link rel="stylesheet" href="/static/frontend/css/table_style.css">
+<link rel="stylesheet" href="/static/frontend/css/estilo_dialogo_pagos.css">
+
+<style>
+  .modal-header {
+    background-color: #337AB7;
+    padding:16px 16px;
+    color:#FFF;
+    border-bottom:2px dashed #337AB7;
+  }
+</style>
+
+
+<div class="modal-dialog">
+	<div class="modal-content">
+    <form action="{% url 'compra:abonar_credito' %}" method="post" id='theform'>
+      {% csrf_token %}
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">x</button>
+        <h4>Método de Pago</h4>
+        <h4>MONTO A PAGAR: $0.00</h4>
+      </div>
+
+      <div class="modal-body">
+
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#cash"><i class="glyphicon glyphicon-usd"></i> EFECTIVO</a></li>
+          <li><a data-toggle="tab" href="#transf_bank"><i class="glyphicon glyphicon-transfer"></i> TRANSFERENCIA</a></li>
+          <li><a data-toggle="tab" href="#bank_check"><i class="glyphicon glyphicon-pushpin"></i> CHEQUE</a></li>
+          <li><a data-toggle="tab" href="#debit_card"><i class="glyphicon glyphicon-credit-card"></i> TARJETA</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div id="cash" class="tab-pane fade in active">
+            <h3>EFECTIVO</h3>
+
+            <div class="row">
+              <div class="col-xs-6 col-xs-offset-3">
+                <label for="amount_received">Monto Recibido</label>
+                <input type="text" min="0" style="font-size:28pt; font-weight: bold; color:red; text-align: right;" class="form-control" id="amount_received" name="amount_received" data-fv-greaterthan-inclusive="false" data-fv-greaterthan-message="Valor debe ser mayor a cero"/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6 col-xs-offset-3">
+                <label class="blinking">Cambio o Vuelto</label>
+                <label class="col-xs-4 col-xs-offset-4 control-label"
+                style="text-align: center; font-size: 30pt;" id="lblexchange_money"> $0.00 </label>
+              </div>
+            </div>
+          </div>
+
+          <div id="transf_bank" class="tab-pane fade">
+
+            <div class="container">
+              <!--<div class="row voffset2">
+                <div class="col-xs-12">
+                  <button class="btn btn-default btn-primary" id="addAction">
+                    <i class="fa fa-plus-circle" style="margin-right:5px;"></i>Add language
+                  </button>
+                </div>
+              </div>-->
+
+              <div class="row">
+                <br>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-title">
+                  <div class="row">
+                    <div class="col-sm-8"><h4>Transferencia <b>Detalle</b></h4></div>
+                    <div class="col-sm-4">
+                      <button type="button" class="btn btn-xs btn-info pull-right" id="addAction"><i class="fa fa-plus"></i> Añadir Nuevo</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12 voffset2">
+                  <div class="panel panel-default" id="transferPanel">
+                    <div class="panel-body">
+                      <form id="languageForm" role="form">
+                        <fieldset>
+                          <!--
+                          <div class="form-group col-xs-12 col-sm-3">
+                            <label for="language" class="control-label" style="display: block;">Language</label>
+                            <input type="text" name="language" id="language" >
+                          </div>
+                          <div class="form-group col-xs-12 col-sm-2">
+                            <label for="native" class="control-label" style="display: block;">Native</label>
+                            <input type="checkbox" id="native" name="native">
+                          </div>
+                          <div class="form-group col-xs-12 col-sm-3">
+                            <label for="level" class="control-label" style="display: block;">Level</label>
+                            <input type="text" name="level" id="level">
+                          </div>
+                          <div class="form-group col-xs-12 col-sm-4">
+                            <label for="lookingFor" class="control-label" style="display: block;">Looking for</label>
+                            <input type="text" name="lookingFor" id="lookingFor">
+                          </div>
+                          -->
+                          <input type="hidden" id="tranf_id" />
+                          <input type="hidden" id="tranf_index" />
+                          <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                            <label for="transf_cta_origen" class="control-label" style="display: block;">Cta. Origen</label>
+                            <input type="text" name="transf_cta_origen" id="transf_cta_origen" class="form-control numero_regex">
+                          </div>
+
+                          <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                            <label for="tranf_cta_destino" class="control-label" style="display: block;">Cta. Destino</label>
+                            <input type="text" id="tranf_cta_destino" name="tranf_cta_destino" class="form-control numero_regex">
+                          </div>
+
+                          <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                            <label for="tranf_nro_comp" class="control-label" style="display: block;">Nro. Comprob.</label>
+                            <input type="text" id="tranf_nro_comp" name="tranf_nro_comp" class="form-control numero_regex">
+                          </div>
+
+                          <div class="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                            <label for="tranf_monto" class="control-label" style="display: block;">Monto</label>
+                            <input type="text" id="tranf_monto" name="tranf_monto" class="form-control pal_regex">
+                          </div>
+
+                          <div class="col-xs-12 col-md-4 col-md-offset-8">
+                            <div>
+                              <div class="btn-group pull-right">
+                                <button type="button" id="editAddPanel-cancel" class="btn btn-default btn-warning btn-xs">Cancelar</button>
+                                <button type="button" id="editAddPanel-send" class="btn btn-default btn-primary btn-xs">Guardar</button>
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row voffset2">
+                <div class="col-xs-12">
+                  <!--<table id="langTable" data-toggle="table" data-url="../../static/frontend/js/tabledata.json" data-sort-name="native" data-sort-order="desc" data-cache="false">-->
+                  <table id="transferTable">
+                    <thead>
+                      <tr>
+                        <!--<th data-field="id">id</th>
+                        <th data-field="language">Language</th>
+                        <th data-field="native" data-formatter="formatNativeItem" data-align="center">Native</th>
+                        <th data-field="level">Level</th>
+                        <th data-field="looking">Looking</th>
+                        <th data-field="operate" data-formatter="operateFormatter" data-align="center" data-events="operateEvents" data-width="100"></th>-->
+                        <th data-field="column_id">ID</th>
+                        <th data-field="column_cta_origen">Cta. Origen</th>
+                        <th data-field="column_cta_destino">Cta. Destino</th>
+                        <th data-field="column_nro_comp">Nro. Comp.</th>
+                        <th data-field="column_monto" class="text-right">Monto</th>
+                        <th data-field="column_accion" data-formatter="operateFormatter" data-align="center" data-events="operateEvents" data-width="100"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!--<tr>
+                        <td colspan="5" style = "text-align: center;"
+                        bgcolor="Gainsboro" data-title="Pagos"><font color="OrangeRed">¡ Ningún registro encontrado !</font></td>
+                      </tr>-->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="bank_check" class="tab-pane fade">
+            <h3>CHEQUE</h3>
+            <div class="row">
+              <div class="form-group">
+                <div class="col-md-12">
+                  <div class="pull-right">
+                    <!--<a href="#" onclick="agregarCheque();return false;" class="btn btn-primary btn-xs"><b>+</b> Agregar</a>-->
+                    <a id="addCheque" href="#" class="btn btn-primary btn-xs"><b>+</b> Agregar</a>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <section id="no-more-tables">
+                    <table id="tbl_cheque" class="table table-bordered table-condensed cf">
+                      <thead class="cf">
+                        <tr>
+                          <th>Banco</th>
+                          <th>Cuenta Nro.</th>
+                          <th>Cheque Nro.</th>
+                          <th>Fecha</th>
+                          <th class="numeric">Monto</th>
+                          <th class="text-center">Acción</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tbody_cheque_data">
+                        <!-- agregar mensaje NO HAY ITEMS -->
+                        <tr>
+                          <td colspan="6" style = "text-align: center;"
+                          bgcolor="Gainsboro" data-title="Cheques"><font color="OrangeRed">¡ Ningún registro encontrado !</font></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="debit_card" class="tab-pane fade">
+            <h3>TARJETA</h3>
+            <div class="row">
+              <div class="form-group">
+                <div class="col-md-12">
+            			<div class="pull-right">
+                    <a id="addCreditCard" href="#" class="btn btn-primary btn-xs"><b>+</b> Agregar</a>
+            			</div>
+            		</div>
+            	</div>
+              <br>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              	<section id="no-more-tables">
+              		<table id="tbl_creditcard" class="table table-bordered table-condensed cf">
+                    <thead class="cf">
+                      <tr>
+                        <th>Tarjeta</th>
+                        <th>Tarjeta Nro.</th>
+                        <th>Vaucher Nro.</th>
+                        <th class="text-right">Monto</th>
+                        <th class="text-center">Acción</th>
+                      </tr>
+                    </thead>
+              			<tbody id = "tbody_creditcard_data">
+              				<!-- agregar mensaje NO HAY ITEMS -->
+                      <tr>
+                        <td colspan="5" style = "text-align: center;"
+                        bgcolor="Gainsboro" data-title="Pagos"><font color="OrangeRed">¡ Ningún registro encontrado !</font></td>
+                      </tr>
+              			</tbody>
+              		</table>
+              	</section>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="col-lg-12 text-right">
+          <input class='btn btn-primary' type="submit" value="Confirmar" id='btnsubmit' />
+          <a class="btn btn-default" onclick="return cerrar_modal()">Cancelar</a>
+        </div>
+      </div>
+    </form>
+	</div>
+</div>
+
+
+
+<script type="text/javascript">
+
+	$('#theform').submit(function(){
+		$("input[type='submit']", this)
+		  .val("Por favor espere...")
+		  .attr('disabled', 'disabled');
+		return true;
+	});
+
+  $('.numero_regex').inputmask('Regex', {
+    regex: "^([0-9]{1,10}:[0-5][0-9])$"
+  });
+
+  //$(".total_regex").inputmask("9999.99");
+  $('.pal_regex').inputmask('Regex', {
+    regex: "[+-]?[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)?"
+  });
+
+  $(document).ready(function() {
+
+    var table = $("#transferTable");
+    $("#transferPanel").hide();
+
+
+    table.bootstrapTable();
+    /*table.on('load-success.bs.table', function(event, data) {
+      $(this).bootstrapTable('hideColumn', 'column_id');
+    });*/
+    table.bootstrapTable('hideColumn', 'column_id');
+
+
+    $("#addAction").click(function(event) {
+      $("#transferPanel").show(750);
+      var panelData = {
+        indice: '',
+        column_id: '',
+        column_cta_origen: '',
+        column_cta_destino: '',
+        column_nro_comp: '',
+        column_monto: ''
+      };
+      setTransferForm(panelData);
+    });
+
+    $("#editAddPanel-cancel").click(function(event) {
+      $("#transferPanel").hide(750);
+    });
+
+    $("#editAddPanel-send").on('click', function(event) {
+      var cta_origen = $("#transf_cta_origen").val();
+      var cta_destino = $("#tranf_cta_destino").val();
+      var nro_comp = $("#tranf_nro_comp").val();
+      var transf_monto = $("#tranf_monto").val();
+
+      var transf_id = '';
+      tranf_id = $("#tranf_id").val();
+
+      if (tranf_id != '') {
+        var indice = $("#tranf_indice").val();
+
+        var row = {
+          column_id: tranf_id,
+          column_cta_origen: cta_origen,
+          column_cta_destino: cta_destino,
+          column_nro_comp: nro_comp,
+          column_monto: transf_monto
+        };
+        //table.bootstrapTable('updateRows', {index: indice, row: row});
+
+        console.log("Modificado... ok");
+      } else {
+        // nuevo registro
+        var row = {
+          column_id: $.now(),
+          column_cta_origen: cta_origen,
+          column_cta_destino: cta_destino,
+          column_nro_comp: nro_comp,
+          column_monto: transf_monto
+        };
+
+        table.bootstrapTable('append', row);
+      }
+      $("#transferPanel").hide(750);
+    });
+  });
+
+  function operateFormatter(value, row, index) {
+    return ['<a class="lan-remove" href="javascript:void(0);" title="Quitar">',
+      '<i class="fa fa-trash fa-2x pull-right" style="margin-right:5px"></i>',
+      '</a>',
+      '<a class="lan-edit" href="javascript:void(0);" title="Editar">',
+      '<i class="fa fa-pencil-square-o fa-2x pull-right"></i>',
+      '</a>'].join(' ');
+  }
+
+  function setTransferForm(panelData) {
+    $("#tranf_indice").val(panelData.indice)
+    $("#tranf_id").val(panelData.column_id)
+    $("#transf_cta_origen").val(panelData.column_cta_origen);
+    $("#tranf_cta_destino").val(panelData.column_cta_destino);
+    $("#tranf_nro_comp").val(panelData.column_nro_comp);
+    $("#tranf_monto").val(panelData.column_monto);
+  }
+</script>

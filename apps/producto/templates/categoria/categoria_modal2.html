@@ -1,0 +1,115 @@
+{% load widget_tweaks %}
+
+<div class="modal-dialog">
+	<div class="modal-content">
+
+		<form role="form" action="{% url 'producto:crear_categoria_modal' %}" method="post" autocomplete="off">
+      {% csrf_token %}
+      <div class="modal-header bg-primary text-white">
+    		<h4 class="modal-title">Crear categoría</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    			<span aria-hidden="true">&times;</span>
+    		</button>
+    	</div>
+
+      <div class="modal-body">
+        <p class="font-bold">Complete el siguiente formulario y haga clic en el botón <i>Guardar</i>.</p>
+        <!--
+        <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+    			{% for error in form.non_field_errors %}
+    				{{ error }}
+    			{% endfor %}
+    		</div>
+
+    		{% for field in form %}
+    			<div class="form-group">
+    				<label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    				{% render_field field class="form-control" placeholder=field.label %}
+    				<div class="{% if field.errors %} invalid{% endif %}">
+    					{% for error in field.errors %}
+                <p class="help-block">{{ error }}</p>
+    					{% endfor %}
+    				</div>
+    			</div>
+    		{% endfor %}
+        -->
+
+        {% for hidden_field in form.hidden_fields %}
+          {{ hidden_field }}
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger" role="alert">
+            {% for error in form.non_field_errors %}
+              {{ error }}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% for field in form.visible_fields %}
+          <div class="form-group">
+            {{ field.label_tag }}
+
+            {% if form.is_bound %}
+              {% if field.errors %}
+                {% render_field field class="form-control is-invalid" %}
+                {% for error in field.errors %}
+                  <div class="invalid-feedback">
+                    {{ error }}
+                  </div>
+                {% endfor %}
+              {% else %}
+                {% render_field field class="form-control is-valid" %}
+              {% endif %}
+            {% else %}
+              {% render_field field class="form-control" %}
+            {% endif %}
+
+            {% if field.help_text %}
+              <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary"><span class="fa fa-save"></span> Guardar</button>
+        <button type="button" class="btn btn-secondary" onclick="return cerrar_modal()">
+          Cerrar
+        </button>
+      </div>
+		</form>
+
+	</div>
+</div>
+
+<script>
+$(function() {
+
+    var url = $("form").attr("action");
+    var token = jQuery("[name=csrfmiddlewaretoken]").val();
+
+    $("form").submit(function(e){
+        e.preventDefault();
+        // alert(token);
+        var formData = $("form").serializeArray();
+        // console.log(formData);
+        $.ajax({
+            url:url,
+            method:"POST",
+            headers: {'X-CSRFToken': token },
+            data: formData
+        })
+        .done(function(r,textStatus,xhr){
+            if(xhr.status=200){
+                location.reload(true);
+            }
+            else{
+                mensaje(textStatus);
+            }
+        }).fail(function (error) {
+                mensaje(error.responseText);
+        });
+    });
+});
+</script>

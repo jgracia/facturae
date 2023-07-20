@@ -1,0 +1,33 @@
+<form method="GET">
+  <div class="row">
+    <div class="col-6 col-sm-6 col-lx-3">
+      <div class="form-group">
+        <!--<label class="d-inline-block" for="id_rpp"><small><strong>Mostrar:</strong></small></label>-->
+        <label class="d-inline-block" for="id_rpp">Mostrar:</label>
+        <select name="rpp" onchange="handleSubmitSearch();" class="form-control form-control-sm d-inline-block" style="width: auto;" id="id_rpp">
+          <option value="10" {% if rpp == 10 %} selected {% endif %}>10</option>
+          <option value="25" {% if rpp == 25 %} selected {% endif %} >25</option>
+          <option value="50" {% if rpp == 50 %} selected {% endif %} >50</option>
+          <option value="100" {% if rpp == 100 %} selected {% endif %} >100</option>
+        </select>
+        registros
+      </div>
+    </div>
+
+    <div class="col-6 col-sm-6 col-lx-9">
+      <div class="pull-right">
+      <div class="btn-toolbar float-right">
+        <div class="input-group">
+          <input type="text" class="form-control" name="q" value="{{ request.GET.q }}" id="id_search" placeholder="Buscar...">
+          <div class="input-group-append">
+            <button class="btn btn-secondary" type="submit">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</form>
+<br>

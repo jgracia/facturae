@@ -1,0 +1,528 @@
+{% extends "base/base_site.html" %}
+
+{% block title %} Plan de Cuentas {% endblock title %}
+
+{% block stylesheets %}
+    {{ block.super }}
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="/static/vendors/dataTables/css/datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/vendors/dataTables/css/rowGroup.dataTables.min.css">
+
+    <!-- librerías para daterangepicker -->
+    <link rel="stylesheet" type="text/css" href="/static/vendors/daterangepicker/css/daterangepicker.css">
+
+    <!-- This demo uses an 3rd-party, jQuery UI based context menu -->
+    <link rel="stylesheet" href="/static/vendors/jquery-ui/jquery-ui.css"/>
+
+    <!-- librerías fancytree -->
+    <link href="/static/vendors/fancytree/skin-win8/ui.fancytree.css" rel="stylesheet" />
+
+    <!--<style>
+        tr.odd td:first-child,
+        tr.even td:first-child {
+            padding-left: 4em;
+        }
+    </style>-->
+    <style type="text/css">
+      .ui-menu {
+        width: 180px;
+        font-size: 63%;
+      }
+      .ui-menu kbd {
+        /* Keyboard shortcuts for ui-contextmenu titles */
+        float: right;
+      }
+      /* custom alignment (set by 'renderColumns'' event) */
+      td.alignRight {
+        text-align: right;
+      }
+      td.alignCenter {
+        text-align: center;
+      }
+      td input[type="input"] {
+        width: 40px;
+      }
+    </style>
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Plan de Cuentas</h3>
+                </div>
+
+                <div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <!--<div class="btn-toolbar">-->
+                        <div class="btn-group pull-right">
+                            <button onclick="location.href='{% url 'contabilidad:crear_cuenta' %}';" class="btn btn-sm btn-default" type="button"  data-placement="top" data-toggle="tooltip" data-original-title="Crear"><i class="fa fa-plus"></i></button>
+                            <button id="ExportReporttoExcel" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Exportar"><i class="fa fa-file-excel-o" style="color:green"></i></button>
+                            <button id="ReporttoPrinter" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Imprimir"><i class="fa fa-print"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Lista Plan de Cuentas <small>Gestionar plan de cuentas.</small></h2>
+
+                            <div class="title_right">
+                                <div class="pull-right">
+                                   <a class="btn btn-default btn-xs" onclick="return abrir_modal('{% url 'contabilidad:cargar_plan_cuenta' %}')">Plan Ctas. Predef.</a>
+                                   <a class="btn btn-default btn-xs">Importar Plan Ctas.</a>
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="x_content">
+
+
+                            <h1>Table Tree</h1>
+                            <div>
+                              <label>Fake input:<input id="input1"/></label>
+                            </div>
+                            <table id="tree">
+                              <colgroup>
+                                <col width="30px" />
+                                <col width="50px" />
+                                <col width="350px" />
+                                <col width="50px" />
+                                <col width="50px" />
+                                <col width="30px" />
+                                <col width="30px" />
+                                <col width="50px" />
+                              </colgroup>
+                              <thead>
+                                <tr>
+                                  <th></th>
+                                  <th>#</th>
+                                  <th></th>
+                                  <th>Ed1</th>
+                                  <th>Ed2</th>
+                                  <th>Rb1</th>
+                                  <th>Rb2</th>
+                                  <th>Cb</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <!-- Define a row template for all invariant markup: -->
+                                <tr>
+                                  <td class="alignCenter"></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td><input name="input1" type="input" /></td>
+                                  <td><input name="input2" type="input" /></td>
+                                  <td class="alignCenter">
+                                    <input name="cb1" type="checkbox" />
+                                  </td>
+                                  <td class="alignCenter">
+                                    <input name="cb2" type="checkbox" />
+                                  </td>
+                                  <td>
+                                    <select name="sel1" id="">
+                                      <option value="a">A</option>
+                                      <option value="b">B</option>
+                                    </select>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+
+                            <!--
+                            {% load mptt_tags %}
+                            <ul>
+                                {% recursetree accounts %}
+                                    <li>
+                                        {{ node.codigo }} {{ node.nombre }}
+                                        {% if not node.is_leaf_node %}
+                                            <ul class="children">
+                                                {{ children }}
+                                            </ul>
+                                        {% endif %}
+                                    </li>
+                                {% endrecursetree %}
+                            </ul>
+                            -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup" class="modal fade" role="dialog">
+
+    </div>
+
+{% endblock content %}
+
+{% block javascripts %}
+    {{ block.super }}
+
+
+    <!-- DataTables JavaScript -->
+    <script type="text/javascript" src="/static/vendors/dataTables/js/datatables.min.js"></script>
+    <script type="text/javascript" src="/static/vendors/dataTables/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="/static/vendors/datatables/js/buttons.flash.min.js"></script>
+
+    <script type="text/javascript" src="/static/vendors/datatables/js/jszip.min.js"></script>
+    <script type="text/javascript" src="/static/vendors/datatables/js/pdfmake.min.js"></script>
+    <script type="text/javascript" src="/static/vendors/datatables/js/vfs_fonts.js"></script>
+    <script type="text/javascript" src="/static/vendors/datatables/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="/static/vendors/datatables/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="/static/vendors/datatables/js/ColReorderWithResize.js"></script>
+    <!-- teclado -->
+    <script type="text/javascript" src="/static/vendors/datatables/js/dataTables.keyTable.min.js"></script>
+    <!-- agrupar filas -->
+    <script type="text/javascript" src="/static/vendors/datatables/js/dataTables.rowGroup.min.js"></script>
+
+    <!-- librerías protección csrftoken -->
+    <script src="/static/frontend/js/proteccion_csrf.js"></script>
+
+    <!-- librerías para daterangepicker -->
+    <script type="text/javascript" src="/static/vendors/daterangepicker/js/moment.min.js"></script>
+    <script type="text/javascript" src="/static/vendors/daterangepicker/js/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/static/vendors/daterangepicker/js/daterangepicker.js"></script>
+
+    <!-- This demo uses an 3rd-party, jQuery UI based context menu -->
+    <!--<script src="/static/vendors/jquery-ui/jquery-3.4.1.min.js"></script>-->
+    <script src="/static/vendors/jquery-ui/jquery-ui.min.js"></script>
+
+    <!-- jquery-contextmenu -->
+	  <script src="/static/vendors/jquery-ui/jquery.ui-contextmenu.min.js"></script>
+
+    <!-- librerías fancytree -->
+    <script src="/static/vendors/fancytree/modules/jquery.fancytree.js"></script>
+    <script src="/static/vendors/fancytree/modules/jquery.fancytree.dnd5.js"></script>
+    <script src="/static/vendors/fancytree/modules/jquery.fancytree.edit.js"></script>
+    <script src="/static/vendors/fancytree/modules/jquery.fancytree.gridnav.js"></script>
+    <script src="/static/vendors/fancytree/modules/jquery.fancytree.table.js"></script>
+
+    <script type="text/javascript">
+
+        var CLIPBOARD = null;
+        /*var data = [
+	{"title": "Books", "expanded": true, "folder": true, "children": [
+		{"title": "Art of War", "type": "book", "author": "Sun Tzu", "year": -500, "qty": 21, "price": 5.95},
+		{"title": "The Hobbit", "type": "book", "author": "J.R.R. Tolkien", "year": 1937, "qty": 32, "price": 8.97},
+		{"title": "The Little Prince", "type": "book", "author": "Antoine de Saint-Exupery", "year": 1943, "qty": 2946, "price": 6.82},
+		{"title": "Don Quixote", "type": "book", "author": "Miguel de Cervantes", "year": 1615, "qty": 932, "price": 15.99}
+	]},
+	{"title": "Music", "folder": true, "children": [
+		{"title": "Nevermind", "type": "music", "author": "Nirvana", "year": 1991, "qty": 916, "price": 15.95},
+		{"title": "Autobahn", "type": "music", "author": "Kraftwerk", "year": 1974, "qty": 2261, "price": 23.98},
+		{"title": "Kind of Blue", "type": "music", "author": "Miles Davis", "year": 1959, "qty": 9735, "price": 21.90},
+		{"title": "Back in Black", "type": "music", "author": "AC/DC", "year": 1980, "qty": 3895, "price": 17.99},
+		{"title": "The Dark Side of the Moon", "type": "music", "author": "Pink Floyd", "year": 1973, "qty": 263, "price": 17.99},
+		{"title": "Sgt. Pepper's Lonely Hearts Club Band", "type": "music", "author": "The Beatles", "year": 1967, "qty": 521, "price": 13.98}
+	]},
+	{"title": "Electronics & Computers", "expanded": true, "folder": true, "children": [
+		{"title": "Cell Phones", "folder": true, "children": [
+			{"title": "Moto G", "type": "phone", "author": "Motorola", "year": 2014, "qty": 332, "price": 224.99},
+			{"title": "Galaxy S8", "type": "phone", "author": "Samsung", "year": 2016, "qty": 952, "price": 509.99},
+			{"title": "iPhone SE", "type": "phone", "author": "Apple", "year": 2016, "qty": 444, "price": 282.75},
+			{"title": "G6", "type": "phone", "author": "LG", "year": 2017, "qty": 951, "price": 309.99},
+			{"title": "Lumia", "type": "phone", "author": "Microsoft", "year": 2014, "qty": 32, "price": 205.95},
+			{"title": "Xperia", "type": "phone", "author": "Sony", "year": 2014, "qty": 77, "price": 195.95},
+			{"title": "3210", "type": "phone", "author": "Nokia", "year": 1999, "qty": 3, "price": 85.99}
+		]},
+		{"title": "Computers", "folder": true, "children": [
+			{"title": "ThinkPad", "type": "computer", "author": "IBM", "year": 1992, "qty": 16, "price": 749.90},
+			{"title": "C64", "type": "computer", "author": "Commodore", "year": 1982, "qty": 83, "price": 595.00},
+			{"title": "MacBook Pro", "type": "computer", "author": "Apple", "year": 2006, "qty": 482, "price": 1949.95},
+			{"title": "Sinclair ZX Spectrum", "type": "computer", "author": "Sinclair Research", "year": 1982, "qty": 1, "price": 529},
+			{"title": "Apple II", "type": "computer", "author": "Apple", "year": 1977, "qty": 17, "price": 1298},
+			{"title": "PC AT", "type": "computer", "author": "IBM", "year": 1984, "qty": 3, "price": 1235.00}
+		]}
+	]},
+  {"title": "More...", "folder": true, "lazy": true}
+];*/
+
+
+        $(function() {
+        $("#tree")
+          .fancytree({
+            checkbox: true,
+            checkboxAutoHide: true,
+            titlesTabbable: true, // Add all node titles to TAB chain
+            quicksearch: true, // Jump to nodes when pressing first character
+            // source: SOURCE,
+            //source: { url: "ajax-tree-products.json" },
+
+            source: { url: "../ajax_tree_cuentas" },
+
+
+
+            //source: data,
+
+            extensions: ["edit", "dnd5", "table", "gridnav"],
+
+            dnd5: {
+              preventVoidMoves: true,
+              preventRecursion: true,
+              autoExpandMS: 400,
+              dragStart: function(node, data) {
+                return true;
+              },
+              dragEnter: function(node, data) {
+                // return ["before", "after"];
+                return true;
+              },
+              dragDrop: function(node, data) {
+                data.otherNode.moveTo(node, data.hitMode);
+              },
+            },
+            edit: {
+              triggerStart: ["f2", "shift+click", "mac+enter"],
+              close: function(event, data) {
+                if (data.save && data.isNew) {
+                  // Quick-enter: add new nodes until we hit [enter] on an empty title
+                  $("#tree").trigger("nodeCommand", {
+                    cmd: "addSibling",
+                  });
+                }
+              },
+            },
+            table: {
+              indentation: 20,
+              nodeColumnIdx: 2,
+              checkboxColumnIdx: 0,
+            },
+            gridnav: {
+              autofocusInput: false,
+              handleCursorKeys: true,
+            },
+
+            lazyLoad: function(event, data) {
+              data.result = { url: "../demo/ajax-sub2.json" };
+            },
+            createNode: function(event, data) {
+              var node = data.node,
+                $tdList = $(node.tr).find(">td");
+
+              // Span the remaining columns if it's a folder.
+              // We can do this in createNode instead of renderColumns, because
+              // the `isFolder` status is unlikely to change later
+              if (node.isFolder()) {
+                $tdList
+                  .eq(2)
+                  .prop("colspan", 6)
+                  .nextAll()
+                  .remove();
+              }
+            },
+            renderColumns: function(event, data) {
+              var node = data.node,
+                $tdList = $(node.tr).find(">td");
+
+              // (Index #0 is rendered by fancytree by adding the checkbox)
+              // Set column #1 info from node data:
+              $tdList.eq(1).text(node.getIndexHier());
+              // (Index #2 is rendered by fancytree)
+              // Set column #3 info from node data:
+              $tdList
+                .eq(3)
+                .find("input")
+                .val(node.key);
+              $tdList
+                .eq(4)
+                .find("input")
+                .val(node.data.foo);
+
+              // Static markup (more efficiently defined as html row template):
+              // $tdList.eq(3).html("<input type='input' value='" + "" + "'>");
+              // ...
+            },
+            modifyChild: function(event, data) {
+              data.tree.info(event.type, data);
+            },
+          })
+          .on("nodeCommand", function(event, data) {
+            // Custom event handler that is triggered by keydown-handler and
+            // context menu:
+            var refNode,
+              moveMode,
+              tree = $(this).fancytree("getTree"),
+              node = tree.getActiveNode();
+
+            switch (data.cmd) {
+              case "addChild":
+              case "addSibling":
+              case "indent":
+              case "moveDown":
+              case "moveUp":
+              case "outdent":
+              case "remove":
+              case "rename":
+                tree.applyCommand(data.cmd, node);
+                break;
+              case "cut":
+                CLIPBOARD = { mode: data.cmd, data: node };
+                break;
+              case "copy":
+                CLIPBOARD = {
+                  mode: data.cmd,
+                  data: node.toDict(function(n) {
+                    delete n.key;
+                  }),
+                };
+                break;
+              case "clear":
+                CLIPBOARD = null;
+                break;
+              case "paste":
+                if (CLIPBOARD.mode === "cut") {
+                  // refNode = node.getPrevSibling();
+                  CLIPBOARD.data.moveTo(node, "child");
+                  CLIPBOARD.data.setActive();
+                } else if (CLIPBOARD.mode === "copy") {
+                  node.addChildren(
+                    CLIPBOARD.data
+                  ).setActive();
+                }
+                break;
+              default:
+                alert("Unhandled command: " + data.cmd);
+                return;
+            }
+          })
+          .on("keydown", function(e) {
+            var cmd = null;
+
+            // console.log(e.type, $.ui.fancytree.eventToString(e));
+            switch ($.ui.fancytree.eventToString(e)) {
+              case "ctrl+shift+n":
+              case "meta+shift+n": // mac: cmd+shift+n
+                cmd = "addChild";
+                break;
+              case "ctrl+c":
+              case "meta+c": // mac
+                cmd = "copy";
+                break;
+              case "ctrl+v":
+              case "meta+v": // mac
+                cmd = "paste";
+                break;
+              case "ctrl+x":
+              case "meta+x": // mac
+                cmd = "cut";
+                break;
+              case "ctrl+n":
+              case "meta+n": // mac
+                cmd = "addSibling";
+                break;
+              case "del":
+              case "meta+backspace": // mac
+                cmd = "remove";
+                break;
+              // case "f2":  // already triggered by ext-edit pluging
+              //   cmd = "rename";
+              //   break;
+              case "ctrl+up":
+              case "ctrl+shift+up": // mac
+                cmd = "moveUp";
+                break;
+              case "ctrl+down":
+              case "ctrl+shift+down": // mac
+                cmd = "moveDown";
+                break;
+              case "ctrl+right":
+              case "ctrl+shift+right": // mac
+                cmd = "indent";
+                break;
+              case "ctrl+left":
+              case "ctrl+shift+left": // mac
+                cmd = "outdent";
+            }
+            if (cmd) {
+              $(this).trigger("nodeCommand", { cmd: cmd });
+              return false;
+            }
+          });
+
+        /*
+         * Tooltips
+         */
+        // $("#tree").tooltip({
+        //   content: function () {
+        //     return $(this).attr("title");
+        //   }
+        // });
+
+        /*
+         * Context menu (https://github.com/mar10/jquery-ui-contextmenu)
+         */
+        $("#tree").contextmenu({
+          delegate: "span.fancytree-node",
+          menu: [
+            {
+              title: "Edit <kbd>[F2]</kbd>",
+              cmd: "rename",
+              uiIcon: "ui-icon-pencil",
+            },
+            {
+              title: "Delete <kbd>[Del]</kbd>",
+              cmd: "remove",
+              uiIcon: "ui-icon-trash",
+            },
+            { title: "----" },
+            {
+              title: "New sibling <kbd>[Ctrl+N]</kbd>",
+              cmd: "addSibling",
+              uiIcon: "ui-icon-plus",
+            },
+            {
+              title: "New child <kbd>[Ctrl+Shift+N]</kbd>",
+              cmd: "addChild",
+              uiIcon: "ui-icon-arrowreturn-1-e",
+            },
+            { title: "----" },
+            {
+              title: "Cut <kbd>Ctrl+X</kbd>",
+              cmd: "cut",
+              uiIcon: "ui-icon-scissors",
+            },
+            {
+              title: "Copy <kbd>Ctrl-C</kbd>",
+              cmd: "copy",
+              uiIcon: "ui-icon-copy",
+            },
+            {
+              title: "Paste as child<kbd>Ctrl+V</kbd>",
+              cmd: "paste",
+              uiIcon: "ui-icon-clipboard",
+              disabled: true,
+            },
+          ],
+          beforeOpen: function(event, ui) {
+            var node = $.ui.fancytree.getNode(ui.target);
+            $("#tree").contextmenu(
+              "enableEntry",
+              "paste",
+              !!CLIPBOARD
+            );
+            node.setActive();
+          },
+          select: function(event, ui) {
+            var that = this;
+            // delay the event, so the menu can close and the click event does
+            // not interfere with the edit control
+            setTimeout(function() {
+              $(that).trigger("nodeCommand", { cmd: ui.cmd });
+            }, 100);
+          },
+        });
+        });
+
+    </script>
+{% endblock javascripts %}

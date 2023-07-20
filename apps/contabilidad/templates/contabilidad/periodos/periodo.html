@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %} {% if object %} Editar Período {% else %} Crear Período {% endif %} {% endblock title %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="linebreak"></div>
+      {% if object %}
+      <h3>Editar Período</h3>
+      {% else %}
+      <h3>Crear Período</h3>
+      {% endif %}
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-sm-12 col-lx-12">
+      {% if object %}
+      <form action="{% url 'contabilidad:editar_periodo' object.pk %}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+      {% else %}
+      <form action="{% url 'contabilidad:crear_periodo' %}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+      {% endif %}
+          {% csrf_token %}
+          {% load widget_tweaks %}
+          <div class="form-group row">
+              <label class="col-sm-2 col-form-label" for="fecha_inicio">Fecha Inicio <span class="required">*</span>
+              </label>
+              <div class="col-sm-10">
+                  {{ form.fecha_inicio |add_class:"required" |add_class:'form-control' }}
+              </div>
+          </div>
+          <div class="form-group row">
+              <label class="col-sm-2 col-form-label" for="descripcion">Descripción <span class="required">*</span>
+              </label>
+              <div class="col-sm-10">
+                  {{ form.descripcion |add_class:"required" |add_class:'form-control' }}
+              </div>
+          </div>
+
+          <div class="ln_solid"></div>
+          <div class="form-group row">
+            <div class="col-sm-10 offset-sm-2">
+              <button class="btn btn-secondary" type="button" onclick="location.href='{% url 'contabilidad:listado_periodos' %}';">Cancelar</button>
+              <button type="submit" class="btn btn-primary"><span class="fa fa-save"></span> Guardar</button>
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

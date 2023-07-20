@@ -1,0 +1,61 @@
+<!-- Modal Form Lote -->
+<form id="loteForm" method="post" class="form-horizontal" style="display: none;" autocomplete="off">
+  {% csrf_token %}
+  <input type="hidden" name="id" />
+  <input type="hidden" name="producto" />
+
+  <div class="form-group row">
+    <label class="col-lg-3 offset-lg-1 control-label">LOTE</label>
+    <label class="col-lg-3">FECHA EXPIRA</label>
+    <label class="col-lg-3">CANTIDAD</label>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-lg-1 control-label">ITEM</label>
+    <div class="col-lg-3">
+        <!--<select class="form-control" name="lote[0].etiqueta" >
+          <option value="">-- Seleccione un lote --</option>
+        </select>-->
+        <input class="form-control" type="text" name="lote[0].etiqueta" />
+    </div>
+    <div class="col-lg-3">
+        <input class="form-control" type="text" name="lote[0].fecha_caducidad" readonly />
+    </div>
+    <div class="col-lg-3">
+        <input class="form-control" type="text" name="lote[0].cantidad" />
+    </div>
+    <div class="col-lg-1">
+        <button type="button" class="btn btn-default btn-sm" id="addButton">Añadir</button>
+    </div>
+  </div>
+
+  <!-- Template -->
+  <div class="form-group" id="template" style="display: none;">
+    <div class="form-group row">
+      <input type="hidden" />
+      <div class="col-lg-3 offset-lg-1">
+          <!--<select class="form-control" name="lote.etiqueta" >
+            <option value="">-- Seleccione un lote --</option>
+          </select>-->
+          <input class="form-control" type="text" data-name="lote.etiqueta" />
+      </div>
+      <div class="col-lg-3">
+          <input class="form-control" type="text" data-name="lote.fecha_caducidad" readonly />
+      </div>
+      <div class="col-lg-3">
+          <input class="form-control" type="text" data-name="lote.cantidad" />
+      </div>
+      <div class="col-lg-1">
+          <button type="button" class="btn btn-default btn-sm js-remove-button">Quitar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="offset-lg-1 col-lg-4">
+      <button type="reset" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+      <button type="submit" class="btn btn-primary">Aceptar</button>
+    </div>
+  </div>
+</form>
+<!-- End Form Lote -->

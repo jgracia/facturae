@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+
+{% block title %} Turnos de Cajas {% endblock title %}
+
+{% load static %}
+{% load my_filters %}
+{% load humanize %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'css/_estilo_datatable.css' %}">
+{% endblock extra_head %}
+
+{% block content %}
+  {% include "includes/_modal.html" %}
+
+  <div class="base_container">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-12 col-sm-6 col-lx-6">
+          <h3>Listado de Cajas</h3>
+        </div>
+        <div class="col-12 col-sm-6 col-lx-6">
+          <div class="btn-group float-right" role="group" aria-label="Acciones">
+            <button type="button" class="btn btn-secondary create-shift">
+                    <i class="fa fa-plus"></i> Crear
+            </button>
+            <button type="button" class="btn btn-secondary"
+                    id="ExportReporttoExcel">
+                    <i class="far fa-file-excel"></i> Exportar
+            </button>
+            <button type="button" class="btn btn-secondary"
+                    id="ReporttoPrinter">
+                    <i class="fa fa-print"></i> Imprimir
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr/>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="btn-toolbar float-right">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Fecha / Rango</label>
+              </div>
+              <input type="text" class="form-control" name="range" value="{{ request.GET.range }}" />
+              <div class="input-group-append">
+                <button class="btn btn-success" type="submit">Filtrar!</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-sm-12 col-lx-12">
+          <table id="tabla" class="table table-striped table-bordered table-hover dt-responsive nowrap" cellspacing="0" width="100%">
+            <thead class="cf">
+              <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Usuario</th>
+                <th class="text-center">Estado</th>
+                <th class="text-right">$ Importe Apertura</th>
+                <th class="text-right">$ Importe Cierre</th>
+                <th class="noExport text-center">Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% if object_list %}
+              {% for row in object_list %}
+              <tr>
+                <td>{{ row.turno_id }}</td>
+                <td>{{ row.created_at|naturalday }}</td>
+                <td>{{ row.usuario_creador.username }}</td>
+                {% if row.activo %}
+                <td class="text-center">ACTIVO</td>
+                {% else %}
+                <td class="text-center">INACTIVO</td>
+                {% endif %}
+                <td class="text-right">{{ row.importe_apertura|currency }}</td>
+                <td class="text-right">{{ row.importe_cierre|currency }}</td>
+                <td class="noExport text-center">
+                  <nobr>
+                    {% if row.activo %}
+                      <button type="button" class="update-shift btn btn-sm btn-warning"
+                        data-id="{% url 'contabilidad:modificar_turno' row.pk %}">
+                        <i class="far fa-edit"></i> Editar
+                      </button>
+
+                      <button type="button" class="delete-shift btn btn-sm btn-danger"
+                        data-id="{% url 'contabilidad:eliminar_turno' row.pk %}">
+                        <i class="fa fa-trash"></i> Eliminar
+                      </button>
+                      <button type="button" class="btn btn-sm btn-success"
+                        onclick="location.href='{% url 'contabilidad:cerrar_turno' row.pk %}';">
+                        <i class="fas fa-cash-register"></i> Arqueo
+                      </button>
+                    {% else %}
+                      <button type="button" class="update-shift btn btn-sm btn-warning"
+                        data-id="{% url 'contabilidad:modificar_turno' row.pk %}" disabled>
+                        <i class="far fa-edit"></i> Editar
+                      </button>
+                      <button type="button" class="delete-shift btn btn-sm btn-danger"
+                        data-id="{% url 'contabilidad:eliminar_turno' row.pk %}" disabled>
+                        <i class="fa fa-trash"></i> Eliminar
+                      </button>
+                      <button type="button" class="btn btn-sm btn-success"
+                        data-id="{% url 'contabilidad:cerrar_turno' row.pk %}" disabled>
+                        <i class="fas fa-cash-register"></i> Arqueo
+                      </button>
+                    {% endif %}
+                  </nobr>
+                </td>
+              </tr>
+              {% endfor %}
+              {% endif %}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Usuario</th>
+                <th class="text-center">Estado</th>
+                <th class="text-right">$ Importe Apertura</th>
+                <th class="text-right">$ Importe Cierre</th>
+                <th class="noExport text-center">Acciones</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block extra_script %}
+  <!-- librerías protección csrftoken -->
+  <script src="{% static 'js/proteccion_csrf.js' %}"></script>
+
+  <!-- You can alternatively load the minified version -->
+  <script src="{% static 'vendor/bootstrap_modal_forms/js/jquery.bootstrap.modal.forms.js' %}"></script>
+
+  <script type="text/javascript">
+  $(function () {
+    // Create shift button
+    $(".create-shift").modalForm({formURL: "{% url 'contabilidad:crear_turno' %}"});
+
+    // Update shift buttons
+    $(".update-shift").each(function () {
+      $(this).modalForm({formURL: $(this).data('id')});
+    });
+
+    // Delete shift buttons
+    $(".delete-shift").each(function () {
+      $(this).modalForm({formURL: $(this).data('id')});
+    })
+
+    // Hide message
+    $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+      $(".alert").slideUp(500);
+    });
+
+    $('input[name="range"]').daterangepicker({
+      opens: 'left',
+      ranges: {
+        'Hoy': [moment(), moment()],
+        'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'La semana pasada': [moment().subtract(6, 'days'), moment()],
+        'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
+        'Este mes': [moment().startOf('month'), moment().endOf('month')],
+        'El mes pasado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      },
+      locale: {
+        "format": "DD/MM/YYYY",
+        "separator": " - ",
+        "applyLabel": "Aplicar",
+        "cancelLabel": "Cancelar",
+        "fromLabel": "From",
+        "toLabel": "To",
+        "customRangeLabel": "Rango personalizado...",
+        "daysOfWeek": [
+          "Do",
+          "Lu",
+          "Ma",
+          "Mi",
+          "Ju",
+          "Vi",
+          "Sa"
+        ],
+        monthNames: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre"
+        ],
+        firstDay: 1
+      },
+    });
+  });
+
+  $(document).ready(function(){
+    var table = $('#tabla').dataTable( {
+      buttons: [
+        { extend: 'excel', className: 'btn btn-default', exportOptions: { columns: ':not(:last-child)', }, },
+        { extend: 'print', autoPrint: true, exportOptions: { columns: ':not(:last-child)', }, }
+      ],
+      responsive: true,
+      columnDefs: [
+        { "targets": 6, "searchable": false, "orderable": false, },
+        { "responsivePriority": 1, targets: 0 },
+        { "responsivePriority": 2, targets: -1 }
+      ],
+      colReorder: {
+        allowReorder: true
+      },
+      language: {
+        url: "/static/localizacion/es_ES.json"
+      },
+    } );
+  });
+  </script>
+{% endblock extra_script %}

@@ -1,0 +1,366 @@
+
+<link rel="stylesheet" href="/static/frontend/css/table_style.css">
+<link rel="stylesheet" type="text/css" href="/static/frontend/css/icon.css">
+
+
+<style>
+  .modal-header {
+    background-color: #337AB7;
+    padding:16px 16px;
+    color:#FFF;
+    border-bottom:2px dashed #337AB7;
+  }
+
+</style>
+
+<style type="text/css">
+  body {
+    color: #404E67;
+    background: #F5F7FA;
+    font-family: 'Open Sans', sans-serif;
+  }
+  .table-wrapper {
+    width: 700px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  }
+  .table-title {
+    padding-bottom: 10px;
+    margin: 0 0 10px;
+  }
+  .table-title h2 {
+    margin: 6px 0 0;
+    font-size: 22px;
+  }
+  .table-title .add-new {
+    float: right;
+    height: 30px;
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: none;
+    min-width: 100px;
+    border-radius: 50px;
+    line-height: 13px;
+  }
+  .table-title .add-new i {
+    margin-right: 4px;
+  }
+  table.table {
+    table-layout: fixed;
+  }
+  table.table tr th, table.table tr td {
+    border-color: #e9e9e9;
+  }
+  table.table th i {
+    font-size: 13px;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  table.table th:last-child {
+    width: 100px;
+  }
+  table.table td a {
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 5px;
+    min-width: 24px;
+  }
+  table.table td a.add, a.add_cheq {
+    color: #27C46B;
+  }
+  table.table td a.edit, a.edit_cheq {
+    color: #FFC107;
+  }
+  table.table td a.delete, a.delete_cheq {
+    color: #E34724;
+  }
+  table.table td i {
+    font-size: 19px;
+  }
+  table.table td a.add i, a.add_cheq i {
+    font-size: 24px;
+    margin-right: -1px;
+    position: relative;
+    top: 3px;
+  }
+  table.table .form-control {
+    height: 32px;
+    line-height: 32px;
+    box-shadow: none;
+    border-radius: 2px;
+  }
+  table.table .form-control.error {
+    border-color: #f50000;
+  }
+  table.table td .add, .add_cheq {
+    display: none;
+  }
+</style>
+
+<div class="modal-dialog">
+	<div class="modal-content">
+    <form action="{% url 'compra:abonar_credito' %}" method="post" id='theform'>
+      {% csrf_token %}
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">x</button>
+        <h4>Método de Pago</h4>
+        <h4>MONTO A PAGAR: $0.00</h4>
+      </div>
+
+      <div class="modal-body">
+
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#cash"><i class="glyphicon glyphicon-usd"></i> EFECTIVO</a></li>
+          <li><a data-toggle="tab" href="#transf_bank"><i class="glyphicon glyphicon-transfer"></i> TRANSFERENCIA</a></li>
+          <li><a data-toggle="tab" href="#bank_check"><i class="glyphicon glyphicon-pushpin"></i> CHEQUE</a></li>
+          <li><a data-toggle="tab" href="#debit_card"><i class="glyphicon glyphicon-credit-card"></i> TARJETA</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div id="cash" class="tab-pane fade in active">
+            <h3>EFECTIVO</h3>
+
+            <div class="row">
+              <div class="col-xs-6 col-xs-offset-3">
+                <label for="amount_received">Monto Recibido</label>
+                <input type="text" min="0" style="font-size:28pt; font-weight: bold; color:red; text-align: right;" class="form-control" id="amount_received" name="amount_received" data-fv-greaterthan-inclusive="false" data-fv-greaterthan-message="Valor debe ser mayor a cero"/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6 col-xs-offset-3">
+                <label class="blinking">Cambio o Vuelto</label>
+                <label class="col-xs-4 col-xs-offset-4 control-label"
+                style="text-align: center; font-size: 30pt;" id="lblexchange_money"> $0.00 </label>
+              </div>
+            </div>
+          </div>
+
+          <div id="transf_bank" class="tab-pane fade">
+            <div class="row">
+              <!--<div class="form-group">
+                <div class="col-md-12">
+                  <div class="pull-right">
+                    <button type="button" class="btn btn-xs btn-info add-new"><i class="fa fa-plus"></i> Agregar</button>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <section id="no-more-tables">
+                    <table id="tbl_transfer" class="table table-bordered table-condensed cf">
+                      <thead class="cf">
+                        <tr>
+                          <th>Cta. Origen</th>
+                          <th>Cta. Destino</th>
+                          <th>Comprobante</th>
+                          <th class="numeric">Monto</th>
+                          <th class="text-center">Acción</th>
+                        </tr>
+                      </thead>
+                    </table>
+                  </section>
+                </div>
+              </div>-->
+              <br>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-title">
+                  <div class="row">
+                    <div class="col-sm-8"><h4>Transferencia <b>Detalle</b></h4></div>
+                    <div class="col-sm-4">
+                      <button type="button" class="btn btn-xs btn-info add-new" tabla-pago="tbl_transfer"><i class="fa fa-plus"></i> Añadir Nuevo</button>
+                    </div>
+                  </div>
+                </div>
+                <section id="no-more-tables">
+                <table id="tbl_transfer" class="table table-bordered">
+                  <thead class="cf">
+                    <tr>
+                      <th>Cta. Origen</th>
+                      <th>Cta. Destino</th>
+                      <th>Comprobante</th>
+                      <th class="numeric">Monto</th>
+                      <th class="text-center">Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+                </section>
+              </div>
+            </div>
+          </div>
+
+          <div id="bank_check" class="tab-pane fade">
+            <div class="row">
+              <br>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-title">
+                  <div class="row">
+                    <div class="col-sm-8"><h4>Cheque <b>Detalle</b></h4></div>
+                    <div class="col-sm-4">
+                      <button type="button" class="btn btn-xs btn-info add-new" tabla-pago="tbl_cheq"><i class="fa fa-plus"></i> Añadir Nuevo</button>
+                    </div>
+                  </div>
+                </div>
+                <section id="no-more-tables">
+                <table id="tbl_cheq" class="table table-bordered">
+                  <thead class="cf">
+                    <tr>
+                      <th>Banco</th>
+                      <th>Cuenta Nro.</th>
+                      <th>Cheque Nro.</th>
+                      <th>Fecha</th>
+                      <th class="numeric">Monto</th>
+                      <th class="text-center">Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="debit_card" class="tab-pane fade">
+            <h3>TARJETA</h3>
+            <div class="row">
+              <div class="form-group">
+                <div class="col-md-12">
+            			<div class="pull-right">
+                    <a id="addCreditCard" href="#" class="btn btn-primary btn-xs"><b>+</b> Agregar</a>
+            			</div>
+            		</div>
+            	</div>
+              <br>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              	<section id="no-more-tables">
+              		<table id="tbl_creditcard" class="table table-bordered table-condensed cf">
+                    <thead class="cf">
+                      <tr>
+                        <th>Tarjeta</th>
+                        <th>Tarjeta Nro.</th>
+                        <th>Vaucher Nro.</th>
+                        <th class="text-right">Monto</th>
+                        <th class="text-center">Acción</th>
+                      </tr>
+                    </thead>
+              			<tbody id = "tbody_creditcard_data">
+              				<!-- agregar mensaje NO HAY ITEMS -->
+                      <tr>
+                        <td colspan="5" style = "text-align: center;"
+                        bgcolor="Gainsboro" data-title="Pagos"><font color="OrangeRed">¡ Ningún registro encontrado !</font></td>
+                      </tr>
+              			</tbody>
+              		</table>
+              	</section>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="col-lg-12 text-right">
+          <input class='btn btn-primary' type="submit" value="Confirmar" id='btnsubmit' />
+          <a class="btn btn-default" onclick="return cerrar_modal()">Cancelar</a>
+        </div>
+      </div>
+    </form>
+	</div>
+</div>
+
+<!-- desactivar botón enviar -->
+<script type="text/javascript">
+	$('#theform').submit(function(){
+		$("input[type='submit']", this)
+		  .val("Por favor espere...")
+		  .attr('disabled', 'disabled');
+		return true;
+	});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+	//var actions = $("#tbl_transfer td:last-child").html();
+  /*var actions = '<a class="add" title="Añadir" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>'+
+                '<a class="edit" title="Editar" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>'+
+                '<a class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>'*/
+
+	// Append table with add row form on add new button click
+  $(".add-new").click(function(){
+  	$(this).attr("disabled", "disabled");
+
+    var tabla = $(this).attr('tabla-pago');
+
+    if (tabla == 'tbl_transfer') {
+      var actions = '<a class="add" title="Añadir" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>'+
+                    '<a class="edit" title="Editar" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>'+
+                    '<a class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>'
+
+    	var index = $("#tbl_transfer tbody tr:last-child").index();
+      var row = '<tr>' +
+                  '<td data-title="Cta. Origen"><input type="text" class="form-control numero_regex" name="name" id="name"></td>' +
+                  '<td data-title="Cta. Destino"><input type="text" class="form-control numero_regex" name="department" id="department"></td>' +
+                  '<td data-title="Comprobante"><input type="text" class="form-control numero_regex" name="phone" id="phone"></td>' +
+                  '<td data-title="Monto" className: "text-right "><input type="text" class="form-control pal_regex" name="monto" id="monto"></td>' +
+                  '<td data-title="Acciones" class="text-center">' + actions + '</td>' +
+                '</tr>';
+      $("#tbl_transfer").append(row);
+
+      $('.numero_regex').inputmask('Regex', {
+        regex: "^([0-9]{1,10}:[0-5][0-9])$"
+      });
+
+      $('.pal_regex').inputmask('Regex', {
+        regex: "[+-]?[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)?"
+      });
+
+    	$("#tbl_transfer tbody tr").eq(index + 1).find(".add, .edit").toggle();
+      $('[data-toggle="tooltip"]').tooltip();
+
+    } else if (tabla == 'tbl_cheq') {
+
+    	//var index = $("#bank_check tbody tr:last-child").index();
+
+      /*var row = '<tr>' +
+                  '<td data-title="Banco"><select class="form-control"><option value="" disabled selected>Choose your option</option><option value="1">Option 1</option><option value="2">Option 2</option><option value="3">Option 3</option></select></td>' +
+                  '<td data-title="Cta. Número"><input type="text" class="form-control numero_regex" name="cta_numero" id="cta_destino"></td>' +
+                  '<td data-title="Nro. Cheque"><input type="text" class="form-control numero_regex" name="nro_cheque" id="nro_comp"></td>' +
+                  '<td data-title="Fecha"><input type="date" class="form-control" name="chq_fecha" id="chq_fecha"></td>' +
+                  '<td data-title="Monto" className: "text-right"><input type="text" class="form-control pal_regex" name="monto" id="monto"/></td>' +
+                  '<td data-title="Acciones" class="text-center">' + actions + '</td>' +
+                '</tr>';*/
+      var actions = '<a class="add" title="Añadir" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>'+
+                    '<a class="edit" title="Editar" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>'+
+                    '<a class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>'
+
+      var index = $("#tbl_cheq tbody tr:last-child").index();
+      var row = '<tr>' +
+                  '<td data-title="Banco"><select class="form-control"><option value="" disabled selected>Choose your option</option><option value="1">Option 1</option><option value="2">Option 2</option><option value="3">Option 3</option></select></td>' +
+                  '<td data-title="Cta. Origen"><input type="text" class="form-control numero_regex" name="name" id="name"></td>' +
+                  '<td data-title="Cta. Destino"><input type="text" class="form-control numero_regex" name="department" id="department"></td>' +
+                  '<td data-title="Comprobante"><input type="text" class="form-control numero_regex" name="phone" id="phone"></td>' +
+                  '<td data-title="Monto" className: "text-right "><input type="text" class="form-control pal_regex" name="monto" id="monto"></td>' +
+                  '<td data-title="Acciones" class="text-center">' + actions + '</td>' +
+                '</tr>';
+      $("#tbl_cheq").append(row);
+
+      $('.numero_regex').inputmask('Regex', {
+        regex: "^([0-9]{1,10}:[0-5][0-9])$"
+      });
+
+      $('.pal_regex').inputmask('Regex', {
+        regex: "[+-]?[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)?"
+      });
+
+      $("#tbl_cheq tbody tr").eq(index + 1).find(".add, .edit").toggle();
+      $('[data-toggle="tooltip"]').tooltip();
+    }
+  });
+
+});
+</script>

@@ -1,0 +1,28 @@
+{% load i18n %}
+{% if page.has_other_pages %}
+<div class="result pull-lef"><strong>Mostrando de {{ page.start_index }} a {{ page.end_index }} de un total de {{ page.paginator.count }} registros</strong></div>
+
+<div class="pagination">
+    {% if page.has_previous %}
+        <a href="?{{ page.previous_page_number.querystring }}" class="prev">&lsaquo;&lsaquo; {% trans "anterior" %}</a>
+    {% else %}
+        <span class="disabled prev">&lsaquo;&lsaquo; {% trans "anterior" %}</span>
+    {% endif %}
+    {% for i in page.pages %}
+        {% if i %}
+            {% if i == page.number %}
+                <span class="current page">{{ i }}</span>
+            {% else %}
+                <a href="?{{ i.querystring }}" class="page">{{ i }}</a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+    {% if page.has_next %}
+        <a href="?{{ page.next_page_number.querystring }}" class="next">{% trans "siguiente" %} &rsaquo;&rsaquo;</a>
+    {% else %}
+        <span class="disabled next">{% trans "siguiente" %} &rsaquo;&rsaquo;</span>
+    {% endif %}
+</div>
+{% endif %}

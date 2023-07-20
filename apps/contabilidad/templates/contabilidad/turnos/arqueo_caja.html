@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+    Arqueo Caja
+{% endblock title %}
+
+{% load my_filters %}
+{% load humanize %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="linebreak"></div>
+      <h3>Arqueo de Caja</h3>
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-sm-12 col-lx-12">
+      <p>
+          Se dispone a confirmar el cierre de caja.  A partir de este momento tanto las
+          operaciones de caja como los documentos realizados en la misma, quedarán bloqueados,
+          impidiendo que se realice modificación alguna sobre ellos. Haga clic en el botón <i>Cerrar Caja</i> para continuar.
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-8">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Detalle</h3>
+        </div>
+
+        <div class="panel-body">
+          <table class="table">
+            <tbody style="font-size: 14pt;" align="right">
+              <tr>
+                  <td>+ Saldo inicial de caja</td>
+                  <td>{{ turno_obj.importe_apertura|currency }}</td>
+              </tr>
+              <tr>
+                  <td>+ Importe de ventas en efectivo</td>
+                  <td>{{ ventas_efectivo|currency }}</td>
+              </tr>
+              <tr>
+                  <td>+ Importe de ventas con tarjeta débito</td>
+                  <td>{{ ventas_tarjeta_debito|currency }}</td>
+              </tr>
+              <tr>
+                  <td>+ Importe de ventas con tarjeta crédito</td>
+                  <td>{{ ventas_tarjeta_credito|currency }}</td>
+              </tr>
+              <tr>
+                  <td>+ Importe de ventas con cheque</td>
+                  <td>{{ ventas_cheque|currency }}</td>
+              </tr>
+              <tr>
+                  <td>+ Importe de ventas con transferencia</td>
+                  <td>{{ ventas_transferencia|currency }}</td>
+              </tr>
+              <tr>
+                  <td>+ Cobro de ventas a crédito (efectivo)</td>
+                  <td>{{ cobro_ventas_credito|currency }}</td>
+              </tr>
+              <tr>
+                  <td>- Importe salida efectivo (compras)</td>
+                  <td>{{ compras_efectivo|currency }}</td>
+              </tr>
+              <tr>
+                  <td>- Ingresos Bancarios (depósito)</td>
+                  <td>{{ 0|currency }}</td>
+              </tr>
+              <tr>
+                  <td style="font-size: 16pt; color: gray; font-weight:bold">= Saldo de caja</td>
+                  <td style="font-size: 16pt; color: gray; font-weight:bold">{{ balance|currency }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-8 -->
+
+    <div class="col-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Resumen</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>Fecha actual</td>
+                <td align="right">{{ fecha_actual|naturalday }}</td>
+              </tr>
+              <tr>
+                <td>Hora actual</td>
+                <td align="right">{{ hora_actual|naturaltime }}</td>
+              </tr>
+              <tr>
+                <td>Apertura</td>
+                <td align="right">{{ turno_obj.created_at|naturaltime }}</td>
+              </tr>
+              <tr>
+                <td>Saldo inicial</td>
+                <td align="right">{{ turno_obj.importe_apertura|currency }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold">Arqueo de caja</td>
+                <td align="right" style="font-weight:bold">{{ balance|currency }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-4 -->
+  </div>
+  <!-- /.row -->
+
+  <div class="ln_solid"></div>
+
+  <div class="form-group row">
+    <div class="col-12">
+      <button class="btn btn-secondary" type="button"
+        onclick="location.href='{{ request.META.HTTP_REFERER }}';">
+        <i class="fas fa-undo"></i> Regresar</button>
+
+      <button type="submit" id="close_shift" class="btn btn-success">
+        <span class="fas fa-cash-register"></span> Cerrar Caja
+      </button>
+      <button type="reset" id="print_shift" class="btn btn-info">
+        <span class="fa fa-print"></span> Imprimir Recibo
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block extra_script %}
+  <!-- librerías protección csrftoken -->
+  <script src="{% static 'js/proteccion_csrf.js' %}"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      //////////////// botón Cerrar Caja ////////////////
+      $('#close_shift').click(function(e){
+        e.preventDefault();
+
+        var balance = 0;
+        var csrftoken = getCookie('csrftoken');
+        console.log(balance);
+        $.ajax({
+          headers: { "X-CSRFToken": csrftoken },
+          url: "{% url 'contabilidad:terminar_cierre_caja' %}",
+          type: 'POST',
+          data: { balance: balance },
+          dataType: 'json',
+          success: function(response) {
+            console.log(response);
+            // Rediccionar a Administrar Caja
+            window.location.replace(response.redirect);
+          },
+          error: function(xhr, textStatus, errorThrown) {
+            $.confirm({
+              icon: 'fas fa-rocket',
+              title: 'Alerta!',
+              content: 'Error al cerrar caja!'
+            });
+          }
+        });
+      });
+
+      //////////////// botón Imprimir Recibo ////////////////
+      $('#print_shift').click(function(e){
+        e.preventDefault();
+        console.log("imprimiendo...");
+        $.ajax({
+          url: "{% url 'contabilidad:imprimir_recibo' %}",
+          method: 'GET',
+        }).success(function(response) {
+          console.log("resultado: " + response.success);
+        }).fail(function(xhr, textStatus, errorThrown) {
+          $.confirm({
+            icon: 'fas fa-rocket',
+            title: 'Alerta!',
+            content: 'Error al imrpimir recibo!'
+          });
+        });
+      });
+    });
+  </script>
+{% endblock extra_script %}

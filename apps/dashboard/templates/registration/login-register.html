@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Iniciar Sesión
+{% endblock title %}
+
+{% block extra_head %}
+
+{% endblock extra_head %}
+
+{% block navigation %}
+  {% include "includes/_navbar.html" with active_tab='tab_login' %}
+{% endblock navigation %}
+
+{% block content %}
+  <article>
+    <div class="section-1-container section-container">
+      <div class="container">
+        <div class="row">
+          <div class="col section-1 section-description">
+            <br>
+            <h3>Iniciar Sesión</h3>
+            <hr>
+          </div>
+        </div>
+
+        <p class="lead">Bienvenido de Vuelta. Inicie sesión y lleve su empresa al próximo nivel.</p>
+        <br>
+        <br>
+
+        <div class="col-12 col-lg-4 offset-lg-4" style="background-color: #e9ecef; border-radius: 5px;">
+
+          <div class="m-3">
+            <br>
+            <form method="post" autocomplete="off">
+              {% csrf_token %}
+              {% if form.errors %}
+                <div class="alert alert-info">
+                  <p>Tu nombre de usuario y contraseña no coinciden.  Inténtalo de nuevo.</p>
+                </div>
+              {% endif %}
+
+              {% if next %}
+                <div class="alert alert-warning">
+                  {% if user.is_authenticated %}
+                    <p>Tu cuenta no tiene acceso a esta página.  Para proceder,
+                    Por favor inicie sesión con una cuenta que tenga acceso.</p>
+                  {% else %}
+                    <p>Por favor inicie sesión para ver esta página.</p>
+                  {% endif %}
+                </div>
+              {% endif %}
+
+              <div class="form-group">
+                <label for="username">Nombre de usuario:</label>
+                <input class="form-control" type="text" name="username">
+              </div>
+
+              <div class="form-group">
+                  <label for="password">Contraseña:</label>
+                  <input class="form-control" type="password" name="password">
+              </div>
+
+              <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="customControlInline">
+                  <label class="custom-control-label" for="customControlInline">Recuérdame</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <input class="btn btn-primary btn-block" type="submit" value="Ingresar">
+              </div>
+
+              <div class="form-group">
+                <div class="d-flex justify-content-center">
+                  No tienes una cuenta? <a href="#" class="ml-2" style="color: #eb6b55;">Regístrate</a>
+                </div>
+                <div class="d-flex justify-content-center">
+                  <a href="{% url 'password_reset' %}" style="color: #eb6b55;">Olvidaste tu contraseña?</a>
+                </div>
+              </div>
+
+            </form>
+          </div>
+          <br>
+        </div>
+
+        <br>
+        <br>
+        <div class="p-5"></div>
+
+      </div>
+    </div>
+  </article>
+
+{% endblock content%}
+
+{% block footer %}
+  {% include "includes/_footer.html" %}
+{% endblock footer %}

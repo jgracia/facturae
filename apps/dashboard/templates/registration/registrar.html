@@ -1,0 +1,72 @@
+{% extends "base/base_site.html" %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="form-group col-md-6">
+                <label>Empresa</label>
+                <select class="form-control" name="empresa">
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Perfil</label>
+                <select class="form-control" name="tipo_perfil">
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="form-group col-md-6">
+                <label>Nombre</label>
+                <input class="form-control" type="text" name="first_name">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Apellidos</label>
+                <input class="form-control" type="text" name="last_name">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="form-group col-md-6">
+                <label>Nombre de usuario</label>
+                <input class="form-control" type="text" name="username">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Correo</label>
+                <input class="form-control" type="text" name="email">
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="form-group col-md-6">
+                <label>Contraseña</label>
+                <input class="form-control" type="text" name="password1">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Confirmar contraseña</label>
+                <input class="form-control" type="text" name="password2">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="form-group col-md-3">
+                <button class="btn btn-primary" type="submit">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+</form>
+{% endblock content %}

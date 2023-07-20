@@ -1,0 +1,63 @@
+<!-- formularios modales -->
+<form id="editItemForm" method="post" class="form-horizontal" style="display: none;" autocomplete="off">
+  {% csrf_token %}
+  <input type="hidden" class="form-control" name="id" />
+  <div class="form-group">
+    <label for="product">Producto</label>
+    <input type="text" class="form-control" name="product" disabled="disabled">
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label" for="qty">Cantidad <span class="required">*</span>
+    </label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" name="qty" />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <input type="hidden" name="equivalencia" />
+    <label class="col-sm-4 col-form-label" for="unit">Unidad <span class="required">*</span>
+    </label>
+    <div class="col-sm-8">
+      <select class="form-control" name="unit" id="selectId">
+
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group row" id="medida_servicioFields" style="display: none;">
+    <label class="col-sm-4 col-form-label" for="unit_service">Unidad <span class="required">*</span>
+    </label>
+    <div class="col-sm-8">
+      <select  class="form-control" name="unit_service">
+        {% for unidad in unidades_servicio %}
+          <option value={{ unidad.abreviatura }}>{{ unidad.abreviatura }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label" for="price">Precio <span class="required">*</span>
+    </label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" name="price" />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label" for="discount">Descuento % <span class="required">*</span>
+    </label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" name="discount" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-3 float-right">
+      <button type="submit" class="btn btn-primary">Actualizar</button>
+    </div>
+  </div>
+</form>
+<!-- End editItemForm-->

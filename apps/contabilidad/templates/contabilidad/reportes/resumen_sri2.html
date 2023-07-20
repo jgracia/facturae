@@ -1,0 +1,166 @@
+{% extends "base/base_site.html" %}
+
+{% block title %} Resumen S.R.I {% endblock title %}
+
+{% block stylesheets %}
+    {{ block.super }}
+
+    <!-- librerías para daterangepicker -->
+    <link rel="stylesheet" href="/static/vendors/daterangepicker/css/daterangepicker.css">
+    <style>
+        tr.odd td:first-child,
+        tr.even td:first-child {
+            padding-left: 4em;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Resumen S.R.I</h3>
+                </div>
+
+                <div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <!--<div class="btn-toolbar">-->
+                        <div class="btn-group pull-right">
+                            <button onclick="location.href='#';" class="btn btn-sm btn-default" type="button"  data-placement="top" data-toggle="tooltip" data-original-title="Crear" disabled><i class="fa fa-plus"></i></button>
+                            <button id="ExportReporttoExcel" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Exportar"><i class="fa fa-file-excel-o" style="color:green"></i></button>
+                            <button id="ReporttoPrinter" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Imprimir"><i class="fa fa-print"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Resumen <small>S.R.I.</small></h2>
+                            <div class="filter">
+                                <div class="pull-right">
+                                    <div class="input-group" data-toggle="tooltip" title="Filtrar Fechas">
+                                        <div id="daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%">
+                                            <i class="fa fa-calendar"></i>&nbsp;
+                                            <span></span> <i class="fa fa-caret-down"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="x_content">
+
+                            <section id="no-more-tables">
+                                <table class="table table-bordered table-condensed cf">
+                                    <thead class="cf">
+                                        <tr>
+                                            <th style="display:none;">ID</th>
+                                            <th>Descripción</th>
+                                            <th class="numeric">Cantidad</th>
+                                            <th class="text-center">Und</th>
+                                            <th class="numeric">Precio</th>
+                                            <th class="numeric">Total</th>
+                                            <th class="text-center">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                            </section>
+                            <!-- End Table-->
+                        </div>
+                            
+
+
+
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block javascripts %}
+    {{ block.super }}
+
+    <!-- librerías protección csrftoken -->
+    <script src="/static/frontend/js/proteccion_csrf.js"></script>
+
+    <!-- librerías para daterangepicker -->
+    <script type="text/javascript" src="/static/vendors/daterangepicker/js/moment.min.js"></script>
+    <script type="text/javascript" src="/static/vendors/daterangepicker/js/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/static/vendors/daterangepicker/js/daterangepicker.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            moment.locale('es');
+
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+
+            function cb(start, end) {
+                $('#daterange span').html(start.format('DD/MMM/YYYY') + ' - ' + end.format('DD/MMM/YYYY'));
+            }
+            $('#daterange').daterangepicker({
+                startDate: start,
+                endDate: end,
+                ranges: {
+                    'Hoy': [moment(), moment()],
+                    'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'La semana pasada': [moment().subtract(6, 'days'), moment()],
+                    'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
+                    'Este mes': [moment().startOf('month'), moment().endOf('month')],
+                    'El mes pasado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                locale: {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "From",
+                    "toLabel": "To",
+                    "customRangeLabel": "Rango personalizado...",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    monthNames: [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                    firstDay: 1
+                },
+
+            }, cb);
+
+            cb(start, end);
+        });
+    </script>
+{% endblock javascripts %}

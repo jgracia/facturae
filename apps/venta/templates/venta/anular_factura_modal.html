@@ -1,0 +1,26 @@
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <form id="asset_comment_delete_form" method='post' class="form" role="form" action='#'>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Anular Factura Nro. {{ object.pk }}</h4>
+            </div>
+            <div class="modal-body">
+                {% csrf_token %}
+                <p>¿Estás seguro?</p>
+                <p>{{ comment.text }}</p>
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar" />
+                <input type="submit" class="btn btn-primary" value="Confirmar" style="margin-bottom: 5px;" />
+            </div>
+        </form>
+        <script>
+        var form_options = {
+            target: '#modal',
+            success: function() {  }
+        }
+        /*$('#asset_comment_delete_form').ajaxForm(form_options);*/
+        </script>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
